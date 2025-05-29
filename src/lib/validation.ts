@@ -1,0 +1,139 @@
+/**
+ * Validation functions for the wizard configurations.
+ */
+
+import jsYaml from 'js-yaml';
+// Use alias for types
+import type { ConfigType, ValidationErrors } from '@/lib/types';
+// Use alias for App
+import { getFirstTaskName } from '@/App';
+
+/**
+ * Validates the main Autoclean configuration object.
+ */
+export const validateConfig = (configToValidate: ConfigType): ValidationErrors => {
+  const errors: ValidationErrors = {};
+  const taskName = getFirstTaskName(configToValidate.tasks);
+  
+  if (!taskName || !configToValidate.tasks[taskName]) {
+      return { general: 'Configuration is missing task data.' };
+  }
+  const taskData = configToValidate.tasks[taskName];
+  const basePath = `tasks.${taskName}`;
+
+  // Required fields
+  if (!taskData.mne_task) errors[`${basePath}.mne_task`] = 'Task name (mne_task) is required.';
+  if (!taskData.description) errors[`${basePath}.description`] = 'Description is required.';
+
+  // --- Settings Validation ---
+  if (taskData.settings) {
+      const settingsPath = `${basePath}.settings`;
+      
+      // Resample Step
+      if (taskData.settings.resample_step?.enabled) {
+          const val = taskData.settings.resample_step.value;
+          if (val === null || val === undefined || typeof val !== 'number' || isNaN(val) || val <= 0) {
+              errors[`${settingsPath}.resample_step.value`] = 'Resample value must be a positive number.';
+          }
+      }
+
+      // Filtering validation
+      if (taskData.settings.filtering?.enabled && taskData.settings.filtering.value) {
+          const filtering = taskData.settings.filtering.value;
+          const filterPath = `${settingsPath}.filtering.value`;
+          
+          if (filtering.l_freq !== null && (isNaN(Number(filtering.l_freq)) || Number(filtering.l_freq) < 0)) {
+              errors[`${filterPath}.l_freq`] = 'Low frequency must be a positive number or null.';
+          }
+          if (filtering.h_freq !== null && (isNaN(Number(filtering.h_freq)) || Number(filtering.h_freq) <= 0)) {
+              errors[`${filterPath}.h_freq`] = 'High frequency must be a positive number or null.';
+          }
+          if (filtering.l_freq !== null && filtering.h_freq !== null) {
+              const lFreq = Number(filtering.l_freq);
+              const hFreq = Number(filtering.h_freq);
+              if (!isNaN(lFreq) && !isNaN(hFreq) && hFreq <= lFreq) {
+                  errors[`${filterPath}.h_freq`] = 'High frequency must be greater than low frequency.';
+              }
+          }
+          if (filtering.notch_widths !== null && (isNaN(Number(filtering.notch_widths)) || Number(filtering.notch_widths) <= 0)) {
+              errors[`${filterPath}.notch_widths`] = 'Notch width must be a positive number.';
+          }
+      }
+
+      // Drop Outerlayer
+      if (taskData.settings.drop_outerlayer?.enabled) {
+          const val = taskData.settings.drop_outerlayer.value;
+          if (typeof val === 'string' && val.trim() !== '' && !val.match(/^([a-zA-Z0-9_-]+(,\s*)?)*$/)) {
+               errors[`${settingsPath}.drop_outerlayer.value`] = 'Enter comma-separated channel names (alphanumeric, _, - allowed).';
+          } else if (Array.isArray(val) && val.some(item => typeof item !== 'string')) {
+               errors[`${settingsPath}.drop_outerlayer.value`] = 'Invalid format for channel list.';
+          }
+      }
+
+      // ICA validation
+      if (taskData.settings.ICA?.enabled && taskData.settings.ICA.value) {
+          const ica = taskData.settings.ICA.value;
+          const icaPath = `${settingsPath}.ICA.value`;
+          
+          if (!ica.method?.trim()) {
+              errors[`${icaPath}.method`] = 'ICA method is required.';
+          }
+          if (ica.n_components !== null && (isNaN(Number(ica.n_components)) || Number(ica.n_components) <= 0)) {
+              errors[`${icaPath}.n_components`] = 'Number of ICA components must be a positive number or null for automatic.';
+          }
+      }
+
+      // ICLabel validation
+      if (taskData.settings.ICLabel?.enabled && taskData.settings.ICLabel.value) {
+          const icLabel = taskData.settings.ICLabel.value;
+          const icLabelPath = `${settingsPath}.ICLabel.value`;
+          
+          if (icLabel.ic_rejection_threshold < 0 || icLabel.ic_rejection_threshold > 1) {
+              errors[`${icLabelPath}.ic_rejection_threshold`] = 'IC rejection threshold must be between 0 and 1.';
+          }
+      }
+
+      // --- Epoch Settings Validation ---
+      if (taskData.settings?.epoch_settings?.enabled) {
+          const epochSettingsPath = `${settingsPath}.epoch_settings`;
+          
+          // Event ID Validation
+          if (taskData.settings.epoch_settings.event_id && typeof taskData.settings.epoch_settings.event_id === 'string') {
+              const eventIdPath = `${epochSettingsPath}.event_id`;
+              try {
+                  const parsed = jsYaml.load(taskData.settings.epoch_settings.event_id);
+                  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+                      errors[eventIdPath] = 'Event ID must be a valid YAML/JSON dictionary string (e.g., {\'DIN8\'} or {\'"key"\': "value"}).';
+                  }
+              } catch (e) {
+                  errors[eventIdPath] = 'Invalid Event ID format. Must be a valid YAML/JSON dictionary string.';
+              }
+          }
+          
+          // Baseline Window
+          if (taskData.settings.epoch_settings?.remove_baseline?.enabled) {
+              const winPath = `${epochSettingsPath}.remove_baseline.window`;
+              const val = taskData.settings.epoch_settings.remove_baseline.window;
+              if (!Array.isArray(val) || val.length !== 2 || val.some((v: any) => v !== null && typeof v !== 'number')) {
+                   errors[winPath] = 'Baseline window must be an array of two numbers or null (e.g., [-0.1, 0] or [null, 0]).';
+              }
+          }
+          
+          // Volt Threshold
+          if (taskData.settings.epoch_settings?.threshold_rejection?.enabled) {
+               const threshPath = `${epochSettingsPath}.threshold_rejection.volt_threshold.eeg`;
+               const val = taskData.settings.epoch_settings.threshold_rejection?.volt_threshold?.eeg;
+               if (val === null || val === undefined || val === '' || (typeof val !== 'number' && isNaN(parseFloat(val as string)))) {
+                    errors[threshPath] = 'EEG Threshold must be a valid number (e.g., 150e-6).';
+               } else {
+                   const numVal = typeof val === 'number' ? val : parseFloat(val as string);
+                   if (numVal <= 0) {
+                       errors[threshPath] = 'EEG Threshold must be positive.';
+                   }
+               }
+          }
+      }
+  }
+
+  return errors;
+};
