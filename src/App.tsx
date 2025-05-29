@@ -563,7 +563,7 @@ function App() {
           >
             {/* Custom organization logo placeholder */}
             <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-              <img src="/cincibrainlab.png" alt="Cincinnati Children's Hospital Medical Center" className="w-full h-full rounded-sm object-contain" />
+              <img src="./cincibrainlab.png" alt="Cincinnati Children's Hospital Medical Center" className="w-full h-full rounded-sm object-contain" />
             </div>
             <span>GitHub Repository</span>
           </a>
