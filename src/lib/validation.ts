@@ -101,7 +101,7 @@ export const validateConfig = (configToValidate: ConfigType): ValidationErrors =
           if (taskData.settings.epoch_settings.event_id && typeof taskData.settings.epoch_settings.event_id === 'string') {
               const eventIdPath = `${epochSettingsPath}.event_id`;
               try {
-                  const parsed = jsYaml.load(taskData.settings.epoch_settings.event_id);
+                  const parsed = jsYaml.load(taskData.settings.epoch_settings.event_id, { schema: jsYaml.JSON_SCHEMA });
                   if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
                       errors[eventIdPath] = 'Event ID must be a valid YAML/JSON dictionary string (e.g., {\'DIN8\'} or {\'"key"\': "value"}).';
                   }

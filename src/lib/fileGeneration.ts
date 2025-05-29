@@ -112,7 +112,7 @@ export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Reco
           const key = parts[parts.length - 1];
           if (current && key in current && typeof current[key] === 'string' && current[key].trim() !== '') {
               try {
-                  current[key] = jsYaml.load(current[key]);
+                  current[key] = jsYaml.load(current[key], { schema: jsYaml.JSON_SCHEMA });
               } catch (parseError) {
                   console.error(`Failed to parse event_id string during YAML preparation: ${parseError}`);
               }
