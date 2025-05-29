@@ -1,54 +1,114 @@
-# React + TypeScript + Vite
+# EEG Workflow Wizard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React TypeScript application that generates configuration files for the Autoclean EEG preprocessing pipeline. This wizard guides users through a 9-step process to create configuration files for automated EEG data processing.
 
-Currently, two official plugins are available:
+## 🧠 Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The EEG Workflow Wizard is designed for researchers at Cincinnati Children's Hospital Medical Center to streamline the setup of EEG data preprocessing pipelines. It generates three essential configuration files:
 
-## Expanding the ESLint configuration
+- **`config.yaml`** - Autoclean pipeline configuration
+- **`lossless_config.yaml`** - PyLossless filtering parameters  
+- **`task_script.py`** - Python implementation script
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Live Demo
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Visit the live application: [EEG Workflow Wizard](https://yourusername.github.io/EegWorkflowWizard-cinci/)
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js 18 or higher
+- npm
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/EegWorkflowWizard-cinci.git
+cd EegWorkflowWizard-cinci
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Start development server
+npm run dev
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+# Build for production
+npm run build
+
+# Run ESLint
+npm run lint
+
+# Preview production build
+npm run preview
 ```
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── steps/          # Step components (Step4-Step9)
+│   ├── ui/             # Reusable UI components (shadcn/ui)
+│   └── ...             # Other components
+├── lib/
+│   ├── configTemplates.ts  # Predefined task configurations
+│   ├── fileGeneration.ts   # Output file creation logic
+│   ├── types.ts            # TypeScript interfaces
+│   └── ...                 # Utilities and validation
+└── App.tsx             # Main wizard orchestration
+```
+
+## 🔧 Technology Stack
+
+- **React 19** + TypeScript
+- **Vite** - Build tool and dev server
+- **shadcn/ui** - Component library
+- **Tailwind CSS v4** - Styling
+- **js-yaml** - YAML serialization
+- **JSZip** - File bundling
+- **Framer Motion** - Animations
+
+## 📋 Wizard Steps
+
+1. **Template Selection** - Choose from predefined EEG task templates
+2. **Task Configuration** - Set basic task parameters
+3. **File Management** - Configure input/output settings
+4. **Montage Setup** - Define electrode configurations
+5. **Resample & Re-reference** - Set sampling and referencing options
+6. **Trim & Crop** - Configure data segmentation
+7. **EOG & ICA** - Set up artifact removal
+8. **Epochs** - Define epoching parameters
+9. **Configure & Export** - Generate and download configuration files
+
+## 🎯 EEG Domain Context
+
+This application generates configurations for automated EEG (electroencephalography) data preprocessing, integrating two Python libraries:
+
+- **Autoclean** - High-level EEG pipeline orchestration
+- **PyLossless** - Low-level filtering and artifact detection
+
+## 🚀 Deployment
+
+The application automatically deploys to GitHub Pages when changes are pushed to the `main` branch via GitHub Actions.
+
+To set up GitHub Pages deployment:
+1. Go to repository Settings → Pages
+2. Select "GitHub Actions" as the source
+3. Push to main branch to trigger deployment
+
+## 📄 License
+
+[Add your license information here]
+
+## 🏥 Affiliation
+
+Developed for Cincinnati Children's Hospital Medical Center
