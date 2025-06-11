@@ -1,4 +1,4 @@
-import type { TaskData, StageFilesConfig } from '@/lib/types';
+import type { TaskData } from '@/lib/types';
 
 // --- Default Configuration ---
 
@@ -54,26 +54,6 @@ export const defaultTaskSettings: TaskData = {
   },
 };
 
-// Default configuration for stage_files (top-level)
-export const defaultStageFilesConfig: StageFilesConfig = {
-  post_import: { enabled: true, suffix: "_postimport" },
-  post_resample: { enabled: false, suffix: "_postresample" },
-  post_filter: { enabled: true, suffix: "_postfilter" },
-  post_outerlayer: { enabled: false, suffix: "_postouterlayer" },
-  post_trim: { enabled: false, suffix: "_posttrim" },
-  post_crop: { enabled: false, suffix: "_postcrop" },
-  post_basic_steps: { enabled: true, suffix: "_postbasicsteps" },
-  post_artifact_detection: { enabled: false, suffix: "_postartifactdetection" },
-  post_rereference: { enabled: false, suffix: "_postreference" },
-  post_bad_channels: { enabled: true, suffix: "_postbadchannels" },
-  post_clean_raw: { enabled: true, suffix: "_postcleanraw" },
-  post_epochs: { enabled: true, suffix: "_postepochs" },
-  post_drop_bad_epochs: { enabled: true, suffix: "_postdropbadepochs" },
-  post_gfp_clean: { enabled: true, suffix: "_postgfpclean" },
-  post_autoreject: { enabled: false, suffix: "_postautoreject" },
-  post_comp: { enabled: true, suffix: "_postcomp" },
-  post_edit: { enabled: true, suffix: "_postedit" },
-};
 
 // --- Predefined Task Templates ---
 

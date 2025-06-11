@@ -1,118 +1,84 @@
-export const taskScriptTemplate = `# src/autoclean/tasks/{{TASK_NAME}}.py
-"""Task implementation for {{TASK_DESCRIPTION}} using the autoclean pipeline."""
+export const taskScriptTemplate = `from autoclean.core.task import Task
 
-# Standard library imports
-from typing import Any, Dict
+# =============================================================================
+#                     {{TASK_DESCRIPTION}} EEG PREPROCESSING CONFIGURATION
+# =============================================================================
+# This configuration controls how your {{TASK_DESCRIPTION}} EEG data will be 
+# automatically cleaned and processed. Each section handles a different aspect
+# of the preprocessing pipeline.
+#
+# 🟢 enabled: True  = Apply this processing step
+# 🔴 enabled: False = Skip this processing step
+#
+# 💡 TIP: A web-based configuration wizard is available to generate this
+#         automatically - you shouldn't need to edit this manually!
+# =============================================================================
 
-# Local imports
-from autoclean.core.task import Task
-from autoclean.io.export import save_raw_to_set
-
+config = {{CONFIG_DICT}}
 
 class {{CLASS_NAME}}(Task):
-    """Task implementation for {{TASK_DESCRIPTION}}.
-
-    This class extends the base Task class which includes functionality from mixins,
-    demonstrating a modular approach to task implementation.
-
-    Attributes:
-        raw (mne.io.Raw): Raw EEG data that gets progressively cleaned through the pipeline
-        epochs (mne.Epochs): Epoched data after processing
-        original_raw (mne.io.Raw): Original unprocessed raw data, preserved for comparison
-    """
-
-    def __init__(self, config: Dict[str, Any]):
-        """Initialize the {{TASK_DESCRIPTION}} task.
-
-        Args:
-            config: Configuration dictionary containing all settings.
-        """
-
-        self.required_stages = [
-            "post_import",
-            "post_basic_steps",
-            "post_clean_raw",
-            "post_epochs",
-            "post_comp",
-        ]
-
-        super().__init__(config)  # Initialize the base class
 
     def run(self) -> None:
-        """Execute the complete EEG processing pipeline.
-
-        This method orchestrates the complete processing sequence including:
-        1. Data import
-        2. Preprocessing (resampling, filtering)
-        3. Artifact detection and rejection
-        4. Epoching
-        5. Report generation
-
-        Raises:
-            RuntimeError: If data hasn't been imported successfully
-        """
-        # Import and save raw EEG data
+        # Import raw EEG data
         self.import_raw()
 
-        # Continue with other preprocessing steps
-        self.run_basic_steps()
+        #Basic preprocessing steps
+        self.resample_data()
 
-        # Store a copy of the pre-cleaned raw data for comparison in reports
+        self.filter_data()
+
+        self.drop_outer_layer()
+
+        self.assign_eog_channels()
+
+        self.trim_edges()
+
+        self.crop_duration()
+
         self.original_raw = self.raw.copy()
-
+        
         # Create BIDS-compliant paths and filenames
         self.create_bids_path()
-
-        self.clean_bad_channels(
-            cleaning_method="interpolate", reset_bads=True
-        )  # reset_bads needs to be true if running ICA later
-
+        
+        # Channel cleaning
+        self.clean_bad_channels()
+        
+        # Re-referencing
         self.rereference_data()
-
+        
+        # Artifact detection
         self.annotate_noisy_epochs()
-
         self.annotate_uncorrelated_epochs()
-
         self.detect_dense_oscillatory_artifacts()
-
-        # ICA
-        self.run_ica()
-
+        
+        # ICA processing with optional export
+        self.run_ica()  # Export after ICA
         self.run_ICLabel()
-
-        save_raw_to_set(
-            raw=self.raw,
-            autoclean_dict=self.config,
-            stage="post_clean_raw",
-            flagged=self.flagged,
-        )
-
-{{EPOCHING_BLOCK}}
+        
+        # Epoching with export
+        {{EPOCHING_CODE}}
+        
+        # Detect outlier epochs
+        self.detect_outlier_epochs()
+        
+        # Clean epochs using GFP with export
+        self.gfp_clean_epochs() 
 
         # Generate visualization reports
         self.generate_reports()
 
+
     def generate_reports(self) -> None:
-        """Generate quality control visualizations and reports.
-
-        Creates standard visualization reports including:
-        1. Raw vs cleaned data overlay
-        2. ICA components
-        3. ICA details
-        4. PSD topography
-
-        The reports are saved in the debug directory specified
-        in the configuration.
-
-        Note:
-            This is automatically called by run().
-        """
+        """Generate quality control visualizations and reports."""
         if self.raw is None or self.original_raw is None:
             return
-
+            
         # Plot raw vs cleaned overlay using mixin method
         self.plot_raw_vs_cleaned_overlay(self.original_raw, self.raw)
-
+        
         # Plot PSD topography using mixin method
         self.step_psd_topo_figure(self.original_raw, self.raw)
+        
+        # Additional report generation can be added here
+
 `; 

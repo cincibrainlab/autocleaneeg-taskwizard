@@ -16,7 +16,7 @@ interface Step9Props {
     taskData: TaskData; // Pass the specific task data
     handleInputChange: (path: string, value: any) => void;
     errors: ValidationErrors;
-    yamlPreview: string;
+    pythonPreview: string;
     handlePreview: () => void;
     handleDownload: () => Promise<void>; // Assuming it returns Promise<void>
     goToPreviousStep: () => void;
@@ -27,7 +27,7 @@ const Step9Configure: React.FC<Step9Props> = ({
     taskData,
     handleInputChange,
     errors,
-    yamlPreview,
+    pythonPreview,
     handlePreview,
     handleDownload,
     goToPreviousStep,
@@ -46,29 +46,29 @@ const Step9Configure: React.FC<Step9Props> = ({
             <Card className="border-t-4 border-t-emerald-500 shadow-md mt-6 overflow-hidden">
                 <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 pt-4 pb-4">
                     <CardTitle>Step 9: Preview & Download</CardTitle>
-                    <CardDescription>Preview your configuration and download the autoclean files.</CardDescription>
+                    <CardDescription>Preview your configuration and download the Python task file.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 pt-6">
                     <div className="flex flex-wrap gap-4"> {/* Use flex-wrap for smaller screens */}
-                        <Button onClick={handlePreview} className="bg-emerald-600 hover:bg-emerald-700 flex-shrink-0">Preview YAML</Button>
-                        <Button onClick={handleDownload} className="bg-teal-600 hover:bg-teal-700 flex-shrink-0">Download Project ZIP</Button>
+                        <Button onClick={handlePreview} className="bg-emerald-600 hover:bg-emerald-700 flex-shrink-0">Preview Python File</Button>
+                        <Button onClick={handleDownload} className="bg-teal-600 hover:bg-teal-700 flex-shrink-0">Download Task File</Button>
                     </div>
                     
-                    {/* Display Validation errors related to YAML/ZIP generation */}
-                    {(errors.yamlGeneration || errors.zipGeneration) && (
+                    {/* Display Validation errors related to Python file generation */}
+                    {(errors.pythonGeneration || errors.fileGeneration) && (
                         <Alert variant="destructive" className="mt-4">
                             <AlertTitle>Error</AlertTitle>
-                            <AlertDescription>{errors.yamlGeneration || errors.zipGeneration}</AlertDescription>
+                            <AlertDescription>{errors.pythonGeneration || errors.fileGeneration}</AlertDescription>
                         </Alert>
                     )}
                     
-                    {/* YAML Preview Area */}
-                    {yamlPreview && (
+                    {/* Python Preview Area */}
+                    {pythonPreview && (
                         <Textarea
                             readOnly
-                            value={yamlPreview}
+                            value={pythonPreview}
                             className="mt-4 font-mono h-96 text-sm border-emerald-200"
-                            placeholder="YAML preview will appear here..."
+                            placeholder="Python task file preview will appear here..."
                         />
                     )}
                 </CardContent>

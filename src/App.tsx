@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import jsYaml from 'js-yaml'
 import { saveAs } from 'file-saver'
 import { Check } from "lucide-react"
 import { motion, AnimatePresence } from 'framer-motion'
-import JSZip from 'jszip'
 
 // Import shadcn/ui components
 import { Button } from '@/components/ui/button'
@@ -36,11 +34,11 @@ import type { ConfigType, TaskData, ValidationErrors } from './lib/types';
 import { defaultTaskSettings, taskTemplates } from './lib/configTemplates';
 import { deepClone } from './lib/utils'; // Import deepClone
 // Moved formatStepKey here
-import { generateTaskScript, formatStepKey } from './lib/utils'; 
+import { formatStepKey } from './lib/utils'; 
 // Import validation functions
 import { validateConfig } from './lib/validation'; 
 // Import file generation functions
-import { prepareConfigForYaml } from './lib/fileGeneration';
+import { generateTaskScript } from './lib/fileGeneration';
 
 // --- Helper Functions ---
 
@@ -89,7 +87,7 @@ function App() {
   const currentTaskName = getFirstTaskName(config.tasks);
   const currentTaskData = currentTaskName ? config.tasks[currentTaskName] : undefined;
 
-  const [yamlPreview, setYamlPreview] = useState<string>('');
+  const [pythonPreview, setPythonPreview] = useState<string>('');
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [loadError, setLoadError] = useState<string>('');
 
@@ -232,65 +230,54 @@ function App() {
   // --- Action Handlers ---
 
   const handlePreview = () => {
-    // Validate autoclean config before previewing
-    const autocleanErrors = validateConfig(config);
-    setErrors(autocleanErrors);
+    // Validate config before previewing
+    const configErrors = validateConfig(config);
+    setErrors(configErrors);
 
-    if (Object.keys(autocleanErrors).length > 0) {
-      setYamlPreview('Please fix the validation errors before previewing.');
+    if (Object.keys(configErrors).length > 0) {
+      setPythonPreview('Please fix the validation errors before previewing.');
       return;
     }
 
     try {
-      const preparedConfig = prepareConfigForYaml(config);
-      const yamlString = jsYaml.dump(preparedConfig, { 
-          indent: 2, 
-          flowLevel: -1
-      });
-      setYamlPreview(yamlString);
+      const pythonScript = generateTaskScript(config);
+      setPythonPreview(pythonScript);
     } catch (error: any) {
-      console.error("YAML Generation Error:", error);
-      setYamlPreview(`Failed to generate YAML: ${error.message}`);
-      setErrors(prev => ({ ...prev, yamlGeneration: `Failed to generate YAML: ${error.message}` }));
+      console.error("Python Generation Error:", error);
+      setPythonPreview(`Failed to generate Python script: ${error.message}`);
+      setErrors(prev => ({ ...prev, pythonGeneration: `Failed to generate Python script: ${error.message}` }));
     }
   };
 
-  // Make handleDownload async to await zip generation
   const handleDownload = async () => {
-    // Validate autoclean config
-    const autocleanErrors = validateConfig(config);
-    setErrors(autocleanErrors);
+    // Validate config
+    const configErrors = validateConfig(config);
+    setErrors(configErrors);
 
-    if (Object.keys(autocleanErrors).length > 0) {
+    if (Object.keys(configErrors).length > 0) {
       alert('Please fix the validation errors before downloading.');
       return;
     }
 
     try {
-      // 1. Prepare config.yaml content (Autoclean)
-      const preparedConfig = prepareConfigForYaml(config);
-      const autocleanYamlString = jsYaml.dump(preparedConfig, { 
-          indent: 2, 
-          flowLevel: -1
-      });
-      setYamlPreview(autocleanYamlString); // Update preview on successful attempt
-
-      // 2. Generate task_script.py content
+      // Generate Python task script content
       const taskScriptContent = generateTaskScript(config);
       
-      // 3. Create ZIP file
-      const zip = new JSZip();
-      zip.file("config.yaml", autocleanYamlString);
-      zip.file("task_script.py", taskScriptContent); 
-
-      // 4. Generate and trigger download
-      const zipBlob = await zip.generateAsync({ type: "blob" });
-      saveAs(zipBlob, 'autoclean_files.zip'); // Download the zip
+      // Determine filename based on task name
+      const taskName = getFirstTaskName(config.tasks);
+      const filename = taskName ? `${taskName.toLowerCase()}_task.py` : 'task.py';
+      
+      // Create blob and trigger download
+      const blob = new Blob([taskScriptContent], { type: 'text/x-python' });
+      saveAs(blob, filename);
+      
+      // Update preview on successful download
+      setPythonPreview(taskScriptContent);
 
     } catch (error: any) {
-      console.error("ZIP Generation/Download Error:", error);
-      alert(`Failed to generate or download ZIP: ${error.message}`);
-      setErrors(prev => ({ ...prev, zipGeneration: `Failed to generate ZIP: ${error.message}` }));
+      console.error("Python Generation/Download Error:", error);
+      alert(`Failed to generate or download Python file: ${error.message}`);
+      setErrors(prev => ({ ...prev, fileGeneration: `Failed to generate Python file: ${error.message}` }));
     }
   };
 
@@ -530,7 +517,7 @@ function App() {
                 taskData={currentTaskData}
                 handleInputChange={handleInputChange}
                 errors={errors}
-                yamlPreview={yamlPreview}
+                pythonPreview={pythonPreview}
                 handlePreview={handlePreview}
                 handleDownload={handleDownload}
                 goToPreviousStep={goToPreviousStep}

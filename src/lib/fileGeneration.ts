@@ -2,34 +2,64 @@
  * Functions for generating the content of downloadable files.
  */
 
-import jsYaml from 'js-yaml';
-// Use aliases
-import type { ConfigType, StageFilesConfig } from '@/lib/types'; 
-import { deepClone, getFirstTaskName } from '@/lib/utils'; // Need deepClone and getFirstTaskName
+import type { ConfigType } from '@/lib/types'; 
+import { deepClone, getFirstTaskName } from '@/lib/utils';
 import { taskScriptTemplate } from '@/lib/fileTemplates';
-import { defaultStageFilesConfig } from '@/lib/configTemplates';
 
 /**
- * Prepares the combined config object (tasks + stage files) for YAML conversion.
- * Converts certain string arrays/numbers back to their correct types within tasks.
- * Uses the default stage file configuration.
+ * Converts a JavaScript object to Python dictionary format string.
  */
-// Input is just the main config (tasks part)
-// Return type should reflect the full structure { tasks: ..., stage_files: ...}
-export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Record<string, any>, stage_files: StageFilesConfig } => {
-    // Clone the tasks part first
+function formatPythonDict(obj: any, indent: number = 0): string {
+    const spaces = '    '.repeat(indent);
+    
+    if (obj === null) {
+        return 'None';
+    } else if (typeof obj === 'boolean') {
+        return obj ? 'True' : 'False';
+    } else if (typeof obj === 'string') {
+        return `'${obj.replace(/'/g, "\\'")}'`;
+    } else if (typeof obj === 'number') {
+        return obj.toString();
+    } else if (Array.isArray(obj)) {
+        if (obj.length === 0) {
+            return '[]';
+        }
+        const items = obj.map(item => formatPythonDict(item, 0)).join(', ');
+        return `[${items}]`;
+    } else if (typeof obj === 'object') {
+        const entries = Object.entries(obj);
+        if (entries.length === 0) {
+            return '{}';
+        }
+        
+        const lines = entries.map(([key, value]) => {
+            const formattedValue = formatPythonDict(value, indent + 1);
+            return `${spaces}    '${key}': ${formattedValue}`;
+        });
+        
+        return `{\n${lines.join(',\n')}\n${spaces}}`;
+    }
+    
+    return 'None';
+}
+
+/**
+ * Prepares config data for Python dictionary generation.
+ * Converts string arrays/numbers to their correct types.
+ */
+export const prepareConfigForPython = (configToPrepare: ConfigType): Record<string, any> => {
     const clonedTasks = deepClone(configToPrepare.tasks);
     const taskName = getFirstTaskName(clonedTasks);
     
     if (taskName && clonedTasks[taskName]) {
         const taskData = clonedTasks[taskName];
         
-        // --- Start: Existing conversion logic for taskData --- 
+        // Convert string arrays to actual arrays
         const listStringPaths = [
             'settings.drop_outerlayer.value',
             'settings.eog_step.value',
-            'settings.remove_baseline.window',
-            'settings.filtering.value.notch_freqs', // Ensure notch_freqs is always an array
+            'settings.epoch_settings.remove_baseline.window',
+            'settings.filtering.value.notch_freqs',
         ];
 
         listStringPaths.forEach(fieldPath => {
@@ -69,6 +99,7 @@ export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Reco
             } 
         });
 
+        // Convert string numbers to actual numbers
         const numericPaths = [
             'settings.resample_step.value',
             'settings.trim_step.value',
@@ -77,10 +108,8 @@ export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Reco
             'settings.epoch_settings.value.tmin',
             'settings.epoch_settings.value.tmax',
             'settings.epoch_settings.threshold_rejection.volt_threshold.eeg',
-            'rejection_policy.ic_rejection_threshold'
+            'settings.ICLabel.value.ic_rejection_threshold'
         ];
-
-        const eventIdPathString = 'settings.epoch_settings.event_id';
 
         numericPaths.forEach(fieldPath => {
             const parts = fieldPath.split('.');
@@ -100,8 +129,10 @@ export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Reco
             } catch (e) { /* Ignore */ }
         });
 
+        // Handle event_id - convert string to dict or keep as null
         try {
-          const parts = eventIdPathString.split('.');
+          const eventIdPath = 'settings.epoch_settings.event_id';
+          const parts = eventIdPath.split('.');
           let current: any = taskData;
           for (let i = 0; i < parts.length - 1; i++) {
               if (current[parts[i]] === undefined || current[parts[i]] === null) {
@@ -112,9 +143,11 @@ export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Reco
           const key = parts[parts.length - 1];
           if (current && key in current && typeof current[key] === 'string' && current[key].trim() !== '') {
               try {
-                  current[key] = jsYaml.load(current[key], { schema: jsYaml.JSON_SCHEMA });
+                  // Try to parse as JSON-like string
+                  current[key] = JSON.parse(current[key]);
               } catch (parseError) {
-                  console.error(`Failed to parse event_id string during YAML preparation: ${parseError}`);
+                  console.error(`Failed to parse event_id string: ${parseError}`);
+                  current[key] = null;
               }
           } else if (current && key in current && current[key] === null) {
               // Keep null if explicitly null
@@ -124,35 +157,55 @@ export const prepareConfigForYaml = (configToPrepare: ConfigType): { tasks: Reco
                }
           }
         } catch (pathError) {
-            console.error(`Error accessing event_id path during YAML preparation: ${pathError}`);
+            console.error(`Error accessing event_id path: ${pathError}`);
         }
-        // --- End: Existing conversion logic for taskData --- 
     }
 
-    // Construct the final object with processed tasks and default stage_files
-    const finalConfigObject = {
-        tasks: clonedTasks, 
-        stage_files: defaultStageFilesConfig // Use the imported default
-    };
-
-    return finalConfigObject;
+    // Extract settings and flatten structure for Python config
+    const pythonConfig: Record<string, any> = {};
+    
+    if (taskName && clonedTasks[taskName]?.settings) {
+        const settings = clonedTasks[taskName].settings;
+        
+        // Map each setting to Python config format
+        Object.entries(settings).forEach(([key, value]: [string, any]) => {
+            if (key === 'epoch_settings') {
+                // Special handling for epoch_settings
+                pythonConfig[key] = {
+                    enabled: value.enabled,
+                    value: value.value,
+                    event_id: value.event_id,
+                    remove_baseline: value.remove_baseline,
+                    threshold_rejection: value.threshold_rejection
+                };
+            } else {
+                pythonConfig[key] = value;
+            }
+        });
+    }
+    
+    return pythonConfig;
 };
 
 
 /**
- * Generates the task_script.py content based on the configuration.
+ * Generates the Python task file content based on the configuration.
  */
 export function generateTaskScript(config: ConfigType): string {
-    let scriptContent = taskScriptTemplate;
     const taskKey = getFirstTaskName(config.tasks);
   
     if (!taskKey || !config.tasks[taskKey]) {
       console.error("Task data not found in config for task script generation.");
-      return scriptContent;
+      return taskScriptTemplate;
     }
+    
     const taskData = config.tasks[taskKey];
-  
-    // --- 1. Replace Class Name ---
+    
+    // Prepare the Python config dictionary
+    const pythonConfig = prepareConfigForPython(config);
+    const configDict = formatPythonDict(pythonConfig);
+    
+    // Generate class name
     let desiredClassName = taskData.mne_task || taskKey;
     desiredClassName = desiredClassName
       .replace(/\s+/g, '_') 
@@ -163,51 +216,31 @@ export function generateTaskScript(config: ConfigType): string {
     if (!desiredClassName) {
         desiredClassName = 'CustomTask'; 
     }
-    scriptContent = scriptContent.replace(
-        /class RestingEyesOpen\(Task\):/, 
-        `class ${desiredClassName}(Task):`
-    );
-  
-    // --- 2. Modify Epoching Block ---
-    if (!taskData.settings?.epoch_settings) {
-      console.warn("Epoch settings not found, returning task script without epoch modifications.");
-      return scriptContent; 
-    }
-  
-    const epochSettings = taskData.settings.epoch_settings;
-    const epochBlockStartMarker = "# --- EPOCHING BLOCK START ---";
-    const epochBlockEndMarker = "# --- EPOCHING BLOCK END ---";
-    const startIdx = scriptContent.indexOf(epochBlockStartMarker);
-    const endIdx = scriptContent.indexOf(epochBlockEndMarker);
-  
-    if (startIdx === -1 || endIdx === -1 || endIdx <= startIdx) {
-      console.error("Epoching block markers not found in task script template!");
-      return scriptContent; 
-    }
-  
-    const beforeBlock = scriptContent.substring(0, startIdx);
-    const epochBlockContent = scriptContent.substring(startIdx + epochBlockStartMarker.length, endIdx);
-    const afterBlock = scriptContent.substring(endIdx + epochBlockEndMarker.length);
-  
-    if (!epochSettings.enabled) {
-      scriptContent = beforeBlock + "\n    # Epoching disabled via configuration\n" + afterBlock;
-    } else {
-      let modifiedEpochBlock = epochBlockContent;
-      if (epochSettings.event_id) { 
-        modifiedEpochBlock = modifiedEpochBlock.replace(
-          /self\.create_regular_epochs\(\)/g, 
-          "self.create_eventid_epochs() # Using event IDs"
-        );
-      } else {
-          modifiedEpochBlock = modifiedEpochBlock.replace(
-          /self\.create_regular_epochs\(\)/g, 
-          "self.create_regular_epochs() # Using fixed-length epochs"
-        );
+    
+    // Capitalize first letter to make it a proper class name
+    desiredClassName = desiredClassName.charAt(0).toUpperCase() + desiredClassName.slice(1);
+    
+    // Handle epoching logic
+    let epochingCode = 'self.create_regular_epochs(export=True)  # Export epochs';
+    
+    if (taskData.settings?.epoch_settings) {
+      const epochSettings = taskData.settings.epoch_settings;
+      
+      if (!epochSettings.enabled) {
+        epochingCode = '# Epoching disabled via configuration';
+      } else if (epochSettings.event_id) {
+        epochingCode = 'self.create_eventid_epochs() # Using event IDs';
       }
-      scriptContent = beforeBlock + epochBlockStartMarker + modifiedEpochBlock + epochBlockEndMarker + afterBlock;
     }
+    
+    // Replace template placeholders
+    let scriptContent = taskScriptTemplate
+      .replace(/{{TASK_DESCRIPTION}}/g, taskData.description || 'CUSTOM TASK')
+      .replace(/{{CLASS_NAME}}/g, desiredClassName)
+      .replace(/{{CONFIG_DICT}}/g, configDict)
+      .replace(/{{EPOCHING_CODE}}/g, epochingCode);
   
     return scriptContent;
-  }
+}
   
  

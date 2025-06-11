@@ -74,14 +74,6 @@ export interface TaskSettings {
     [key: string]: any; // Allow other potential settings
 }
 
-// Structure for a single stage file setting
-export interface StageFileConfig {
-    enabled: boolean;
-    suffix: string;
-}
-
-// NEW: Type for the top-level stage_files configuration object
-export type StageFilesConfig = Record<string, StageFileConfig>;
 
 // Structure for a single task configuration
 export interface TaskData {
@@ -90,10 +82,9 @@ export interface TaskData {
     settings?: TaskSettings;
 }
 
-// Top-level configuration structure
+// Top-level configuration structure - now simplified for single Python file
 export interface ConfigType {
     tasks: Record<string, TaskData>; // Expects one task usually
-    stage_files?: StageFilesConfig; // ADD stage_files at the top level
 }
 
 // Type for validation errors object (path -> message)
