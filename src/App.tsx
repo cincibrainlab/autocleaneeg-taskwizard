@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import FormField from './components/FormField'
 import RejectionPolicySection from './components/RejectionPolicySection' // RejectionPolicySection still used in Step 9
 import BrainIcon from './components/BrainIcon'
+import { FileUpload } from './components/FileUpload'
 import { montageOptions } from './lib/constants'; // Import the constant
 
 // --- Import Step Components ---
@@ -130,6 +131,16 @@ function App() {
       // Explicitly set step and highest reached for clarity after selection
       setCurrentStep(2);
       setConfigFinalized(true);
+  };
+
+  // --- Handler for loading uploaded configuration ---
+  const handleConfigLoaded = (loadedConfig: ConfigType) => {
+    setConfig(loadedConfig);
+    setErrors({});
+    setLoadError('');
+    setHighestStepReached(9); // Allow access to all steps since config is complete
+    setCurrentStep(2); // Start at task info step to review loaded config
+    setConfigFinalized(true);
   };
 
   // Handler for main Autoclean config changes
@@ -265,7 +276,7 @@ function App() {
       
       // Determine filename based on task name
       const taskName = getFirstTaskName(config.tasks);
-      const filename = taskName ? `${taskName.toLowerCase()}_task.py` : 'task.py';
+      const filename = taskName ? `${taskName.toLowerCase()}.py` : 'task.py';
       
       // Create blob and trigger download
       const blob = new Blob([taskScriptContent], { type: 'text/x-python' });
@@ -351,50 +362,63 @@ function App() {
 
         {/* --- Step 1: Select Starting Point --- */}
         {currentStep === 1 && (
-            <Card className="border-t-4 border-t-indigo-500 shadow-md overflow-hidden">
-                 <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 pt-4 pb-4">
-                     <CardTitle>Step 1: Choose a Starting Point</CardTitle>
-                     <CardDescription>Select a common task template or start with a custom configuration.</CardDescription>
-                 </CardHeader>
-                 <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
-                     {/* Button for RestingEyesOpen */}
-                     <Button 
-                         variant="outline" 
-                         className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-indigo-50 hover:border-indigo-300 transition-all" 
-                         onClick={() => handleStartOptionSelect('RestingEyesOpen')}
-                     >
-                         <span className="text-lg font-semibold">Resting Eyes Open</span>
-                         <span className="text-sm text-muted-foreground text-center">Standard Resting State EEG</span>
-                     </Button>
-                      {/* Button for ChirpDefault */}
-                      <Button 
-                         variant="outline" 
-                         className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-purple-50 hover:border-purple-300 transition-all" 
-                         onClick={() => handleStartOptionSelect('ChirpDefault')}
-                     >
-                         <span className="text-lg font-semibold">Chirp Default</span>
-                         <span className="text-sm text-muted-foreground text-center">Default settings for Chirp Task</span>
-                     </Button>
-                      {/* Button for AssrDefault */}
-                      <Button 
-                         variant="outline" 
-                         className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-pink-50 hover:border-pink-300 transition-all" 
-                         onClick={() => handleStartOptionSelect('AssrDefault')}
-                     >
-                         <span className="text-lg font-semibold">ASSR Default</span>
-                         <span className="text-sm text-muted-foreground text-center">Default settings for ASSR Task</span>
-                     </Button>
-                     {/* Button for Custom */}
-                     <Button 
-                         variant="outline" 
-                         className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-sky-50 hover:border-sky-300 transition-all" 
-                         onClick={() => handleStartOptionSelect('Custom')}
-                     >
-                        <span className="text-lg font-semibold">Custom</span>
-                        <span className="text-sm text-muted-foreground text-center">Start with custom configuration</span>
-                     </Button>
-                 </CardContent>
-            </Card>
+            <div className="space-y-6">
+                <Card className="border-t-4 border-t-indigo-500 shadow-md overflow-hidden">
+                     <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 pt-4 pb-4">
+                         <CardTitle>Step 1: Choose a Starting Point</CardTitle>
+                         <CardDescription>Select a common task template or start with a custom configuration.</CardDescription>
+                     </CardHeader>
+                     <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
+                         {/* Button for RestingEyesOpen */}
+                         <Button 
+                             variant="outline" 
+                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-indigo-50 hover:border-indigo-300 transition-all" 
+                             onClick={() => handleStartOptionSelect('RestingEyesOpen')}
+                         >
+                             <span className="text-lg font-semibold">Resting Eyes Open</span>
+                             <span className="text-sm text-muted-foreground text-center">Standard Resting State EEG</span>
+                         </Button>
+                          {/* Button for ChirpDefault */}
+                          <Button 
+                             variant="outline" 
+                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-purple-50 hover:border-purple-300 transition-all" 
+                             onClick={() => handleStartOptionSelect('ChirpDefault')}
+                         >
+                             <span className="text-lg font-semibold">Chirp Default</span>
+                             <span className="text-sm text-muted-foreground text-center">Default settings for Chirp Task</span>
+                         </Button>
+                          {/* Button for AssrDefault */}
+                          <Button 
+                             variant="outline" 
+                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-pink-50 hover:border-pink-300 transition-all" 
+                             onClick={() => handleStartOptionSelect('AssrDefault')}
+                         >
+                             <span className="text-lg font-semibold">ASSR Default</span>
+                             <span className="text-sm text-muted-foreground text-center">Default settings for ASSR Task</span>
+                         </Button>
+                         {/* Button for Custom */}
+                         <Button 
+                             variant="outline" 
+                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-sky-50 hover:border-sky-300 transition-all" 
+                             onClick={() => handleStartOptionSelect('Custom')}
+                         >
+                            <span className="text-lg font-semibold">Custom</span>
+                            <span className="text-sm text-muted-foreground text-center">Start with custom configuration</span>
+                         </Button>
+                     </CardContent>
+                </Card>
+                
+                {/* Upload existing task file section */}
+                <Card className="border-t-4 border-t-green-500 shadow-md overflow-hidden">
+                    <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 pt-4 pb-4">
+                        <CardTitle>Or Upload Existing Task File</CardTitle>
+                        <CardDescription>Upload a previously generated Python task file to edit its configuration.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-6">
+                        <FileUpload onConfigLoaded={handleConfigLoaded} />
+                    </CardContent>
+                </Card>
+            </div>
         )}
 
         {/* --- Step 2: Task Information --- */}
