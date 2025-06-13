@@ -129,7 +129,7 @@ export const prepareConfigForPython = (configToPrepare: ConfigType): Record<stri
             } catch (e) { /* Ignore */ }
         });
 
-        // Handle event_id - convert string to dict or keep as null
+        // Handle event_id - convert array of event IDs to dict or keep as null
         try {
           const eventIdPath = 'settings.epoch_settings.event_id';
           const parts = eventIdPath.split('.');
@@ -141,20 +141,19 @@ export const prepareConfigForPython = (configToPrepare: ConfigType): Record<stri
               current = current[parts[i]];
           }
           const key = parts[parts.length - 1];
-          if (current && key in current && typeof current[key] === 'string' && current[key].trim() !== '') {
-              try {
-                  // Try to parse as JSON-like string
-                  current[key] = JSON.parse(current[key]);
-              } catch (parseError) {
-                  console.error(`Failed to parse event_id string: ${parseError}`);
+          
+          if (current && key in current) {
+              if (Array.isArray(current[key]) && current[key].length > 0) {
+                  // Convert array of event IDs to dictionary format
+                  const eventDict: Record<string, number> = {};
+                  current[key].forEach((eventId: string, index: number) => {
+                      eventDict[eventId] = index + 1; // Start numbering from 1
+                  });
+                  current[key] = eventDict;
+              } else if (current[key] === null || (Array.isArray(current[key]) && current[key].length === 0)) {
+                  // Keep null for fixed-length epochs or empty arrays
                   current[key] = null;
               }
-          } else if (current && key in current && current[key] === null) {
-              // Keep null if explicitly null
-          } else {
-               if (current && key in current) {
-                    current[key] = null;
-               }
           }
         } catch (pathError) {
             console.error(`Error accessing event_id path: ${pathError}`);

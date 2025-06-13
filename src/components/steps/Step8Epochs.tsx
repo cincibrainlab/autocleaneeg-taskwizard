@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 // Import local components and types
 import FormField from '@/components/FormField'; // Assuming FormField is in the right place
+import { EventIdInput } from '@/components/EventIdInput';
 import { TaskData, ValidationErrors } from '@/lib/types'; // Adjust path as needed
 import { formatStepKey } from '@/lib/utils'; // Adjust path as needed
 
@@ -117,8 +118,8 @@ const Step8Epochs: React.FC<Step8Props> = ({
                                             type="button"
                                             onClick={() => {
                                                 const currentValue = taskData.settings?.epoch_settings?.event_id;
-                                                // Toggle between null (fixed-length) and a default string (event-based)
-                                                const newValue = currentValue ? null : "{'DIN8'}"; 
+                                                // Toggle between null (fixed-length) and an empty array (event-based)
+                                                const newValue = currentValue ? null : []; 
                                                 handleInputChange(`${basePath}.event_id`, newValue);
                                             }}
                                             className="flex items-center justify-between w-full p-3 border rounded-md hover:border-lime-200 hover:bg-lime-50/30 transition-colors"
@@ -140,7 +141,7 @@ const Step8Epochs: React.FC<Step8Props> = ({
                                         </button>
 
                                         <AnimatePresence>
-                                            {taskData.settings?.epoch_settings?.event_id && (
+                                            {taskData.settings?.epoch_settings?.event_id && Array.isArray(taskData.settings.epoch_settings.event_id) && (
                                                 <motion.div
                                                     key="epoch-eventid-content"
                                                     className="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-lime-200 ml-2.5 overflow-hidden"
@@ -148,15 +149,9 @@ const Step8Epochs: React.FC<Step8Props> = ({
                                                     animate={{ opacity: 1, height: 'auto', y: 0, transition: sectionAnimation.transition }}
                                                     exit={{ opacity: 0, height: 0, y: 5, transition: { duration: 0.2 } }}
                                                 >
-                                                    <FormField
-                                                        path={`${basePath}.event_id`}
-                                                        label="Event ID / Dictionary"
-                                                        tooltip="Event ID string or YAML/JSON dictionary string (e.g., {'DIN8'} or {'standard': 1, 'target': 2}). Must be valid YAML/JSON if dictionary."
-                                                        value={taskData.settings.epoch_settings.event_id}
-                                                        onChange={handleInputChange}
-                                                        error={errors[`${basePath}.event_id`]}
-                                                        type="textarea" // Use textarea for potentially multi-line dicts
-                                                        placeholder="e.g., {'DIN8'} or {'event1': 1, 'event2': 2}"
+                                                    <EventIdInput
+                                                        eventIds={taskData.settings.epoch_settings.event_id}
+                                                        onChange={(eventIds) => handleInputChange(`${basePath}.event_id`, eventIds)}
                                                     />
                                                 </motion.div>
                                             )}

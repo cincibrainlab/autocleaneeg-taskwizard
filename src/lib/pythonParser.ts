@@ -171,13 +171,19 @@ function convertPythonConfigToTaskSettings(configObj: any): TaskSettings {
         break;
         
       case 'epoch_settings':
+        // Convert event_id dictionary back to array of event IDs
+        let eventIdArray: string[] | null = null;
+        if (value.event_id && typeof value.event_id === 'object') {
+          eventIdArray = Object.keys(value.event_id);
+        }
+        
         settings.epoch_settings = {
           enabled: value.enabled || false,
           value: {
             tmin: value.value?.tmin || null,
             tmax: value.value?.tmax || null
           },
-          event_id: value.event_id ? JSON.stringify(value.event_id) : null,
+          event_id: eventIdArray,
           remove_baseline: {
             enabled: value.remove_baseline?.enabled || false,
             window: Array.isArray(value.remove_baseline?.window) 

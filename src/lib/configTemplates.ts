@@ -154,7 +154,7 @@ export const taskTemplates: Record<string, TaskData> = {
       epoch_settings: {
         enabled: true,
         value: { tmin: -0.5, tmax: 2.5 },
-        event_id: "{'DIN8'}",
+        event_id: ["DIN8"],
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: true, volt_threshold: { eeg: 125e-6 } },
       },

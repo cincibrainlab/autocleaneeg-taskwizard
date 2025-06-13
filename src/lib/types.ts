@@ -40,7 +40,7 @@ export interface ThresholdRejection { enabled: boolean; volt_threshold?: VoltThr
 export interface EpochSettings {
     enabled: boolean;
     value?: EpochValue; // Contains tmin/tmax
-    event_id?: string | null; // String representation of event dict or null/undefined
+    event_id?: string[] | null; // Array of event ID strings or null for fixed-length epochs
     remove_baseline?: BaselineWindow;
     threshold_rejection?: ThresholdRejection;
 }
