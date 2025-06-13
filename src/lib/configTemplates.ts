@@ -61,9 +61,9 @@ export const defaultTaskSettings: TaskData = {
  * Collection of predefined task configurations for common EEG paradigms.
  */
 export const taskTemplates: Record<string, TaskData> = {
-  RestingEyesOpen: {
+  RestingState: {
     mne_task: "rest",
-    description: "Resting state with eyes open",
+    description: "Resting state EEG recording",
     settings: {
       resample_step: { enabled: true, value: 250 },
       filtering: {
@@ -108,9 +108,9 @@ export const taskTemplates: Record<string, TaskData> = {
       },
     },
   },
-  ChirpDefault: {
-    mne_task: "chirp",
-    description: "Chirp auditory stimulus task",
+  EventBased: {
+    mne_task: "event_based",
+    description: "Event-based EEG paradigm with stimulus triggers",
     settings: {
       resample_step: { enabled: true, value: 250 },
       filtering: {
@@ -157,53 +157,6 @@ export const taskTemplates: Record<string, TaskData> = {
         event_id: "{'DIN8'}",
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: true, volt_threshold: { eeg: 125e-6 } },
-      },
-    },
-  },
-  AssrDefault: {
-    mne_task: "Assr",
-    description: "Auditory steady state response task",
-    settings: {
-      resample_step: { enabled: true, value: 250 },
-      filtering: {
-        enabled: true,
-        value: {
-          l_freq: 1,
-          h_freq: 100,
-          notch_freqs: [60, 120],
-          notch_widths: 5,
-        },
-      },
-      drop_outerlayer: { enabled: false, value: [] },
-      eog_step: { enabled: false, value: [] },
-      trim_step: { enabled: true, value: 4 },
-      crop_step: { enabled: false, value: { start: 0, end: null } },
-      reference_step: { enabled: false, value: "average" },
-      montage: { enabled: true, value: "GSN-HydroCel-129" },
-      ICA: {
-        enabled: true,
-        value: {
-          method: "picard",
-          n_components: null,
-          fit_params: {
-            ortho: false,
-            extended: true,
-          },
-        },
-      },
-      ICLabel: {
-        enabled: true,
-        value: {
-          ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
-          ic_rejection_threshold: 0.3,
-        },
-      },
-      epoch_settings: {
-        enabled: true,
-        value: { tmin: -0.5, tmax: 2.7 },
-        event_id: "{'DI66': 1}",
-        remove_baseline: { enabled: false, window: [null, 0] },
-        threshold_rejection: { enabled: false, volt_threshold: { eeg: 150e-6 } },
       },
     },
   },

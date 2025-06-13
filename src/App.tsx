@@ -368,42 +368,33 @@ function App() {
                          <CardTitle>Step 1: Choose a Starting Point</CardTitle>
                          <CardDescription>Select a common task template or start with a custom configuration.</CardDescription>
                      </CardHeader>
-                     <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
-                         {/* Button for RestingEyesOpen */}
+                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                         {/* Button for RestingState */}
                          <Button 
                              variant="outline" 
-                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-indigo-50 hover:border-indigo-300 transition-all" 
-                             onClick={() => handleStartOptionSelect('RestingEyesOpen')}
+                             className="h-auto p-6 flex flex-col items-center justify-center space-y-3 hover:bg-indigo-50 hover:border-indigo-300 transition-all" 
+                             onClick={() => handleStartOptionSelect('RestingState')}
                          >
-                             <span className="text-lg font-semibold">Resting Eyes Open</span>
-                             <span className="text-sm text-muted-foreground text-center">Standard Resting State EEG</span>
+                             <span className="text-xl font-semibold">Resting State</span>
+                             <span className="text-sm text-muted-foreground text-center">Continuous EEG recording without specific events</span>
                          </Button>
-                          {/* Button for ChirpDefault */}
+                          {/* Button for EventBased */}
                           <Button 
                              variant="outline" 
-                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-purple-50 hover:border-purple-300 transition-all" 
-                             onClick={() => handleStartOptionSelect('ChirpDefault')}
+                             className="h-auto p-6 flex flex-col items-center justify-center space-y-3 hover:bg-purple-50 hover:border-purple-300 transition-all" 
+                             onClick={() => handleStartOptionSelect('EventBased')}
                          >
-                             <span className="text-lg font-semibold">Chirp Default</span>
-                             <span className="text-sm text-muted-foreground text-center">Default settings for Chirp Task</span>
-                         </Button>
-                          {/* Button for AssrDefault */}
-                          <Button 
-                             variant="outline" 
-                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-pink-50 hover:border-pink-300 transition-all" 
-                             onClick={() => handleStartOptionSelect('AssrDefault')}
-                         >
-                             <span className="text-lg font-semibold">ASSR Default</span>
-                             <span className="text-sm text-muted-foreground text-center">Default settings for ASSR Task</span>
+                             <span className="text-xl font-semibold">Event-Based</span>
+                             <span className="text-sm text-muted-foreground text-center">Paradigm with stimulus triggers and event markers</span>
                          </Button>
                          {/* Button for Custom */}
                          <Button 
                              variant="outline" 
-                             className="h-auto p-4 flex flex-col items-center justify-center space-y-2 hover:bg-sky-50 hover:border-sky-300 transition-all" 
+                             className="h-auto p-6 flex flex-col items-center justify-center space-y-3 hover:bg-emerald-50 hover:border-emerald-300 transition-all" 
                              onClick={() => handleStartOptionSelect('Custom')}
                          >
-                            <span className="text-lg font-semibold">Custom</span>
-                            <span className="text-sm text-muted-foreground text-center">Start with custom configuration</span>
+                            <span className="text-xl font-semibold">Custom</span>
+                            <span className="text-sm text-muted-foreground text-center">Start with blank configuration</span>
                          </Button>
                      </CardContent>
                 </Card>
