@@ -1,19 +1,10 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Check } from 'lucide-react';
-import { Label } from '@/components/ui/label';
 import FormField from '../FormField'; 
+import { AnimatedSection } from '@/components/AnimatedSection';
 import type { TaskData, ValidationErrors } from '@/lib/types';
 import { formatStepKey } from '@/lib/utils'; 
-
-// Animation settings
-const sectionAnimation = {
-    initial: { opacity: 0, y: 10 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.3, ease: "easeInOut" }
-};
 
 interface Step7Props {
   currentTaskName: string;
@@ -38,117 +29,63 @@ const Step7EogChannels: React.FC<Step7Props> = ({
   const dropSettings = currentTaskData.settings.drop_outerlayer;
 
   return (
-    <Card className="border-t-4 border-t-amber-500 shadow-md overflow-hidden">
-        <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 pt-4 pb-4">
-            <CardTitle>Step 7: EOG and Channel Pruning</CardTitle> 
-            <CardDescription>Configure EOG detection and channel removal options.</CardDescription>
+    <Card className="border-t-4 border-t-yellow-500 shadow-md overflow-hidden">
+        <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-yellow-50 to-amber-50 pt-4 pb-4">
+            <CardTitle>Step 6: EOG & Channel Management</CardTitle>
+            <CardDescription>Configure EOG channel assignment and channel exclusion settings.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
             <div className="space-y-6">
-                <div className="grid grid-cols-1 gap-y-6">
-                    {eogSettings && (
-                        <motion.div className="space-y-4" layout>
-                            <button
-                                type="button"
-                                onClick={() => handleInputChange(`tasks.${currentTaskName}.settings.eog_step.enabled`, !eogSettings.enabled)}
-                                className="flex items-center justify-between w-full p-3 border rounded-md hover:border-amber-200 hover:bg-amber-50/30 transition-colors"
-                            >
-                                <div className="flex-1 flex items-center space-x-3">
-                                    <div className={`
-                                        flex items-center justify-center w-5 h-5 border rounded-sm transition-colors
-                                        ${eogSettings.enabled ? 'bg-amber-500 border-amber-600' : 'border-input'}
-                                    `}>
-                                        {eogSettings.enabled && <Check className="h-4 w-4 text-white" />}
-                                    </div>
-                                    <div className="space-y-1 text-left">
-                                        <Label className="font-medium">{formatStepKey("eog_step")}</Label>
-                                        <p className="text-sm text-muted-foreground">Configure EOG (eye movement) channel detection.</p>
-                                    </div>
-                                </div>
-                            </button>
-                            
-                            <AnimatePresence>
-                                {eogSettings.enabled && (
-                                    <motion.div 
-                                        key="eog-content"
-                                        className="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-amber-200 ml-2.5 overflow-hidden"
-                                        initial={sectionAnimation.initial}
-                                        animate={sectionAnimation.animate}
-                                        exit={{ opacity: 0, height: 0, y: 5, transition: { duration: 0.2 } }} 
-                                        transition={sectionAnimation.transition}
-                                    >
-                                        <FormField
-                                            path={`tasks.${currentTaskName}.settings.eog_step.value`}
-                                            label="EOG Parameters"
-                                            tooltip="Parameters for EOG detection (format: [l_freq, h_freq, threshold] or channel names)"
-                                            value={Array.isArray(eogSettings.value) 
-                                                ? eogSettings.value.join(', ') 
-                                                : eogSettings.value}
-                                            onChange={handleInputChange}
-                                            error={errors[`tasks.${currentTaskName}.settings.eog_step.value`]}
-                                            type="text"
-                                            placeholder="e.g., 1, 32, 8 or E1, E2"
-                                        />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    )}
-                    
-                    {dropSettings && (
-                        <motion.div className="space-y-4" layout>
-                            <button
-                                type="button"
-                                onClick={() => handleInputChange(`tasks.${currentTaskName}.settings.drop_outerlayer.enabled`, !dropSettings.enabled)}
-                                className="flex items-center justify-between w-full p-3 border rounded-md hover:border-amber-200 hover:bg-amber-50/30 transition-colors"
-                            >
-                                <div className="flex-1 flex items-center space-x-3">
-                                    <div className={`
-                                        flex items-center justify-center w-5 h-5 border rounded-sm transition-colors
-                                        ${dropSettings.enabled ? 'bg-amber-500 border-amber-600' : 'border-input'}
-                                    `}>
-                                        {dropSettings.enabled && <Check className="h-4 w-4 text-white" />}
-                                    </div>
-                                    <div className="space-y-1 text-left">
-                                        <Label className="font-medium">{formatStepKey("drop_outerlayer")}</Label>
-                                        <p className="text-sm text-muted-foreground">Remove specific channels from analysis.</p>
-                                    </div>
-                                </div>
-                            </button>
-                            
-                            <AnimatePresence>
-                                {dropSettings.enabled && (
-                                    <motion.div 
-                                        key="drop-outerlayer-content"
-                                        className="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-amber-200 ml-2.5 overflow-hidden"
-                                        initial={sectionAnimation.initial}
-                                        animate={sectionAnimation.animate}
-                                        exit={{ opacity: 0, height: 0, y: 5, transition: { duration: 0.2 } }} 
-                                        transition={sectionAnimation.transition}
-                                    >
-                                        <FormField
-                                            path={`tasks.${currentTaskName}.settings.drop_outerlayer.value`}
-                                            label="Channels to Drop"
-                                            tooltip="Comma-separated list of channel names to exclude"
-                                            value={Array.isArray(dropSettings.value) 
-                                                ? dropSettings.value.join(', ') 
-                                                : dropSettings.value}
-                                            onChange={handleInputChange}
-                                            error={errors[`tasks.${currentTaskName}.settings.drop_outerlayer.value`]}
-                                            type="text"
-                                            placeholder="e.g., E17, E38, E43"
-                                        />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    )}
-                </div>
+                {/* EOG Channels Section */}
+                {eogSettings && (
+                    <AnimatedSection
+                        title={formatStepKey("eog_step")}
+                        description="Assign channels as EOG (electrooculography) for artifact detection."
+                        enabled={eogSettings.enabled}
+                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.eog_step.enabled`, !eogSettings.enabled)}
+                        contentClassName="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-yellow-200 ml-2.5"
+                        color="yellow"
+                    >
+                        <FormField
+                            path={`tasks.${currentTaskName}.settings.eog_step.value`}
+                            label="EOG Channel Numbers"
+                            tooltip="List of channel numbers to treat as EOG channels (e.g., 1, 32, 8, 14, 17, 21, 25, 125, 126, 127, 128)"
+                            value={eogSettings.value}
+                            onChange={handleInputChange}
+                            error={errors[`tasks.${currentTaskName}.settings.eog_step.value`]}
+                            type="list"
+                            placeholder="e.g., 1, 32, 8, 14, 17, 21, 25, 125, 126, 127, 128"
+                        />
+                    </AnimatedSection>
+                )}
+
+                {/* Drop Outer Layer Section */}
+                {dropSettings && (
+                    <AnimatedSection
+                        title={formatStepKey("drop_outerlayer")}
+                        description="Exclude outer layer or edge channels that are prone to artifacts."
+                        enabled={dropSettings.enabled}
+                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.drop_outerlayer.enabled`, !dropSettings.enabled)}
+                        contentClassName="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-yellow-200 ml-2.5"
+                        color="yellow"
+                    >
+                        <FormField
+                            path={`tasks.${currentTaskName}.settings.drop_outerlayer.value`}
+                            label="Channels to Drop"
+                            tooltip="List of channel names to exclude from analysis (e.g., E17, E38, E43, E44, E48, E49)"
+                            value={dropSettings.value}
+                            onChange={handleInputChange}
+                            error={errors[`tasks.${currentTaskName}.settings.drop_outerlayer.value`]}
+                            type="list"
+                            placeholder="e.g., E17, E38, E43, E44, E48, E49"
+                        />
+                    </AnimatedSection>
+                )}
                 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between mt-6">
                     <Button variant="outline" onClick={goToPreviousStep}>Back to Trim & Crop</Button>
-                    <Button className="bg-amber-600 hover:bg-amber-700" onClick={goToNextStep}>Next: ICA</Button>
+                    <Button className="bg-yellow-600 hover:bg-yellow-700" onClick={goToNextStep}>Next: ICA</Button>
                 </div>
             </div>
         </CardContent>
@@ -156,4 +93,4 @@ const Step7EogChannels: React.FC<Step7Props> = ({
   );
 };
 
-export default Step7EogChannels; 
+export default Step7EogChannels;

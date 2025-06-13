@@ -1,19 +1,10 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Check } from 'lucide-react';
-import { Label } from '@/components/ui/label';
 import FormField from '../FormField'; 
+import { AnimatedSection } from '@/components/AnimatedSection';
 import type { TaskData, ValidationErrors } from '@/lib/types';
 import { formatStepKey } from '@/lib/utils'; 
-
-// Animation settings
-const sectionAnimation = {
-    initial: { opacity: 0, y: 10 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.3, ease: "easeInOut" }
-};
 
 interface Step5Props {
   currentTaskName: string;
@@ -45,111 +36,56 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
             <div className="space-y-6">
-                <div className="grid grid-cols-1 gap-y-6">
-                    {resampleSettings && (
-                        <motion.div className="space-y-4" layout>
-                            <button
-                                type="button"
-                                onClick={() => handleInputChange(`tasks.${currentTaskName}.settings.resample_step.enabled`, !resampleSettings.enabled)}
-                                className="flex items-center justify-between w-full p-3 border rounded-md hover:border-rose-200 hover:bg-rose-50/30 transition-colors"
-                            >
-                                <div className="flex-1 flex items-center space-x-3">
-                                    <div className={`
-                                        flex items-center justify-center w-5 h-5 border rounded-sm transition-colors
-                                        ${resampleSettings.enabled ? 'bg-rose-500 border-rose-600' : 'border-input'}
-                                    `}>
-                                        {resampleSettings.enabled && <Check className="h-4 w-4 text-white" />}
-                                    </div>
-                                    <div className="space-y-1 text-left">
-                                        <Label className="font-medium">{formatStepKey("resample_step")}</Label>
-                                        <p className="text-sm text-muted-foreground">Downsample the data to reduce file size and processing time.</p>
-                                    </div>
-                                </div>
-                            </button>
-                            
-                            <AnimatePresence>
-                                {resampleSettings.enabled && (
-                                    <motion.div 
-                                        key="resample-content"
-                                        className="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-rose-200 ml-2.5 overflow-hidden"
-                                        initial={sectionAnimation.initial}
-                                        animate={sectionAnimation.animate}
-                                        exit={{ opacity: 0, height: 0, y: 5, transition: { duration: 0.2 } }} 
-                                        transition={sectionAnimation.transition}
-                                    >
-                                        <FormField
-                                            path={`tasks.${currentTaskName}.settings.resample_step.value`}
-                                            label="Sampling Rate (Hz)"
-                                            tooltip="Target sampling rate in Hz (e.g., 250 for 250Hz)"
-                                            value={resampleSettings.value}
-                                            onChange={handleInputChange}
-                                            error={errors[`tasks.${currentTaskName}.settings.resample_step.value`]}
-                                            type="number"
-                                            placeholder="e.g., 250"
-                                        />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    )}
-                    
-                    {referenceSettings && (
-                        <motion.div className="space-y-4" layout>
-                            <button
-                                type="button"
-                                onClick={() => handleInputChange(`tasks.${currentTaskName}.settings.reference_step.enabled`, !referenceSettings.enabled)}
-                                className="flex items-center justify-between w-full p-3 border rounded-md hover:border-rose-200 hover:bg-rose-50/30 transition-colors"
-                            >
-                                <div className="flex-1 flex items-center space-x-3">
-                                    <div className={`
-                                        flex items-center justify-center w-5 h-5 border rounded-sm transition-colors
-                                        ${referenceSettings.enabled ? 'bg-rose-500 border-rose-600' : 'border-input'}
-                                    `}>
-                                        {referenceSettings.enabled && <Check className="h-4 w-4 text-white" />}
-                                    </div>
-                                    <div className="space-y-1 text-left">
-                                        <Label className="font-medium">{formatStepKey("reference_step")}</Label>
-                                        <p className="text-sm text-muted-foreground">Re-reference the data to a new reference.</p>
-                                    </div>
-                                </div>
-                            </button>
-                            
-                            <AnimatePresence>
-                                {referenceSettings.enabled && (
-                                    <motion.div 
-                                        key="reference-content"
-                                        className="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-rose-200 ml-2.5 overflow-hidden"
-                                        initial={sectionAnimation.initial}
-                                        animate={sectionAnimation.animate}
-                                        exit={{ opacity: 0, height: 0, y: 5, transition: { duration: 0.2 } }} 
-                                        transition={sectionAnimation.transition}
-                                    >
-                                        <FormField
-                                            path={`tasks.${currentTaskName}.settings.reference_step.value`}
-                                            label="Reference Type"
-                                            tooltip="Type of reference to use (e.g., average, mastoids)"
-                                            value={referenceSettings.value}
-                                            onChange={handleInputChange}
-                                            error={errors[`tasks.${currentTaskName}.settings.reference_step.value`]}
-                                            type="select"
-                                            options={[
-                                                { value: "average", label: "Average Reference" },
-                                                { value: "mastoids", label: "Mastoids" },
-                                                { value: "linked_mastoids", label: "Linked Mastoids" }
-                                            ]}
-                                            placeholder="Select reference type..."
-                                        />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    )}
-                </div>
+                {/* Resample Section */}
+                {resampleSettings && (
+                    <AnimatedSection
+                        title={formatStepKey("resample_step")}
+                        description="Change the sampling rate of the EEG data."
+                        enabled={resampleSettings.enabled}
+                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.resample_step.enabled`, !resampleSettings.enabled)}
+                        contentClassName="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-rose-200 ml-2.5"
+                        color="rose"
+                    >
+                        <FormField
+                            path={`tasks.${currentTaskName}.settings.resample_step.value`}
+                            label="New Sampling Rate (Hz)"
+                            tooltip="Target sampling rate for resampling (e.g., 250, 500)"
+                            value={resampleSettings.value}
+                            onChange={handleInputChange}
+                            error={errors[`tasks.${currentTaskName}.settings.resample_step.value`]}
+                            type="number"
+                            placeholder="e.g., 250"
+                        />
+                    </AnimatedSection>
+                )}
+
+                {/* Rereference Section */}
+                {referenceSettings && (
+                    <AnimatedSection
+                        title={formatStepKey("reference_step")}
+                        description="Set the reference scheme for the EEG data."
+                        enabled={referenceSettings.enabled}
+                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.reference_step.enabled`, !referenceSettings.enabled)}
+                        contentClassName="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-rose-200 ml-2.5"
+                        color="rose"
+                    >
+                        <FormField
+                            path={`tasks.${currentTaskName}.settings.reference_step.value`}
+                            label="Reference Type"
+                            tooltip="Reference scheme to use (e.g., 'average', 'REST', channel name)"
+                            value={referenceSettings.value}
+                            onChange={handleInputChange}
+                            error={errors[`tasks.${currentTaskName}.settings.reference_step.value`]}
+                            type="text"
+                            placeholder="e.g., average"
+                        />
+                    </AnimatedSection>
+                )}
                 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between mt-6">
                     <Button variant="outline" onClick={goToPreviousStep}>Back to Filtering & Montage</Button>
-                    <Button className="bg-rose-600 hover:bg-rose-700" onClick={goToNextStep}>Next: Channel Removal & Trim/Crop</Button>
+                    <Button className="bg-rose-600 hover:bg-rose-700" onClick={goToNextStep}>Next: Trim & Crop</Button>
                 </div>
             </div>
         </CardContent>
@@ -157,4 +93,4 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
   );
 };
 
-export default Step5ResampleReref; 
+export default Step5ResampleReref;
