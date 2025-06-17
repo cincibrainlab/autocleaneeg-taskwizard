@@ -5,6 +5,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -23,5 +24,10 @@
     }
   },
   "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "@types/babel__*"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }] // Common for Vite setups, adjust if using CRA
 }

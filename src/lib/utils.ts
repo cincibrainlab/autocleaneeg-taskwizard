@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import jsYaml from "js-yaml"
 
 // Import types and templates needed for task script generation
 import type { ConfigType, TaskData } from '@/lib/types';

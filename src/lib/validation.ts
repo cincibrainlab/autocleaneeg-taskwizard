@@ -2,7 +2,6 @@
  * Validation functions for the wizard configurations.
  */
 
-import jsYaml from 'js-yaml';
 // Use alias for types
 import type { ConfigType, ValidationErrors } from '@/lib/types';
 // Use alias for App
@@ -101,7 +100,7 @@ export const validateConfig = (configToValidate: ConfigType): ValidationErrors =
           if (taskData.settings.epoch_settings.event_id && typeof taskData.settings.epoch_settings.event_id === 'string') {
               const eventIdPath = `${epochSettingsPath}.event_id`;
               try {
-                  const parsed = jsYaml.load(taskData.settings.epoch_settings.event_id, { schema: jsYaml.JSON_SCHEMA });
+                  const parsed = JSON.parse(taskData.settings.epoch_settings.event_id);
                   if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
                       errors[eventIdPath] = 'Event ID must be a valid YAML/JSON dictionary string (e.g., {\'DIN8\'} or {\'"key"\': "value"}).';
                   }
