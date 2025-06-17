@@ -1,114 +1,35 @@
-# EEG Workflow Wizard
+# Autoclean Config Wizard
 
-A React TypeScript application that generates configuration files for the Autoclean EEG preprocessing pipeline. This wizard guides users through a 9-step process to create configuration files for automated EEG data processing.
+A web-based configuration wizard for the Autoclean EEG preprocessing pipeline. This tool guides users through a step-by-step process to generate Python scripts for automated EEG data processing workflows.
 
-## 🧠 Overview
+## What is this?
 
-The EEG Workflow Wizard is designed for researchers at Cincinnati Children's Hospital Medical Center to streamline the setup of EEG data preprocessing pipelines. It generates three essential configuration files:
+The Autoclean Config Wizard is designed for neuroscience researchers who need to set up EEG data preprocessing pipelines. Instead of manually writing configuration files and Python scripts, this wizard provides an intuitive interface to:
 
-- **`config.yaml`** - Autoclean pipeline configuration
-- **`lossless_config.yaml`** - PyLossless filtering parameters  
-- **`task_script.py`** - Python implementation script
+- Select from predefined EEG task templates (Resting State, Chirp, ASSR)
+- Configure processing steps like filtering, resampling, and artifact removal
+- Set up epoching parameters and channel montages
+- Generate a complete Python script ready for execution
 
-## 🚀 Live Demo
+## Output
 
-Visit the live application: [EEG Workflow Wizard](https://yourusername.github.io/EegWorkflowWizard-cinci/)
+The wizard generates a downloadable Python script (`task_script.py`) that implements your configured EEG processing pipeline using the Autoclean framework.
 
-## 🛠️ Development
+## Usage
 
-### Prerequisites
+1. Visit the web application
+2. Follow the 9-step wizard to configure your EEG processing pipeline
+3. Download the generated Python script
+4. Run the script with your EEG data
 
-- Node.js 18 or higher
-- npm
+## EEG Processing Steps Supported
 
-### Setup
+- Template selection (Resting Eyes Open, Chirp Default, ASSR Default)
+- Montage configuration
+- Resampling and re-referencing
+- Data trimming and cropping
+- EOG channel handling and ICA artifact removal
+- Epoching configuration
+- Custom parameter settings
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/EegWorkflowWizard-cinci.git
-cd EegWorkflowWizard-cinci
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-### Available Scripts
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Run ESLint
-npm run lint
-
-# Preview production build
-npm run preview
-```
-
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   ├── steps/          # Step components (Step4-Step9)
-│   ├── ui/             # Reusable UI components (shadcn/ui)
-│   └── ...             # Other components
-├── lib/
-│   ├── configTemplates.ts  # Predefined task configurations
-│   ├── fileGeneration.ts   # Output file creation logic
-│   ├── types.ts            # TypeScript interfaces
-│   └── ...                 # Utilities and validation
-└── App.tsx             # Main wizard orchestration
-```
-
-## 🔧 Technology Stack
-
-- **React 19** + TypeScript
-- **Vite** - Build tool and dev server
-- **shadcn/ui** - Component library
-- **Tailwind CSS v4** - Styling
-- **js-yaml** - YAML serialization
-- **JSZip** - File bundling
-- **Framer Motion** - Animations
-
-## 📋 Wizard Steps
-
-1. **Template Selection** - Choose from predefined EEG task templates
-2. **Task Configuration** - Set basic task parameters
-3. **File Management** - Configure input/output settings
-4. **Montage Setup** - Define electrode configurations
-5. **Resample & Re-reference** - Set sampling and referencing options
-6. **Trim & Crop** - Configure data segmentation
-7. **EOG & ICA** - Set up artifact removal
-8. **Epochs** - Define epoching parameters
-9. **Configure & Export** - Generate and download configuration files
-
-## 🎯 EEG Domain Context
-
-This application generates configurations for automated EEG (electroencephalography) data preprocessing, integrating two Python libraries:
-
-- **Autoclean** - High-level EEG pipeline orchestration
-- **PyLossless** - Low-level filtering and artifact detection
-
-## 🚀 Deployment
-
-The application automatically deploys to GitHub Pages when changes are pushed to the `main` branch via GitHub Actions.
-
-To set up GitHub Pages deployment:
-1. Go to repository Settings → Pages
-2. Select "GitHub Actions" as the source
-3. Push to main branch to trigger deployment
-
-## 📄 License
-
-[Add your license information here]
-
-## 🏥 Affiliation
-
-Developed for Cincinnati Children's Hospital Medical Center
+The generated scripts work with the Autoclean Python library for EEG preprocessing automation.
