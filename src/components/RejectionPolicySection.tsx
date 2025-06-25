@@ -65,7 +65,7 @@ const RejectionPolicySection: React.FC<RejectionPolicySectionProps> = ({ taskNam
   const sectionAnimation = {
       initial: { opacity: 0, y: 10 },
       animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.3, ease: "easeOut" }
+      transition: { duration: 0.3 }
   };
 
   // Helper to ensure flag values are always arrays for ToggleGroup
