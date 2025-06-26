@@ -302,6 +302,40 @@ function App() {
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-10 blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full opacity-10 blur-3xl"></div>
         
+        {/* Context Banner */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 shadow-lg relative z-20">
+          <div className="max-w-5xl mx-auto flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center justify-center w-8 h-8 bg-white/20 rounded-lg">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="text-sm">
+                <span className="font-semibold">Configuration Wizard</span> for the{" "}
+                <a 
+                  href="https://github.com/cincibrainlab/autoclean_pipeline" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="underline hover:text-blue-200 font-semibold inline-flex items-center gap-1"
+                >
+                  Autoclean EEG Pipeline
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+                <span className="hidden md:inline"> — Generate Python task files for automated EEG preprocessing</span>
+              </div>
+            </div>
+            <button
+              onClick={() => window.open('https://github.com/cincibrainlab/autoclean_pipeline#installation', '_blank')}
+              className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg font-medium transition-colors"
+            >
+              Install Pipeline →
+            </button>
+          </div>
+        </div>
+        
         {/* Content container with max width and centered */}
         <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white/70 backdrop-blur-sm shadow-2xl border border-white/30 min-h-screen relative z-10">
         {/* Make header relative to position icon */}
@@ -330,6 +364,31 @@ function App() {
             </div>
           </div>
         </header>
+
+                        {/* How it works info box */}
+                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 shadow-md">
+                    <div className="flex gap-4">
+                        <div className="flex-shrink-0">
+                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-semibold text-slate-800 mb-2">How This Works</h3>
+                            <p className="text-sm text-slate-600 mb-3">
+                                This wizard generates Python task files compatible with the <a href="https://github.com/cincibrainlab/autoclean_pipeline" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline font-medium">Autoclean EEG Pipeline</a>. 
+                                After configuration:
+                            </p>
+                            <ol className="text-sm text-slate-600 space-y-1 list-decimal list-inside">
+                                <li>Download your generated task file (e.g., <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">resting_state.py</code>)</li>
+                                <li>Install the pipeline: <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">pip install autoclean-eeg</code></li>
+                                <li>Run your preprocessing: <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">pipeline.process_file(data.raw, task="resting_state")</code></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
         
         {/* Enhanced Two-Line Navigation with Improved Visibility */}
         <nav className="mb-8 bg-gradient-to-br from-slate-100 to-indigo-50 border-2 border-slate-200 rounded-2xl p-6 shadow-xl">
@@ -476,6 +535,7 @@ function App() {
                          </Button>
                      </CardContent>
                 </Card>
+                
                 
                 {/* Upload existing task file section */}
                 <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
