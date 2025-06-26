@@ -29,12 +29,12 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
   const referenceSettings = currentTaskData.settings.reference_step;
 
   return (
-    <Card className="border-t-4 border-t-rose-500 shadow-md overflow-hidden">
-        <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-rose-50 to-red-50 pt-4 pb-4">
-            <CardTitle>Step 4: Resample & Rereference</CardTitle> 
-            <CardDescription>Configure data resampling and rereferencing options.</CardDescription>
+    <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-rose-50 to-orange-50 border-b border-slate-200/50 px-8 py-6">
+            <CardTitle className="text-2xl font-bold text-slate-800">Resample & Rereference</CardTitle> 
+            <CardDescription className="text-slate-600 text-lg">Configure data resampling rate and rereferencing options for optimal signal processing.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 pt-6">
+        <CardContent className="space-y-6 p-8">
             <div className="space-y-6">
                 {/* Resample Section */}
                 {resampleSettings && (
@@ -83,9 +83,13 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
                 )}
                 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between mt-6">
-                    <Button variant="outline" onClick={goToPreviousStep}>Back to Filtering & Montage</Button>
-                    <Button className="bg-rose-600 hover:bg-rose-700" onClick={goToNextStep}>Next: Trim & Crop</Button>
+                <div className="flex justify-between mt-8 pt-6 border-t border-slate-200/50">
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">
+                        ← Back to Filtering & Montage
+                    </Button>
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">
+                        Next: Trim & Crop →
+                    </Button>
                 </div>
             </div>
         </CardContent>

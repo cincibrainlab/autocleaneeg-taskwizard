@@ -470,12 +470,12 @@ function App() {
 
         {/* --- Step 2: Task Information --- */}
         {currentStep === 2 && currentTaskName && currentTaskData && (
-            <Card className="border-t-4 border-t-purple-500 shadow-md overflow-hidden">
-                <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-purple-50 to-fuchsia-50 pt-4 pb-4">
-                    <CardTitle>Step 2: Task Information</CardTitle>
-                    <CardDescription>Define the basic identifiers for this task configuration.</CardDescription>
+            <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-slate-200/50 px-8 py-6">
+                    <CardTitle className="text-2xl font-bold text-slate-800">Task Information</CardTitle>
+                    <CardDescription className="text-slate-600 text-lg">Define the basic identifiers for your EEG processing task.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6 pt-6">
+                <CardContent className="space-y-6 p-8">
                      {/* Task Metadata Section */}
                      <div className="grid md:grid-cols-2 gap-4">
                         <FormField

@@ -46,12 +46,12 @@ const Step8Epochs: React.FC<Step8Props> = ({
     const basePath = `tasks.${currentTaskName}.settings.epoch_settings`;
 
     return (
-        <Card className="border-t-4 border-t-lime-500 shadow-md overflow-hidden">
-            <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-lime-50 to-green-50 pt-4 pb-4">
-                <CardTitle>Step 8: Epoch Settings</CardTitle>
-                <CardDescription>Configure data epoching and segmentation.</CardDescription>
+        <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-lime-50 to-green-50 border-b border-slate-200/50 px-8 py-6">
+                <CardTitle className="text-2xl font-bold text-slate-800">Epoch Settings</CardTitle>
+                <CardDescription className="text-slate-600 text-lg">Segment continuous data into time-locked epochs for event-related analysis.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6 pt-6">
+            <CardContent className="space-y-6 p-8">
                 <div className="space-y-6">
                     {/* Main Epoch Settings Toggle */}
                     <AnimatedSection
@@ -167,8 +167,8 @@ const Step8Epochs: React.FC<Step8Props> = ({
 
                     {/* Navigation Buttons */}
                     <div className="flex justify-between mt-6">
-                        <Button variant="outline" onClick={goToPreviousStep}>Back to ICA</Button>
-                        <Button className="bg-lime-600 hover:bg-lime-700" onClick={goToNextStep}>Next: Preview</Button>
+                        <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to ICA</Button>
+                        <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: Preview →</Button>
                     </div>
                 </div>
             </CardContent>

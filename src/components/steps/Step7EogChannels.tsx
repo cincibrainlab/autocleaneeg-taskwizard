@@ -29,12 +29,12 @@ const Step7EogChannels: React.FC<Step7Props> = ({
   const dropSettings = currentTaskData.settings.drop_outerlayer;
 
   return (
-    <Card className="border-t-4 border-t-yellow-500 shadow-md overflow-hidden">
-        <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-yellow-50 to-amber-50 pt-4 pb-4">
-            <CardTitle>Step 6: EOG & Channel Management</CardTitle>
-            <CardDescription>Configure EOG channel assignment and channel exclusion settings.</CardDescription>
+    <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-yellow-50 to-amber-50 border-b border-slate-200/50 px-8 py-6">
+            <CardTitle className="text-2xl font-bold text-slate-800">EOG & Channel Management</CardTitle>
+            <CardDescription className="text-slate-600 text-lg">Identify ocular artifact channels and exclude problematic electrodes from analysis.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 pt-6">
+        <CardContent className="space-y-6 p-8">
             <div className="space-y-6">
                 {/* EOG Channels Section */}
                 {eogSettings && (
@@ -84,8 +84,8 @@ const Step7EogChannels: React.FC<Step7Props> = ({
                 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between mt-6">
-                    <Button variant="outline" onClick={goToPreviousStep}>Back to Trim & Crop</Button>
-                    <Button className="bg-yellow-600 hover:bg-yellow-700" onClick={goToNextStep}>Next: ICA</Button>
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to Trim & Crop</Button>
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: ICA →</Button>
                 </div>
             </div>
         </CardContent>

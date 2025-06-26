@@ -29,12 +29,12 @@ const Step6TrimCrop: React.FC<Step6Props> = ({
   const cropSettings = currentTaskData.settings.crop_step;
 
   return (
-    <Card className="border-t-4 border-t-orange-500 shadow-md overflow-hidden">
-        <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-orange-50 to-amber-50 pt-4 pb-4">
-            <CardTitle>Step 5: Trim & Crop</CardTitle>
-            <CardDescription>Configure data trimming and cropping parameters.</CardDescription>
+    <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-slate-200/50 px-8 py-6">
+            <CardTitle className="text-2xl font-bold text-slate-800">Data Trimming & Cropping</CardTitle>
+            <CardDescription className="text-slate-600 text-lg">Configure temporal data boundaries to remove edge artifacts and focus on relevant time windows.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 pt-6">
+        <CardContent className="space-y-6 p-8">
             <div className="space-y-6">
                 {/* Trim Section */}
                 {trimSettings && (
@@ -96,8 +96,8 @@ const Step6TrimCrop: React.FC<Step6Props> = ({
                 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between mt-6">
-                    <Button variant="outline" onClick={goToPreviousStep}>Back to Resample & Rereference</Button>
-                    <Button className="bg-orange-600 hover:bg-orange-700" onClick={goToNextStep}>Next: EOG & Channels</Button>
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to Resample & Rereference</Button>
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: EOG & Channels →</Button>
                 </div>
             </div>
         </CardContent>
