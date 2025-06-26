@@ -18,7 +18,7 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
   const handleFile = async (file: File) => {
     if (!file.name.endsWith('.py')) {
       setStatus('error');
-      setErrorMessage('Please upload a Python (.py) file');
+      setErrorMessage('Please select a Python configuration file (.py)');
       return;
     }
 
@@ -30,7 +30,7 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
       const config = parsePythonTaskFile(content);
       
       if (!config) {
-        throw new Error('Could not parse the Python file. Please make sure it\'s a valid autoclean task file.');
+        throw new Error('Unable to parse configuration file. Please ensure it\'s a valid Autoclean EEG task file.');
       }
 
       const validation = validateParsedConfig(config);
@@ -45,7 +45,7 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
       setTimeout(() => setStatus('idle'), 2000);
     } catch (error) {
       setStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to parse file');
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to process configuration file');
     }
   };
 
@@ -96,27 +96,27 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
   const getStatusText = () => {
     switch (status) {
       case 'uploading':
-        return 'Processing file...';
+        return 'Processing configuration file...';
       case 'success':
-        return 'Configuration loaded successfully!';
+        return 'EEG configuration imported successfully!';
       case 'error':
         return errorMessage;
       default:
-        return 'Upload existing task file to edit';
+        return 'Import Previous EEG Configuration';
     }
   };
 
   return (
     <div className={className}>
       <div
-        className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+        className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 ${
           dragActive
-            ? 'border-primary bg-primary/5'
+            ? 'border-indigo-400 bg-indigo-50/50 shadow-lg'
             : status === 'error'
-            ? 'border-red-300 bg-red-50'
+            ? 'border-red-300 bg-red-50/50'
             : status === 'success'
-            ? 'border-green-300 bg-green-50'
-            : 'border-gray-300 hover:border-gray-400'
+            ? 'border-emerald-300 bg-emerald-50/50'
+            : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50/30'
         }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -131,15 +131,17 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
         
-        <div className="space-y-2">
-          {getStatusIcon()}
+        <div className="space-y-4">
+          <div className="flex justify-center">
+            {getStatusIcon()}
+          </div>
           <div>
-            <p className="text-sm font-medium">
+            <p className="text-lg font-semibold text-slate-800 mb-2">
               {getStatusText()}
             </p>
             {status === 'idle' && (
-              <p className="text-xs text-gray-500 mt-1">
-                Drag and drop a .py file here, or click to browse
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Drag and drop your Python task file here, or click below to browse
               </p>
             )}
           </div>
@@ -151,10 +153,10 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
           type="button"
           variant="outline"
           onClick={onButtonClick}
-          className="w-full mt-2"
+          className="w-full mt-6 border-2 border-slate-300 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200 py-3 rounded-xl font-medium"
         >
-          <Upload className="h-4 w-4 mr-2" />
-          Choose File
+          <Upload className="h-5 w-5 mr-3" />
+          Browse Configuration Files
         </Button>
       )}
     </div>

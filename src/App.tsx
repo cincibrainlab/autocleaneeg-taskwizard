@@ -331,11 +331,12 @@ function App() {
           </div>
         </header>
         
-        {/* Enhanced Navigation */}
-        <nav className="mb-8 bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl p-4 shadow-lg overflow-x-auto">
-          <ol className="flex items-center space-x-1 min-w-max">
-            <li>
-              {/* Step 1 Button - Always enabled */}
+        {/* Enhanced Two-Line Navigation */}
+        <nav className="mb-8 bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl p-6 shadow-lg">
+          <div className="space-y-3">
+            {/* First Row: Steps 1-5 */}
+            <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
+              {/* Step 1 - Always enabled */}
               <Button 
                 variant={currentStep === 1 ? "default" : "ghost"}
                 size="sm"
@@ -348,47 +349,62 @@ function App() {
               >
                 1. Template
               </Button>
-            </li>
-            {/* Loop or list items for steps 2-9 */}
-            {[2, 3, 4, 5, 6, 7, 8, 9].map((stepNumber) => {
-                // Updated labels for new step flow
-                const stepLabels = [
-                  "", // 0 (unused)
-                  "", // 1 (Template)
-                  "Task Info", // 2
-                  "Filtering & Montage", // 3
-                  "Resample", // 4
-                  "Trim/Crop", // 5
-                  "EOG/Channels", // 6
-                  "ICA", // 7
-                  "Epochs", // 8
-                  "Preview" // 9
-                ]; 
+              
+              {/* Steps 2-5 */}
+              {[2, 3, 4, 5].map((stepNumber) => {
+                const stepLabels = ["", "", "Task Info", "Filtering", "Resample", "Trim/Crop"];
                 const isStepReachable = configFinalized && stepNumber <= highestStepReached;
                 return (
-                    <li key={stepNumber} className="flex items-center">
-                        <span className="mx-2 text-slate-400">•</span>
-                        <Button 
-                            variant={currentStep === stepNumber ? "default" : "ghost"}
-                            size="sm"
-                            className={`rounded-lg font-medium transition-all duration-200 ${
-                              currentStep === stepNumber 
-                                ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
-                                : isStepReachable 
-                                  ? 'hover:bg-white/60 text-slate-700' 
-                                  : 'text-slate-400 cursor-not-allowed'
-                            }`}
-                            // Disable if not finalized OR not reached yet
-                            disabled={!isStepReachable}
-                            // Allow click only if reachable
-                            onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
-                        >
-                            {`${stepNumber}. ${stepLabels[stepNumber]}`}
-                        </Button>
-                    </li>
+                  <div key={stepNumber} className="flex items-center">
+                    <span className="mx-2 text-slate-400">•</span>
+                    <Button 
+                      variant={currentStep === stepNumber ? "default" : "ghost"}
+                      size="sm"
+                      className={`rounded-lg font-medium transition-all duration-200 ${
+                        currentStep === stepNumber 
+                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
+                          : isStepReachable 
+                            ? 'hover:bg-white/60 text-slate-700' 
+                            : 'text-slate-400 cursor-not-allowed'
+                      }`}
+                      disabled={!isStepReachable}
+                      onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
+                    >
+                      {`${stepNumber}. ${stepLabels[stepNumber]}`}
+                    </Button>
+                  </div>
                 );
-            })}
-          </ol>
+              })}
+            </div>
+            
+            {/* Second Row: Steps 6-9 */}
+            <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
+              {[6, 7, 8, 9].map((stepNumber) => {
+                const stepLabels = ["", "", "", "", "", "", "EOG/Channels", "ICA", "Epochs", "Preview"];
+                const isStepReachable = configFinalized && stepNumber <= highestStepReached;
+                return (
+                  <div key={stepNumber} className="flex items-center">
+                    {stepNumber === 6 ? null : <span className="mx-2 text-slate-400">•</span>}
+                    <Button 
+                      variant={currentStep === stepNumber ? "default" : "ghost"}
+                      size="sm"
+                      className={`rounded-lg font-medium transition-all duration-200 ${
+                        currentStep === stepNumber 
+                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
+                          : isStepReachable 
+                            ? 'hover:bg-white/60 text-slate-700' 
+                            : 'text-slate-400 cursor-not-allowed'
+                      }`}
+                      disabled={!isStepReachable}
+                      onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
+                    >
+                      {`${stepNumber}. ${stepLabels[stepNumber]}`}
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </nav>
 
         {/* --- Step 1: Select Starting Point --- */}
