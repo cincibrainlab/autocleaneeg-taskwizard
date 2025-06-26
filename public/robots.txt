@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://autoclean-eeg.com/sitemap.xml
+
+# Cloudflare Analytics
+User-agent: Cloudflare-Analytics
+Allow: /
