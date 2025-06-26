@@ -295,7 +295,15 @@ function App() {
   // --- Render ---
   return (
     <TooltipProvider>
-      <div className="container mx-auto p-4 md:p-8 space-y-6 bg-background text-foreground min-h-screen">
+      {/* Beautiful background container */}
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-10 blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full opacity-10 blur-3xl"></div>
+        
+        {/* Content container with max width and centered */}
+        <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white/70 backdrop-blur-sm shadow-2xl border border-white/30 min-h-screen relative z-10">
         {/* Make header relative to position icon */}
         {/* Use Flexbox for alignment */}
         <header className="relative flex items-center justify-between bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg p-6 mb-8 shadow-lg">
@@ -372,29 +380,29 @@ function App() {
                          {/* Button for RestingState */}
                          <Button 
                              variant="outline" 
-                             className="h-auto p-6 flex flex-col items-center justify-center space-y-3 hover:bg-indigo-50 hover:border-indigo-300 transition-all" 
+                             className="min-h-[140px] p-6 flex flex-col items-center justify-center space-y-3 hover:bg-indigo-50 hover:border-indigo-300 transition-all w-full" 
                              onClick={() => handleStartOptionSelect('RestingState')}
                          >
-                             <span className="text-xl font-semibold">Resting State</span>
-                             <span className="text-sm text-muted-foreground text-center">Continuous EEG recording without specific events</span>
+                             <span className="text-xl font-semibold text-center">Resting State</span>
+                             <span className="text-sm text-muted-foreground text-center break-words leading-relaxed max-w-full whitespace-normal">Continuous EEG recording without specific events</span>
                          </Button>
                           {/* Button for EventBased */}
                           <Button 
                              variant="outline" 
-                             className="h-auto p-6 flex flex-col items-center justify-center space-y-3 hover:bg-purple-50 hover:border-purple-300 transition-all" 
+                             className="min-h-[140px] p-6 flex flex-col items-center justify-center space-y-3 hover:bg-purple-50 hover:border-purple-300 transition-all w-full" 
                              onClick={() => handleStartOptionSelect('EventBased')}
                          >
-                             <span className="text-xl font-semibold">Event-Based</span>
-                             <span className="text-sm text-muted-foreground text-center">Paradigm with stimulus triggers and event markers</span>
+                             <span className="text-xl font-semibold text-center">Event-Based</span>
+                             <span className="text-sm text-muted-foreground text-center break-words leading-relaxed max-w-full whitespace-normal">Paradigm with stimulus triggers and event markers</span>
                          </Button>
                          {/* Button for Custom */}
                          <Button 
                              variant="outline" 
-                             className="h-auto p-6 flex flex-col items-center justify-center space-y-3 hover:bg-emerald-50 hover:border-emerald-300 transition-all" 
+                             className="min-h-[140px] p-6 flex flex-col items-center justify-center space-y-3 hover:bg-emerald-50 hover:border-emerald-300 transition-all w-full" 
                              onClick={() => handleStartOptionSelect('Custom')}
                          >
-                            <span className="text-xl font-semibold">Custom</span>
-                            <span className="text-sm text-muted-foreground text-center">Start with blank configuration</span>
+                            <span className="text-xl font-semibold text-center">Custom</span>
+                            <span className="text-sm text-muted-foreground text-center break-words leading-relaxed max-w-full whitespace-normal">Start with blank configuration</span>
                          </Button>
                      </CardContent>
                 </Card>
@@ -571,6 +579,7 @@ function App() {
           </a>
           <p className="mt-2 text-xs text-muted-foreground/70">© {new Date().getFullYear()} Cincinnati Children's Hospital Medical Center</p>
         </footer>
+        </div>
       </div>
     </TooltipProvider>
   );
