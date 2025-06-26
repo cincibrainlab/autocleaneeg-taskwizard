@@ -306,27 +306,44 @@ function App() {
         <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white/70 backdrop-blur-sm shadow-2xl border border-white/30 min-h-screen relative z-10">
         {/* Make header relative to position icon */}
         {/* Use Flexbox for alignment */}
-        <header className="relative flex items-center justify-between bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg p-6 mb-8 shadow-lg">
-          {/* Text content - Removed inner div */}
-          <div> 
-            <h1 className="text-3xl font-bold text-white">Autoclean Config Wizard</h1>
-            <p className="text-white/80 mt-2">Create custom autoclean configurations with ease</p>
-          </div>
-          {/* Icon container - Removed absolute positioning */}
-          <div className="w-20 h-20 text-white drop-shadow-md">
-            <BrainIcon />
+        <header className="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-xl p-8 mb-10 shadow-2xl border border-white/20">
+          <div className="flex items-center justify-between">
+            {/* Brand and tagline */}
+            <div className="flex-1"> 
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-12 h-12 text-white drop-shadow-lg">
+                  <BrainIcon />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold text-white tracking-tight">Autoclean EEG</h1>
+                  <div className="text-sm font-medium text-white/70 uppercase tracking-wider">Configuration Wizard</div>
+                </div>
+              </div>
+              <p className="text-white/90 text-lg font-medium">Create custom EEG preprocessing pipelines with ease</p>
+            </div>
+            
+            {/* Visual accent */}
+            <div className="hidden md:flex items-center justify-center w-24 h-24 bg-white/10 rounded-full backdrop-blur-sm">
+              <div className="w-16 h-16 text-white/70">
+                <BrainIcon />
+              </div>
+            </div>
           </div>
         </header>
         
-        {/* Breadcrumb Navigation */}
-        <nav className="flex mb-6 bg-slate-100 p-3 rounded-md shadow-sm overflow-x-auto">
-          <ol className="flex items-center space-x-2">
+        {/* Enhanced Navigation */}
+        <nav className="mb-8 bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl p-4 shadow-lg overflow-x-auto">
+          <ol className="flex items-center space-x-1 min-w-max">
             <li>
               {/* Step 1 Button - Always enabled */}
               <Button 
-                variant={currentStep === 1 ? "default" : "outline"}
+                variant={currentStep === 1 ? "default" : "ghost"}
                 size="sm"
-                className={`rounded-md ${currentStep === 1 ? 'bg-indigo-600 hover:bg-indigo-700' : ''}`}
+                className={`rounded-lg font-medium transition-all duration-200 ${
+                  currentStep === 1 
+                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
+                    : 'hover:bg-white/60 text-slate-700'
+                }`}
                 onClick={() => setCurrentStep(1)}
               >
                 1. Template
@@ -350,11 +367,17 @@ function App() {
                 const isStepReachable = configFinalized && stepNumber <= highestStepReached;
                 return (
                     <li key={stepNumber} className="flex items-center">
-                        <span className="mx-2 text-muted-foreground">/</span>
+                        <span className="mx-2 text-slate-400">•</span>
                         <Button 
-                            variant={currentStep === stepNumber ? "default" : "outline"}
+                            variant={currentStep === stepNumber ? "default" : "ghost"}
                             size="sm"
-                            className={`rounded-md ${currentStep === stepNumber ? 'bg-indigo-600 hover:bg-indigo-700' : ''}`}
+                            className={`rounded-lg font-medium transition-all duration-200 ${
+                              currentStep === stepNumber 
+                                ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
+                                : isStepReachable 
+                                  ? 'hover:bg-white/60 text-slate-700' 
+                                  : 'text-slate-400 cursor-not-allowed'
+                            }`}
                             // Disable if not finalized OR not reached yet
                             disabled={!isStepReachable}
                             // Allow click only if reachable
@@ -371,49 +394,58 @@ function App() {
         {/* --- Step 1: Select Starting Point --- */}
         {currentStep === 1 && (
             <div className="space-y-6">
-                <Card className="border-t-4 border-t-indigo-500 shadow-md overflow-hidden">
-                     <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 pt-4 pb-4">
-                         <CardTitle>Step 1: Choose a Starting Point</CardTitle>
-                         <CardDescription>Select a common task template or start with a custom configuration.</CardDescription>
+                <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+                     <CardHeader className="bg-gradient-to-r from-slate-50 to-blue-50 border-b border-slate-200/50 px-8 py-6">
+                         <CardTitle className="text-2xl font-bold text-slate-800">Choose Your Starting Point</CardTitle>
+                         <CardDescription className="text-slate-600 text-lg">Select a common EEG task template or start with a custom configuration.</CardDescription>
                      </CardHeader>
-                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
                          {/* Button for RestingState */}
                          <Button 
                              variant="outline" 
-                             className="min-h-[140px] p-6 flex flex-col items-center justify-center space-y-3 hover:bg-indigo-50 hover:border-indigo-300 transition-all w-full" 
+                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-indigo-50 hover:to-blue-50" 
                              onClick={() => handleStartOptionSelect('RestingState')}
                          >
-                             <span className="text-xl font-semibold text-center">Resting State</span>
-                             <span className="text-sm text-muted-foreground text-center break-words leading-relaxed max-w-full whitespace-normal">Continuous EEG recording without specific events</span>
+                             <div className="w-12 h-12 rounded-full bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center transition-colors">
+                               <div className="w-6 h-6 bg-indigo-600 rounded-full"></div>
+                             </div>
+                             <span className="text-xl font-bold text-slate-800 text-center">Resting State</span>
+                             <span className="text-sm text-slate-600 text-center break-words leading-relaxed max-w-full whitespace-normal">Continuous EEG recording without specific events</span>
                          </Button>
                           {/* Button for EventBased */}
                           <Button 
                              variant="outline" 
-                             className="min-h-[140px] p-6 flex flex-col items-center justify-center space-y-3 hover:bg-purple-50 hover:border-purple-300 transition-all w-full" 
+                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-purple-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50" 
                              onClick={() => handleStartOptionSelect('EventBased')}
                          >
-                             <span className="text-xl font-semibold text-center">Event-Based</span>
-                             <span className="text-sm text-muted-foreground text-center break-words leading-relaxed max-w-full whitespace-normal">Paradigm with stimulus triggers and event markers</span>
+                             <div className="w-12 h-12 rounded-full bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center transition-colors">
+                               <div className="w-6 h-6 bg-purple-600 rounded-full"></div>
+                             </div>
+                             <span className="text-xl font-bold text-slate-800 text-center">Event-Based</span>
+                             <span className="text-sm text-slate-600 text-center break-words leading-relaxed max-w-full whitespace-normal">Paradigm with stimulus triggers and event markers</span>
                          </Button>
                          {/* Button for Custom */}
                          <Button 
                              variant="outline" 
-                             className="min-h-[140px] p-6 flex flex-col items-center justify-center space-y-3 hover:bg-emerald-50 hover:border-emerald-300 transition-all w-full" 
+                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-emerald-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50" 
                              onClick={() => handleStartOptionSelect('Custom')}
                          >
-                            <span className="text-xl font-semibold text-center">Custom</span>
-                            <span className="text-sm text-muted-foreground text-center break-words leading-relaxed max-w-full whitespace-normal">Start with blank configuration</span>
+                             <div className="w-12 h-12 rounded-full bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors">
+                               <div className="w-6 h-6 bg-emerald-600 rounded-full"></div>
+                             </div>
+                            <span className="text-xl font-bold text-slate-800 text-center">Custom</span>
+                            <span className="text-sm text-slate-600 text-center break-words leading-relaxed max-w-full whitespace-normal">Start with blank configuration</span>
                          </Button>
                      </CardContent>
                 </Card>
                 
                 {/* Upload existing task file section */}
-                <Card className="border-t-4 border-t-green-500 shadow-md overflow-hidden">
-                    <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 pt-4 pb-4">
-                        <CardTitle>Or Upload Existing Task File</CardTitle>
-                        <CardDescription>Upload a previously generated Python task file to edit its configuration.</CardDescription>
+                <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b border-slate-200/50 px-8 py-6">
+                        <CardTitle className="text-2xl font-bold text-slate-800">Upload Existing Configuration</CardTitle>
+                        <CardDescription className="text-slate-600 text-lg">Upload a previously generated Python task file to edit its configuration.</CardDescription>
                     </CardHeader>
-                    <CardContent className="pt-6">
+                    <CardContent className="p-8">
                         <FileUpload onConfigLoaded={handleConfigLoaded} />
                     </CardContent>
                 </Card>
@@ -559,10 +591,10 @@ function App() {
         )}
 
         {/* Footer */}
-        <footer className="mt-12 pt-6 border-t border-border flex flex-col items-center justify-center text-sm text-muted-foreground">
-          <div className="flex items-center gap-2 mb-2">
-            <span>Autoclean Config Wizard</span>
-            <span className="text-muted-foreground/50">•</span>
+        <footer className="mt-16 pt-8 border-t border-slate-200/50 flex flex-col items-center justify-center text-sm text-slate-500">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="font-semibold text-slate-700">Autoclean EEG</span>
+            <span className="text-slate-400">•</span>
             <span>Developed with ❤️ for EEG Research</span>
           </div>
           <a 
