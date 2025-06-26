@@ -331,23 +331,32 @@ function App() {
           </div>
         </header>
         
-        {/* Enhanced Two-Line Navigation */}
-        <nav className="mb-8 bg-white/50 backdrop-blur-sm border border-white/60 rounded-xl p-6 shadow-lg">
-          <div className="space-y-3">
+        {/* Enhanced Two-Line Navigation with Improved Visibility */}
+        <nav className="mb-8 bg-gradient-to-br from-slate-100 to-indigo-50 border-2 border-slate-200 rounded-2xl p-6 shadow-xl">
+          <div className="space-y-4">
+            {/* Progress Indicator */}
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Configuration Progress</h2>
+              <span className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full">
+                Step {currentStep} of 9
+              </span>
+            </div>
+            
             {/* First Row: Steps 1-5 */}
             <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
               {/* Step 1 - Always enabled */}
               <Button 
-                variant={currentStep === 1 ? "default" : "ghost"}
+                variant={currentStep === 1 ? "default" : "outline"}
                 size="sm"
-                className={`rounded-lg font-medium transition-all duration-200 ${
+                className={`rounded-lg font-semibold transition-all duration-200 ${
                   currentStep === 1 
-                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
-                    : 'hover:bg-white/60 text-slate-700'
+                    ? 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg border-0 scale-105' 
+                    : 'hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400'
                 }`}
                 onClick={() => setCurrentStep(1)}
               >
-                1. Template
+                <span className="text-xs opacity-70">1</span>
+                <span className="ml-1.5">Template</span>
               </Button>
               
               {/* Steps 2-5 */}
@@ -356,49 +365,62 @@ function App() {
                 const isStepReachable = configFinalized && stepNumber <= highestStepReached;
                 return (
                   <div key={stepNumber} className="flex items-center">
-                    <span className="mx-2 text-slate-400">•</span>
+                    <span className="mx-1.5 text-slate-300 text-lg">→</span>
                     <Button 
-                      variant={currentStep === stepNumber ? "default" : "ghost"}
+                      variant={currentStep === stepNumber ? "default" : "outline"}
                       size="sm"
-                      className={`rounded-lg font-medium transition-all duration-200 ${
+                      className={`rounded-lg font-semibold transition-all duration-200 ${
                         currentStep === stepNumber 
-                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
+                          ? 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg border-0 scale-105' 
                           : isStepReachable 
-                            ? 'hover:bg-white/60 text-slate-700' 
-                            : 'text-slate-400 cursor-not-allowed'
+                            ? 'hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400' 
+                            : 'text-slate-400 border-slate-200 cursor-not-allowed opacity-60'
                       }`}
                       disabled={!isStepReachable}
                       onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
                     >
-                      {`${stepNumber}. ${stepLabels[stepNumber]}`}
+                      <span className="text-xs opacity-70">{stepNumber}</span>
+                      <span className="ml-1.5">{stepLabels[stepNumber]}</span>
                     </Button>
                   </div>
                 );
               })}
             </div>
             
+            {/* Divider */}
+            <div className="flex items-center justify-center">
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent w-full"></div>
+            </div>
+            
             {/* Second Row: Steps 6-9 */}
             <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
-              {[6, 7, 8, 9].map((stepNumber) => {
+              {[6, 7, 8, 9].map((stepNumber, index) => {
                 const stepLabels = ["", "", "", "", "", "", "EOG/Channels", "ICA", "Epochs", "Preview"];
                 const isStepReachable = configFinalized && stepNumber <= highestStepReached;
+                const isLastStep = stepNumber === 9;
                 return (
                   <div key={stepNumber} className="flex items-center">
-                    {stepNumber === 6 ? null : <span className="mx-2 text-slate-400">•</span>}
+                    {index > 0 && <span className="mx-1.5 text-slate-300 text-lg">→</span>}
                     <Button 
-                      variant={currentStep === stepNumber ? "default" : "ghost"}
+                      variant={currentStep === stepNumber ? "default" : "outline"}
                       size="sm"
-                      className={`rounded-lg font-medium transition-all duration-200 ${
+                      className={`rounded-lg font-semibold transition-all duration-200 ${
                         currentStep === stepNumber 
-                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' 
+                          ? 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg border-0 scale-105' 
                           : isStepReachable 
-                            ? 'hover:bg-white/60 text-slate-700' 
-                            : 'text-slate-400 cursor-not-allowed'
+                            ? isLastStep
+                              ? 'hover:bg-green-50 text-green-700 border-green-300 hover:border-green-400'
+                              : 'hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400'
+                            : 'text-slate-400 border-slate-200 cursor-not-allowed opacity-60'
                       }`}
                       disabled={!isStepReachable}
                       onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
                     >
-                      {`${stepNumber}. ${stepLabels[stepNumber]}`}
+                      <span className="text-xs opacity-70">{stepNumber}</span>
+                      <span className="ml-1.5">{stepLabels[stepNumber]}</span>
+                      {isLastStep && isStepReachable && (
+                        <span className="ml-1.5 text-xs">✓</span>
+                      )}
                     </Button>
                   </div>
                 );
