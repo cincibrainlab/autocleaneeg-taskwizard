@@ -1,0 +1,12 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#42A5F5;stop-opacity:1" />
+<stop offset="100%" style="stop-color:#1E88E5;stop-opacity:1" />
+</linearGradient>
+</defs>
+<path d="M128 28C68.3 28 28 68.3 28 128C28 187.7 68.3 228 128 228C187.7 228 228 187.7 228 128C228 68.3 187.7 28 128 28Z" fill="url(#grad1)"/>
+<path d="M68 108H84C88.4 108 92 111.6 92 116V140C92 144.4 88.4 148 84 148H68" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M188 108H172C167.6 108 164 111.6 164 116V140C164 144.4 167.6 148 172 148H188" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M92 128L108 128L120 96L136 160L148 128L164 128" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

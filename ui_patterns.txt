@@ -1,0 +1,105 @@
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <li>Download your generated task file (e.g., <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">resting_state.py</code>)</li>
+                                <li>Install the pipeline: <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">pip install autoclean-eeg</code></li>
+                                <li>Run your preprocessing: <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">pipeline.process_file(data.raw, task="resting_state")</code></li>
+                                className="flex flex-wrap gap-2"
+                               <div className="w-6 h-6 bg-emerald-600 rounded-full"></div>
+                               <div className="w-6 h-6 bg-indigo-600 rounded-full"></div>
+                               <div className="w-6 h-6 bg-purple-600 rounded-full"></div>
+                               className="mb-4 p-3 border rounded-md bg-muted/20"
+                              className="mb-4 p-3 border rounded-md bg-muted/20"
+                             <div className="w-12 h-12 rounded-full bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors">
+                             <div className="w-12 h-12 rounded-full bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center transition-colors">
+                             <div className="w-12 h-12 rounded-full bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center transition-colors">
+                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-emerald-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50" 
+                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-indigo-50 hover:to-blue-50" 
+                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-purple-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50" 
+                            <div className="grid md:grid-cols-2 gap-4">
+                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            className="mt-4 font-mono h-96 text-sm border-emerald-200"
+                        <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: Preview →</Button>
+                        <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to ICA</Button>
+                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 shadow-md">
+                        <div className="grid md:grid-cols-2 gap-4">
+                       <div className="grid grid-cols-2 gap-3">
+                      className={`rounded-lg font-semibold transition-all duration-200 ${
+                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+                     <CardHeader className="bg-gradient-to-r from-slate-50 to-blue-50 border-b border-slate-200/50 px-8 py-6">
+                     <div className="grid md:grid-cols-2 gap-4">
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: EOG & Channels →</Button>
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: Epochs →</Button>
+                    <Button onClick={goToNextStep} className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl">Next: ICA →</Button>
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to EOG & Channels</Button>
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to Resample & Rereference</Button>
+                    <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to Trim & Crop</Button>
+                    <CardContent className="p-8">
+                    <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b border-slate-200/50 px-8 py-6">
+                    <div className="flex flex-wrap gap-4"> {/* Use flex-wrap for smaller screens */}
+                    <div className="flex gap-4">
+                    <div className="grid md:grid-cols-2 gap-4">
+                   <div className="grid grid-cols-2 gap-3">
+                  className="mb-4 p-3 border rounded-md bg-muted/30"
+                  className="text-lime-600 hover:text-lime-800 p-0.5 hover:bg-lime-200 rounded"
+                  className="underline hover:text-blue-200 font-semibold inline-flex items-center gap-1"
+                <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to Epochs</Button>
+                <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+                <CardContent className="space-y-4 p-8">
+                <CardContent className="space-y-6 p-8">
+                <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-slate-200/50 px-8 py-6">
+                <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-slate-200/50 px-8 py-6">
+                <div className="flex justify-between mt-8 pt-6 border-t border-slate-200/50">
+                className="flex items-center gap-1 px-3 py-1 bg-lime-100 border border-lime-200 rounded-md text-sm"
+                className="pl-4 border-l-2 border-sky-200 ml-2"
+                className={`rounded-lg font-semibold transition-all duration-200 ${
+              <div className="flex items-center gap-3 mb-3">
+              <div className="hidden sm:flex items-center justify-center w-8 h-8 bg-white/20 rounded-lg">
+              <img src="./cincibrainlab.png" alt="Cincinnati Children's Hospital Medical Center" className="w-full h-full rounded-sm object-contain" />
+              <span className="text-sm text-muted-foreground font-mono bg-muted px-2 py-1 rounded">{stageConfig.suffix}</span>
+              <span className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full">
+              className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg font-medium transition-colors"
+            <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden mt-6">
+            <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+            <CardContent className="space-y-6 p-8">
+            <CardHeader className="bg-gradient-to-r from-lime-50 to-green-50 border-b border-slate-200/50 px-8 py-6">
+            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
+            <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center justify-center w-24 h-24 bg-white/10 rounded-full backdrop-blur-sm">
+            <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+            <div key={stageName} className="flex items-center justify-between p-2 border rounded-md">
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="mb-4 p-3 border rounded-md bg-muted/30"
+          <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-2 mb-3">
+          <div className="max-w-5xl mx-auto flex items-center justify-between flex-wrap gap-2">
+          className="px-3"
+          className="w-full mt-6 border-2 border-slate-300 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200 py-3 rounded-xl font-medium"
+        <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+        <CardContent className="space-y-6 p-8">
+        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-slate-200/50 px-8 py-6">
+        <CardHeader className="bg-gradient-to-r from-orange-50 to-amber-50 border-b border-slate-200/50 px-8 py-6">
+        <CardHeader className="bg-gradient-to-r from-pink-50 to-purple-50 border-b border-slate-200/50 px-8 py-6">
+        <CardHeader className="bg-gradient-to-r from-rose-50 to-orange-50 border-b border-slate-200/50 px-8 py-6">
+        <CardHeader className="bg-gradient-to-r from-yellow-50 to-amber-50 border-b border-slate-200/50 px-8 py-6">
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full opacity-10 blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-10 blur-3xl"></div>
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 shadow-lg relative z-20">
+        <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white/70 backdrop-blur-sm shadow-2xl border border-white/30 min-h-screen relative z-10">
+        <footer className="mt-16 pt-8 border-t border-slate-200/50 flex flex-col items-center justify-center text-sm text-slate-500">
+        <header className="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-xl p-8 mb-10 shadow-2xl border border-white/20">
+        <nav className="mb-8 bg-gradient-to-br from-slate-100 to-indigo-50 border-2 border-slate-200 rounded-2xl p-6 shadow-xl">
+        className={`flex items-center justify-between w-full p-3 border rounded-md ${currentColors.hover} transition-colors`}
+        className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 ${
+      <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-sky-50 to-blue-50 pt-4 pb-4">
+      <div className="flex gap-2">
+      className={cn("bg-border pointer-events-none -mx-1 my-1 h-px", className)}
+      className={cn("flex flex-col gap-2", className)}
+      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      className={cn("px-6", className)}
+      className={cn("text-muted-foreground px-2 py-1.5 text-xs", className)}
+    <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+    <Card className="border-t-4 border-t-sky-500 shadow-md overflow-hidden">
+    className: cn(error ? 'border-destructive' : '', 'w-full'),

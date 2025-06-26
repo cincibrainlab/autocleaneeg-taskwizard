@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import FormField from '../FormField'; 
 import { AnimatedSection } from '@/components/AnimatedSection';
 import type { TaskData, ValidationErrors } from '@/lib/types';
-import { formatStepKey } from '@/lib/utils'; 
+import { formatStepKey } from '@/lib/utils';
+import { designSystem, cn } from '@/lib/design-system'; 
 
 interface Step5Props {
   currentTaskName: string;
@@ -29,12 +30,12 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
   const referenceSettings = currentTaskData.settings.reference_step;
 
   return (
-    <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-rose-50 to-orange-50 border-b border-slate-200/50 px-8 py-6">
-            <CardTitle className="text-2xl font-bold text-slate-800">Resample & Rereference</CardTitle> 
-            <CardDescription className="text-slate-600 text-lg">Configure data resampling rate and rereferencing options for optimal signal processing.</CardDescription>
+    <Card className={designSystem.card.container}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-rose-50 to-orange-50")}>
+            <CardTitle className={designSystem.card.title}>Resample & Rereference</CardTitle> 
+            <CardDescription className={designSystem.card.description}>Configure data resampling rate and rereferencing options for optimal signal processing.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 p-8">
+        <CardContent className={cn("space-y-6", designSystem.card.content)}>
             <div className="space-y-6">
                 {/* Resample Section */}
                 {resampleSettings && (

@@ -13,6 +13,7 @@ import { EventIdInput } from '@/components/EventIdInput';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { TaskData, ValidationErrors } from '@/lib/types'; // Adjust path as needed
 import { formatStepKey } from '@/lib/utils'; // Adjust path as needed
+import { designSystem, cn } from '@/lib/design-system';
 
 // Animation variants removed - using inline animations for better control
 
@@ -46,12 +47,12 @@ const Step8Epochs: React.FC<Step8Props> = ({
     const basePath = `tasks.${currentTaskName}.settings.epoch_settings`;
 
     return (
-        <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-lime-50 to-green-50 border-b border-slate-200/50 px-8 py-6">
-                <CardTitle className="text-2xl font-bold text-slate-800">Epoch Settings</CardTitle>
-                <CardDescription className="text-slate-600 text-lg">Segment continuous data into time-locked epochs for event-related analysis.</CardDescription>
+        <Card className={designSystem.card.container}>
+            <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-lime-50 to-green-50")}>
+                <CardTitle className={designSystem.card.title}>Epoch Settings</CardTitle>
+                <CardDescription className={designSystem.card.description}>Segment continuous data into time-locked epochs for event-related analysis.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6 p-8">
+            <CardContent className={cn("space-y-6", designSystem.card.content)}>
                 <div className="space-y-6">
                     {/* Main Epoch Settings Toggle */}
                     <AnimatedSection

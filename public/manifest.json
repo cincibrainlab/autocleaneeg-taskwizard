@@ -1,0 +1,23 @@
+{
+  "name": "Autoclean EEG Configuration Wizard",
+  "short_name": "Autoclean EEG",
+  "description": "Generate Python task files for the Autoclean EEG Pipeline",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1E88E5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/cincibrainlab.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

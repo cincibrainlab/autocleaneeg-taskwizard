@@ -5,6 +5,7 @@ import FormField from '../FormField';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { montageOptions } from '@/lib/constants';
 import type { TaskData, ValidationErrors } from '@/lib/types';
+import { designSystem, cn } from '@/lib/design-system';
 
 interface Step4Props {
   currentTaskName: string;
@@ -29,12 +30,12 @@ const Step4Montage: React.FC<Step4Props> = ({
   const filteringSettings = currentTaskData.settings.filtering;
 
   return (
-    <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-pink-50 to-purple-50 border-b border-slate-200/50 px-8 py-6">
-            <CardTitle className="text-2xl font-bold text-slate-800">Filtering & Montage</CardTitle>
-            <CardDescription className="text-slate-600 text-lg">Configure signal filtering parameters and EEG electrode montage layout.</CardDescription>
+    <Card className={designSystem.card.container}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-pink-50 to-purple-50")}>
+            <CardTitle className={designSystem.card.title}>Filtering & Montage</CardTitle>
+            <CardDescription className={designSystem.card.description}>Configure signal filtering parameters and EEG electrode montage layout.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 p-8">
+        <CardContent className={cn("space-y-6", designSystem.card.content)}>
             <div className="space-y-6">
                 {/* Filtering Section */}
                 <AnimatedSection

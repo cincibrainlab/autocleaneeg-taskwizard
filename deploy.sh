@@ -20,6 +20,7 @@ wrangler pages deploy dist --project-name=autoclean-eeg-config
 if [ $? -eq 0 ]; then
     echo "✅ Deployment successful!"
     echo "🌐 Your site will be available at: https://autoclean-eeg-config.pages.dev"
+    echo "🌍 Production URL: https://config.autocleaneeg.org"
     echo "📊 Check deployment status at: https://dash.cloudflare.com"
 else
     echo "❌ Deployment failed!"

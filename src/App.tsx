@@ -40,6 +40,8 @@ import { formatStepKey } from './lib/utils';
 import { validateConfig } from './lib/validation'; 
 // Import file generation functions
 import { generateTaskScript } from './lib/fileGeneration';
+// Import design system
+import { designSystem, cn } from './lib/design-system';
 
 // --- Helper Functions ---
 
@@ -337,17 +339,25 @@ function App() {
         </div>
         
         {/* Content container with max width and centered */}
-        <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-6 bg-white/70 backdrop-blur-sm shadow-2xl border border-white/30 min-h-screen relative z-10">
+        <div className={cn(
+          "max-w-5xl mx-auto p-4 md:p-8 space-y-6 min-h-screen relative z-10",
+          designSystem.backgrounds.primary,
+          designSystem.shadows["2xl"],
+          "border border-white/30"
+        )}>
         {/* Make header relative to position icon */}
         {/* Use Flexbox for alignment */}
-        <header className="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-xl p-8 mb-10 shadow-2xl border border-white/20">
+        <header className={cn(
+          "relative bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 mb-10",
+          designSystem.rounded.xl,
+          designSystem.padding.lg,
+          designSystem.shadows["2xl"],
+          "border border-white/20"
+        )}>
           <div className="flex items-center justify-between">
             {/* Brand and tagline */}
             <div className="flex-1"> 
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 text-white drop-shadow-lg">
-                  <BrainIcon />
-                </div>
                 <div>
                   <h1 className="text-4xl font-bold text-white tracking-tight">Autoclean EEG</h1>
                   <div className="text-sm font-medium text-white/70 uppercase tracking-wider">Configuration Wizard</div>
@@ -366,10 +376,10 @@ function App() {
         </header>
 
                         {/* How it works info box */}
-                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 shadow-md">
+                        <div className={designSystem.accents.info.container}>
                     <div className="flex gap-4">
                         <div className="flex-shrink-0">
-                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", designSystem.accents.info.icon)}>
                                 <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                 </svg>
@@ -391,7 +401,13 @@ function App() {
                 </div>
         
         {/* Enhanced Two-Line Navigation with Improved Visibility */}
-        <nav className="mb-8 bg-gradient-to-br from-slate-100 to-indigo-50 border-2 border-slate-200 rounded-2xl p-6 shadow-xl">
+        <nav className={cn(
+          "mb-8 bg-gradient-to-br from-slate-100 to-indigo-50",
+          "border-2 border-slate-200",
+          designSystem.rounded.xl,
+          designSystem.padding.md,
+          designSystem.shadows.xl
+        )}>
           <div className="space-y-4">
             {/* Progress Indicator */}
             <div className="flex items-center justify-between mb-2">
@@ -491,16 +507,23 @@ function App() {
         {/* --- Step 1: Select Starting Point --- */}
         {currentStep === 1 && (
             <div className="space-y-6">
-                <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-                     <CardHeader className="bg-gradient-to-r from-slate-50 to-blue-50 border-b border-slate-200/50 px-8 py-6">
-                         <CardTitle className="text-2xl font-bold text-slate-800">Choose Your Starting Point</CardTitle>
-                         <CardDescription className="text-slate-600 text-lg">Select a common EEG task template or start with a custom configuration.</CardDescription>
+                <Card className={designSystem.card.container}>
+                     <CardHeader className={designSystem.card.header}>
+                         <CardTitle className={designSystem.card.title}>Choose Your Starting Point</CardTitle>
+                         <CardDescription className={designSystem.card.description}>Select a common EEG task template or start with a custom configuration.</CardDescription>
                      </CardHeader>
-                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+                     <CardContent className={cn("grid grid-cols-1 md:grid-cols-3 gap-8", designSystem.card.content)}>
                          {/* Button for RestingState */}
                          <Button 
                              variant="outline" 
-                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-indigo-50 hover:to-blue-50" 
+                             className={cn(
+                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white transition-all duration-300",
+                               designSystem.padding.lg,
+                               designSystem.rounded.xl,
+                               "border-2 border-slate-200 hover:border-indigo-400",
+                               designSystem.shadows.md,
+                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-blue-50"
+                             )} 
                              onClick={() => handleStartOptionSelect('RestingState')}
                          >
                              <div className="w-12 h-12 rounded-full bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center transition-colors">
@@ -512,7 +535,14 @@ function App() {
                           {/* Button for EventBased */}
                           <Button 
                              variant="outline" 
-                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-purple-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50" 
+                             className={cn(
+                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white transition-all duration-300",
+                               designSystem.padding.lg,
+                               designSystem.rounded.xl,
+                               "border-2 border-slate-200 hover:border-purple-400",
+                               designSystem.shadows.md,
+                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50"
+                             )} 
                              onClick={() => handleStartOptionSelect('EventBased')}
                          >
                              <div className="w-12 h-12 rounded-full bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center transition-colors">
@@ -524,7 +554,14 @@ function App() {
                          {/* Button for Custom */}
                          <Button 
                              variant="outline" 
-                             className="group min-h-[160px] p-8 flex flex-col items-center justify-center space-y-4 border-2 border-slate-200 hover:border-emerald-400 hover:shadow-lg transition-all duration-300 w-full rounded-2xl bg-white hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50" 
+                             className={cn(
+                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white transition-all duration-300",
+                               designSystem.padding.lg,
+                               designSystem.rounded.xl,
+                               "border-2 border-slate-200 hover:border-emerald-400",
+                               designSystem.shadows.md,
+                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50"
+                             )} 
                              onClick={() => handleStartOptionSelect('Custom')}
                          >
                              <div className="w-12 h-12 rounded-full bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors">
@@ -538,12 +575,12 @@ function App() {
                 
                 
                 {/* Upload existing task file section */}
-                <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-                    <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b border-slate-200/50 px-8 py-6">
-                        <CardTitle className="text-2xl font-bold text-slate-800">Upload Existing Configuration</CardTitle>
-                        <CardDescription className="text-slate-600 text-lg">Upload a previously generated Python task file to edit its configuration.</CardDescription>
+                <Card className={designSystem.card.container}>
+                    <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-green-50 to-emerald-50")}>
+                        <CardTitle className={designSystem.card.title}>Upload Existing Configuration</CardTitle>
+                        <CardDescription className={designSystem.card.description}>Upload a previously generated Python task file to edit its configuration.</CardDescription>
                     </CardHeader>
-                    <CardContent className="p-8">
+                    <CardContent className={designSystem.card.content}>
                         <FileUpload onConfigLoaded={handleConfigLoaded} />
                     </CardContent>
                 </Card>

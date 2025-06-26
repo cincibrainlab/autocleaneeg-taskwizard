@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 // Import local components and types
 import RejectionPolicySection from '@/components/RejectionPolicySection'; // Adjust path if needed
 import { TaskData, ValidationErrors } from '@/lib/types'; // Adjust path as needed
+import { designSystem, cn } from '@/lib/design-system';
 
 // Define the props interface
 interface Step9Props {
@@ -43,12 +44,12 @@ const Step9Configure: React.FC<Step9Props> = ({
             {/* Configuration Complete - No rejection policy needed in new structure */}
             
             {/* Preview & Download Section */}
-            <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden mt-6">
-                <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-slate-200/50 px-8 py-6">
-                    <CardTitle className="text-2xl font-bold text-slate-800">Preview & Download</CardTitle>
-                    <CardDescription className="text-slate-600 text-lg">Review your complete EEG preprocessing pipeline and generate the Python configuration file.</CardDescription>
+            <Card className={cn(designSystem.card.container, "mt-6")}>
+                <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-emerald-50 to-teal-50")}>
+                    <CardTitle className={designSystem.card.title}>Preview & Download</CardTitle>
+                    <CardDescription className={designSystem.card.description}>Review your complete EEG preprocessing pipeline and generate the Python configuration file.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4 p-8">
+                <CardContent className={cn("space-y-4", designSystem.card.content)}>
                     <div className="flex flex-wrap gap-4"> {/* Use flex-wrap for smaller screens */}
                         <Button onClick={handlePreview} className="bg-emerald-600 hover:bg-emerald-700 flex-shrink-0">Preview Python File</Button>
                         <Button onClick={handleDownload} className="bg-teal-600 hover:bg-teal-700 flex-shrink-0">Download Task File</Button>
