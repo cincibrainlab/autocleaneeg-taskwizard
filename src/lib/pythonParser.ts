@@ -29,7 +29,7 @@ export function parsePythonTaskFile(pythonContent: string): ConfigType | null {
     
     // Convert parsed config to TaskData structure
     const taskData: TaskData = {
-      mne_task: className,
+      task_name: className,
       description: description,
       settings: convertPythonConfigToTaskSettings(configObj)
     };
@@ -223,7 +223,7 @@ export function validateParsedConfig(config: ConfigType): { isValid: boolean; er
   const taskName = Object.keys(config.tasks)[0];
   const task = config.tasks[taskName];
   
-  if (!task.mne_task) {
+  if (!task.task_name) {
     errors.push('Task name is missing');
   }
   

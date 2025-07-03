@@ -37,9 +37,6 @@ class {{CLASS_NAME}}(Task):
 
         self.original_raw = self.raw.copy()
         
-        # Create BIDS-compliant paths and filenames
-        self.create_bids_path()
-        
         # Channel cleaning
         self.clean_bad_channels()
         
@@ -53,7 +50,7 @@ class {{CLASS_NAME}}(Task):
         
         # ICA processing with optional export
         self.run_ica()  # Export after ICA
-        self.run_ICLabel()
+        self.classify_ica_components()
         
         # Epoching with export
         {{EPOCHING_CODE}}

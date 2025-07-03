@@ -61,7 +61,7 @@ export function generateTaskScript(config: ConfigType): string {
   const taskData = config.tasks[taskKey];
 
   // Sanitize class name
-  let className = taskData.mne_task || taskKey;
+  let className = taskData.task_name || taskKey;
   className = className
     .replace(/\s+/g, '_')
     .replace(/[^a-zA-Z0-9_]/g, '')

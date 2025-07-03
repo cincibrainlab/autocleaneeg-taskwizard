@@ -21,8 +21,7 @@ export const validateConfig = (configToValidate: ConfigType): ValidationErrors =
   const basePath = `tasks.${taskName}`;
 
   // Required fields
-  if (!taskData.mne_task) errors[`${basePath}.mne_task`] = 'Task name (mne_task) is required.';
-  if (!taskData.description) errors[`${basePath}.description`] = 'Description is required.';
+  if (!taskData.task_name) errors[`${basePath}.task_name`] = 'Task name is required.';
 
   // --- Settings Validation ---
   if (taskData.settings) {

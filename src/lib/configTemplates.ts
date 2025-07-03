@@ -7,8 +7,10 @@ import type { TaskData } from '@/lib/types';
  * Used as a base for templates and custom configurations.
  */
 export const defaultTaskSettings: TaskData = {
-  mne_task: "task_type",
-  description: "Task description",
+  task_name: "RestingEyesOpen",
+  description: "",
+  dataset_name: "",
+  input_path: "",
   settings: {
     resample_step: { enabled: true, value: 250 },
     filtering: {
@@ -62,7 +64,7 @@ export const defaultTaskSettings: TaskData = {
  */
 export const taskTemplates: Record<string, TaskData> = {
   RestingState: {
-    mne_task: "rest",
+    task_name: "RestingState",
     description: "Resting state EEG recording",
     settings: {
       resample_step: { enabled: true, value: 250 },
@@ -109,7 +111,7 @@ export const taskTemplates: Record<string, TaskData> = {
     },
   },
   EventBased: {
-    mne_task: "event_based",
+    task_name: "EventBased",
     description: "Event-based EEG paradigm with stimulus triggers",
     settings: {
       resample_step: { enabled: true, value: 250 },

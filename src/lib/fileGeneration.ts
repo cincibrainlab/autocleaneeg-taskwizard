@@ -205,7 +205,7 @@ export function generateTaskScript(config: ConfigType): string {
     const configDict = formatPythonDict(pythonConfig);
     
     // Generate class name
-    let desiredClassName = taskData.mne_task || taskKey;
+    let desiredClassName = taskData.task_name || taskKey;
     desiredClassName = desiredClassName
       .replace(/\s+/g, '_') 
       .replace(/[^a-zA-Z0-9_]/g, ''); 
@@ -218,6 +218,10 @@ export function generateTaskScript(config: ConfigType): string {
     
     // Capitalize first letter to make it a proper class name
     desiredClassName = desiredClassName.charAt(0).toUpperCase() + desiredClassName.slice(1);
+    
+    // Handle dataset_name and input_path
+    const datasetName = taskData.dataset_name || '';
+    const inputPath = taskData.input_path || '';
     
     // Handle epoching logic
     let epochingCode = 'self.create_regular_epochs(export=True)  # Export epochs';
@@ -237,7 +241,9 @@ export function generateTaskScript(config: ConfigType): string {
       .replace(/{{TASK_DESCRIPTION}}/g, taskData.description || 'CUSTOM TASK')
       .replace(/{{CLASS_NAME}}/g, desiredClassName)
       .replace(/{{CONFIG_DICT}}/g, configDict)
-      .replace(/{{EPOCHING_CODE}}/g, epochingCode);
+      .replace(/{{EPOCHING_CODE}}/g, epochingCode)
+      .replace(/{{DATASET_NAME}}/g, datasetName)
+      .replace(/{{INPUT_PATH}}/g, inputPath);
   
     return scriptContent;
 }

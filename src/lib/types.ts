@@ -77,8 +77,10 @@ export interface TaskSettings {
 
 // Structure for a single task configuration
 export interface TaskData {
-    mne_task: string;
-    description: string;
+    task_name: string;
+    description?: string;
+    dataset_name?: string;
+    input_path?: string;
     settings?: TaskSettings;
 }
 

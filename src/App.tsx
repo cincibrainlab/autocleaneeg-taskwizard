@@ -56,7 +56,7 @@ const getTaskConfig = (taskName: string | null): TaskData => {
     return deepClone(taskTemplates[taskName]); // Use imported deepClone
   } else {
     const customTask = deepClone(defaultTaskSettings); // Use imported deepClone
-    customTask.mne_task = "CustomTask";
+    customTask.task_name = "CustomTask";
     customTask.description = "Custom task configuration";
     return customTask;
   }
@@ -190,8 +190,8 @@ function App() {
 
 
         // --- Special Handling: Task Name Change ---
-        // If the `mne_task` field itself was changed
-        if (parts.length === 3 && parts[0] === 'tasks' && parts[2] === 'mne_task') {
+        // If the `task_name` field itself was changed
+        if (parts.length === 3 && parts[0] === 'tasks' && parts[2] === 'task_name') {
             const oldTaskName = parts[1];
             // Sanitize new task name (basic example: replace spaces)
             const newTaskName = typeof value === 'string' ? value.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') : `InvalidTaskName_${Date.now()}`;
@@ -200,14 +200,14 @@ function App() {
                 // Rename the task key
                 const taskData = newConfig.tasks[oldTaskName];
                 delete newConfig.tasks[oldTaskName];
-                // Update the mne_task value within the data as well
-                taskData.mne_task = value; // Use the original input value here
+                // Update the task_name value within the data as well
+                taskData.task_name = value; // Use the original input value here
                 newConfig.tasks[newTaskName] = taskData;
                 // No need to call setCurrentTaskName, it's derived from config state
             } else if (newTaskName && oldTaskName === newTaskName) {
                 // Ensure the value within the task data is also updated even if key doesn't change
                  if (newConfig.tasks[newTaskName]) {
-                     newConfig.tasks[newTaskName].mne_task = value;
+                     newConfig.tasks[newTaskName].task_name = value;
                  }
             }
         }
@@ -227,7 +227,7 @@ function App() {
       delete newErrors[path];
       
       // Example: Required field validation (only for specific known required fields)
-      if ((path.endsWith('.mne_task') || path.endsWith('.description')) && !value) {
+      if ((path.endsWith('.task_name') || path.endsWith('.description')) && !value) {
           newErrors[path] = 'This field is required.';
       }
 
@@ -598,12 +598,12 @@ function App() {
                      {/* Task Metadata Section */}
                      <div className="grid md:grid-cols-2 gap-4">
                         <FormField
-                            path={`tasks.${currentTaskName}.mne_task`}
-                            label="Task Name"
+                            path={`tasks.${currentTaskName}.task_name`}
+                            label="Task Name *"
                             tooltip="Internal identifier for this task used by Pipeline (no spaces recommended). Changing this renames the task."
-                            value={currentTaskData.mne_task}
+                            value={currentTaskData.task_name}
                             onChange={handleInputChange}
-                            error={errors[`tasks.${currentTaskName}.mne_task`]}
+                            error={errors[`tasks.${currentTaskName}.task_name`]}
                             type="text"
                             placeholder="e.g., RestingEyesOpen"
                         />
@@ -611,11 +611,33 @@ function App() {
                             path={`tasks.${currentTaskName}.description`}
                             label="Description"
                             tooltip="A brief description of this task configuration."
-                            value={currentTaskData.description}
+                            value={currentTaskData.description || ''}
                             onChange={handleInputChange}
                             error={errors[`tasks.${currentTaskName}.description`]}
                             type="textarea"
                             placeholder="e.g., Standard resting state analysis"
+                        />
+                     </div>
+                     <div className="grid md:grid-cols-2 gap-4">
+                        <FormField
+                            path={`tasks.${currentTaskName}.dataset_name`}
+                            label="Dataset Name"
+                            tooltip="Optional name for the dataset. This will be used to rename the output folder with a timestamp."
+                            value={currentTaskData.dataset_name || ''}
+                            onChange={handleInputChange}
+                            error={errors[`tasks.${currentTaskName}.dataset_name`]}
+                            type="text"
+                            placeholder="e.g., MyStudy"
+                        />
+                        <FormField
+                            path={`tasks.${currentTaskName}.input_path`}
+                            label="Input Path"
+                            tooltip="Optional default input path for data files. Can be overridden when running processing functions."
+                            value={currentTaskData.input_path || ''}
+                            onChange={handleInputChange}
+                            error={errors[`tasks.${currentTaskName}.input_path`]}
+                            type="text"
+                            placeholder="e.g., /path/to/data"
                         />
                      </div>
                      {/* Navigation Buttons */}
