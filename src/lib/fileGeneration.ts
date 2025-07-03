@@ -236,12 +236,20 @@ export function generateTaskScript(config: ConfigType): string {
       }
     }
     
+    // Handle ICA component classification method
+    let icaClassificationCode = 'self.classify_ica_components()';
+    
+    if (taskData.settings?.ICLabel?.enabled && taskData.settings.ICLabel.value?.method === 'icvision') {
+      icaClassificationCode = "self.classify_ica_components(method='icvision')";
+    }
+    
     // Replace template placeholders
     let scriptContent = taskScriptTemplate
       .replace(/{{TASK_DESCRIPTION}}/g, taskData.description || 'CUSTOM TASK')
       .replace(/{{CLASS_NAME}}/g, desiredClassName)
       .replace(/{{CONFIG_DICT}}/g, configDict)
       .replace(/{{EPOCHING_CODE}}/g, epochingCode)
+      .replace(/{{ICA_CLASSIFICATION_CODE}}/g, icaClassificationCode)
       .replace(/{{DATASET_NAME}}/g, datasetName)
       .replace(/{{INPUT_PATH}}/g, inputPath);
   

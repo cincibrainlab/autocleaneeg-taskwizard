@@ -165,7 +165,8 @@ function convertPythonConfigToTaskSettings(configObj: any): TaskSettings {
             ic_flags_to_reject: Array.isArray(value.value?.ic_flags_to_reject) 
               ? value.value.ic_flags_to_reject 
               : [],
-            ic_rejection_threshold: value.value?.ic_rejection_threshold || 0.8
+            ic_rejection_threshold: value.value?.ic_rejection_threshold || 0.8,
+            method: value.value?.method || 'iclabel'
           }
         };
         break;

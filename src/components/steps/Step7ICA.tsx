@@ -186,16 +186,32 @@ const Step7ICA: React.FC<Step7Props> = ({
                                 </p>
                             )}
                         </div>
-                        <FormField
-                            path={`tasks.${currentTaskName}.settings.ICLabel.value.ic_rejection_threshold`}
-                            label="Rejection Threshold"
-                            tooltip="Threshold for automatic component rejection (0-1)"
-                            value={icLabelSettings.value?.ic_rejection_threshold}
-                            onChange={handleInputChange}
-                            error={errors[`tasks.${currentTaskName}.settings.ICLabel.value.ic_rejection_threshold`]}
-                            type="number"
-                            placeholder="e.g., 0.3"
-                        />
+                        <div className="grid md:grid-cols-2 gap-4">
+                            <FormField
+                                path={`tasks.${currentTaskName}.settings.ICLabel.value.ic_rejection_threshold`}
+                                label="Rejection Threshold"
+                                tooltip="Threshold for automatic component rejection (0-1)"
+                                value={icLabelSettings.value?.ic_rejection_threshold}
+                                onChange={handleInputChange}
+                                error={errors[`tasks.${currentTaskName}.settings.ICLabel.value.ic_rejection_threshold`]}
+                                type="number"
+                                placeholder="e.g., 0.3"
+                            />
+                            <FormField
+                                path={`tasks.${currentTaskName}.settings.ICLabel.value.method`}
+                                label="Classification Method"
+                                tooltip="Method for component classification: ICLabel (default) or ICVision"
+                                value={icLabelSettings.value?.method || 'iclabel'}
+                                onChange={handleInputChange}
+                                error={errors[`tasks.${currentTaskName}.settings.ICLabel.value.method`]}
+                                type="select"
+                                options={[
+                                    { value: "iclabel", label: "ICLabel" },
+                                    { value: "icvision", label: "ICVision" }
+                                ]}
+                                placeholder="Select method..."
+                            />
+                        </div>
                     </AnimatedSection>
                 )}
                 

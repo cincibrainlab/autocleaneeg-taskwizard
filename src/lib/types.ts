@@ -29,6 +29,7 @@ export interface ICAValue {
 export interface ICLabelValue {
   ic_flags_to_reject: string[];
   ic_rejection_threshold: number;
+  method: 'iclabel' | 'icvision';
 }
 
 // Nested structures within EpochSettings

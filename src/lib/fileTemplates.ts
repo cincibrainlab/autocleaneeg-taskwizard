@@ -50,7 +50,7 @@ class {{CLASS_NAME}}(Task):
         
         # ICA processing with optional export
         self.run_ica()  # Export after ICA
-        self.classify_ica_components()
+        {{ICA_CLASSIFICATION_CODE}}
         
         # Epoching with export
         {{EPOCHING_CODE}}
