@@ -81,13 +81,13 @@ export const validateConfig = (configToValidate: ConfigType): ValidationErrors =
           }
       }
 
-      // ICLabel validation
-      if (taskData.settings.ICLabel?.enabled && taskData.settings.ICLabel.value) {
-          const icLabel = taskData.settings.ICLabel.value;
-          const icLabelPath = `${settingsPath}.ICLabel.value`;
+      // Component rejection validation
+      if (taskData.settings.component_rejection?.enabled && taskData.settings.component_rejection.value) {
+          const componentRejection = taskData.settings.component_rejection.value;
+          const componentRejectionPath = `${settingsPath}.component_rejection.value`;
           
-          if (icLabel.ic_rejection_threshold < 0 || icLabel.ic_rejection_threshold > 1) {
-              errors[`${icLabelPath}.ic_rejection_threshold`] = 'IC rejection threshold must be between 0 and 1.';
+          if (componentRejection.ic_rejection_threshold < 0 || componentRejection.ic_rejection_threshold > 1) {
+              errors[`${componentRejectionPath}.ic_rejection_threshold`] = 'IC rejection threshold must be between 0 and 1.';
           }
       }
 

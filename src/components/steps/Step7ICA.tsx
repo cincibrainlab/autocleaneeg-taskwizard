@@ -37,11 +37,11 @@ const Step7ICA: React.FC<Step7Props> = ({
   // Ensure data exists before rendering
   if (!currentTaskData.settings) return null; 
   const icaSettings = currentTaskData.settings.ICA;
-  const icLabelSettings = currentTaskData.settings.ICLabel;
+  const componentRejectionSettings = currentTaskData.settings.component_rejection;
 
-  // Handle toggle group changes for ICLabel component types
-  const handleICLabelToggle = (selectedTypes: string[]) => {
-    handleInputChange(`tasks.${currentTaskName}.settings.ICLabel.value.ic_flags_to_reject`, selectedTypes);
+  // Handle toggle group changes for component rejection types
+  const handleComponentRejectionToggle = (selectedTypes: string[]) => {
+    handleInputChange(`tasks.${currentTaskName}.settings.component_rejection.value.ic_flags_to_reject`, selectedTypes);
   };
 
   // Handle ICA method changes - set appropriate fit_params based on method
@@ -67,8 +67,8 @@ const Step7ICA: React.FC<Step7Props> = ({
   };
 
   // Get current selected types (ensure it's an array)
-  const selectedTypes = Array.isArray(icLabelSettings?.value?.ic_flags_to_reject) 
-    ? icLabelSettings.value.ic_flags_to_reject 
+  const selectedTypes = Array.isArray(componentRejectionSettings?.value?.ic_flags_to_reject) 
+    ? componentRejectionSettings.value.ic_flags_to_reject 
     : [];
 
   return (
@@ -146,13 +146,13 @@ const Step7ICA: React.FC<Step7Props> = ({
                     </AnimatedSection>
                 )}
 
-                {/* ICLabel Section */}
-                {icLabelSettings && (
+                {/* Component Rejection Section */}
+                {componentRejectionSettings && (
                     <AnimatedSection
-                        title="ICLabel"
+                        title="Component Rejection"
                         description="Automatic labeling and rejection of ICA components."
-                        enabled={icLabelSettings.enabled}
-                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.ICLabel.enabled`, !icLabelSettings.enabled)}
+                        enabled={componentRejectionSettings.enabled}
+                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.component_rejection.enabled`, !componentRejectionSettings.enabled)}
                         contentClassName="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-purple-200 ml-2.5"
                         color="purple"
                     >
@@ -166,7 +166,7 @@ const Step7ICA: React.FC<Step7Props> = ({
                             <ToggleGroup 
                                 type="multiple" 
                                 value={selectedTypes}
-                                onValueChange={handleICLabelToggle}
+                                onValueChange={handleComponentRejectionToggle}
                                 className="flex flex-wrap gap-2"
                             >
                                 {IC_COMPONENT_TYPES.map((componentType) => (
@@ -180,30 +180,30 @@ const Step7ICA: React.FC<Step7Props> = ({
                                     </ToggleGroupItem>
                                 ))}
                             </ToggleGroup>
-                            {errors[`tasks.${currentTaskName}.settings.ICLabel.value.ic_flags_to_reject`] && (
+                            {errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_flags_to_reject`] && (
                                 <p className="text-sm text-red-500">
-                                    {errors[`tasks.${currentTaskName}.settings.ICLabel.value.ic_flags_to_reject`]}
+                                    {errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_flags_to_reject`]}
                                 </p>
                             )}
                         </div>
                         <div className="grid md:grid-cols-2 gap-4">
                             <FormField
-                                path={`tasks.${currentTaskName}.settings.ICLabel.value.ic_rejection_threshold`}
+                                path={`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_threshold`}
                                 label="Rejection Threshold"
                                 tooltip="Threshold for automatic component rejection (0-1)"
-                                value={icLabelSettings.value?.ic_rejection_threshold}
+                                value={componentRejectionSettings.value?.ic_rejection_threshold}
                                 onChange={handleInputChange}
-                                error={errors[`tasks.${currentTaskName}.settings.ICLabel.value.ic_rejection_threshold`]}
+                                error={errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_threshold`]}
                                 type="number"
                                 placeholder="e.g., 0.3"
                             />
                             <FormField
-                                path={`tasks.${currentTaskName}.settings.ICLabel.value.method`}
+                                path={`tasks.${currentTaskName}.settings.component_rejection.method`}
                                 label="Classification Method"
                                 tooltip="Method for component classification: ICLabel (default) or ICVision"
-                                value={icLabelSettings.value?.method || 'iclabel'}
+                                value={componentRejectionSettings.method || 'iclabel'}
                                 onChange={handleInputChange}
-                                error={errors[`tasks.${currentTaskName}.settings.ICLabel.value.method`]}
+                                error={errors[`tasks.${currentTaskName}.settings.component_rejection.method`]}
                                 type="select"
                                 options={[
                                     { value: "iclabel", label: "ICLabel" },

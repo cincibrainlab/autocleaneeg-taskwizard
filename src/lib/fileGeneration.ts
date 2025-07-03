@@ -108,7 +108,7 @@ export const prepareConfigForPython = (configToPrepare: ConfigType): Record<stri
             'settings.epoch_settings.value.tmin',
             'settings.epoch_settings.value.tmax',
             'settings.epoch_settings.threshold_rejection.volt_threshold.eeg',
-            'settings.ICLabel.value.ic_rejection_threshold'
+            'settings.component_rejection.value.ic_rejection_threshold'
         ];
 
         numericPaths.forEach(fieldPath => {
@@ -239,7 +239,7 @@ export function generateTaskScript(config: ConfigType): string {
     // Handle ICA component classification method
     let icaClassificationCode = 'self.classify_ica_components()';
     
-    if (taskData.settings?.ICLabel?.enabled && taskData.settings.ICLabel.value?.method === 'icvision') {
+    if (taskData.settings?.component_rejection?.enabled && taskData.settings.component_rejection.method === 'icvision') {
       icaClassificationCode = "self.classify_ica_components(method='icvision')";
     }
     

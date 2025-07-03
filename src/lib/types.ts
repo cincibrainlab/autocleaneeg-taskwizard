@@ -26,10 +26,9 @@ export interface ICAValue {
   };
 }
 
-export interface ICLabelValue {
+export interface ComponentRejectionValue {
   ic_flags_to_reject: string[];
   ic_rejection_threshold: number;
-  method: 'iclabel' | 'icvision';
 }
 
 // Nested structures within EpochSettings
@@ -70,7 +69,7 @@ export interface TaskSettings {
     reference_step?: StepConfig & { value: string };
     montage?: StepConfig & { value: string };
     ICA?: StepConfig & { value: ICAValue };
-    ICLabel?: StepConfig & { value: ICLabelValue };
+    component_rejection?: StepConfig & { value: ComponentRejectionValue; method: 'iclabel' | 'icvision' };
     epoch_settings?: EpochSettings;
     [key: string]: any; // Allow other potential settings
 }
