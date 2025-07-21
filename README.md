@@ -19,8 +19,8 @@ The wizard generates a downloadable Python script (`task_script.py`) that implem
 
 1. Visit the web application
 2. Follow the 9-step wizard to configure your EEG processing pipeline
-3. Download the generated Python script
-4. Run the script with your EEG data
+3. Download the generated Python task file
+4. Run the task file with you autoclean-eeg installation
 
 ## EEG Processing Steps Supported
 
