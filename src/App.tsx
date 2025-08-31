@@ -26,6 +26,7 @@ import Step7EogChannels from './components/steps/Step7EogChannels'
 import Step7ICA from './components/steps/Step7ICA'
 import Step8Epochs from './components/steps/Step8Epochs'
 import Step9Configure from './components/steps/Step9Configure'
+import ThemeToggle from './components/ThemeToggle'
 
 
 // Import types from the new file
@@ -276,9 +277,11 @@ function App() {
       // Generate Python task script content
       const taskScriptContent = generateTaskScript(config);
       
-      // Determine filename based on task name
+      // Determine filename based on task name with a random 4-digit suffix for uniqueness
       const taskName = getFirstTaskName(config.tasks);
-      const filename = taskName ? `${taskName.toLowerCase()}.py` : 'task.py';
+      const suffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      const base = taskName ? taskName.toLowerCase() : 'task';
+      const filename = `${base}-${suffix}.py`;
       
       // Create blob and trigger download
       const blob = new Blob([taskScriptContent], { type: 'text/x-python' });
@@ -298,14 +301,14 @@ function App() {
   return (
     <TooltipProvider>
       {/* Beautiful background container */}
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5"></div>
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-10 blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full opacity-10 blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-indigo-400 to-purple-600 dark:from-indigo-800 dark:to-purple-900 rounded-full opacity-10 dark:opacity-20 blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-indigo-600 dark:from-blue-900 dark:to-indigo-900 rounded-full opacity-10 dark:opacity-20 blur-3xl"></div>
         
         {/* Context Banner */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 shadow-lg relative z-20">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-slate-800 dark:to-slate-700 text-white py-3 px-4 shadow-lg relative z-20">
           <div className="max-w-5xl mx-auto flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center justify-center w-8 h-8 bg-white/20 rounded-lg">
@@ -314,14 +317,14 @@ function App() {
                 </svg>
               </div>
               <div className="text-sm">
-                <span className="font-semibold">Configuration Wizard</span> for the{" "}
+                <span className="font-semibold">Task Wizard</span> for the{" "}
                 <a 
                   href="https://github.com/cincibrainlab/autoclean_pipeline" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="underline hover:text-blue-200 font-semibold inline-flex items-center gap-1"
                 >
-                  Autoclean EEG Pipeline
+                  AutocleanEEG Pipeline
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
@@ -329,12 +332,15 @@ function App() {
                 <span className="hidden md:inline"> — Generate Python task files for automated EEG preprocessing</span>
               </div>
             </div>
+            <div className="flex items-center gap-2">
             <button
               onClick={() => window.open('https://github.com/cincibrainlab/autoclean_pipeline#installation', '_blank')}
               className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg font-medium transition-colors"
             >
               Install Pipeline →
             </button>
+            <ThemeToggle variant="inverted" />
+            </div>
           </div>
         </div>
         
@@ -359,8 +365,8 @@ function App() {
             <div className="flex-1"> 
               <div className="flex items-center gap-3 mb-3">
                 <div>
-                  <h1 className="text-4xl font-bold text-white tracking-tight">Autoclean EEG</h1>
-                  <div className="text-sm font-medium text-white/70 uppercase tracking-wider">Configuration Wizard</div>
+                  <h1 className="text-4xl font-bold text-white tracking-tight">AutocleanEEG Pipeline</h1>
+                  <div className="text-sm font-medium text-white/70 uppercase tracking-wider">Task Wizard</div>
                 </div>
               </div>
               <p className="text-white/90 text-lg font-medium">Create custom EEG preprocessing pipelines with ease</p>
@@ -380,21 +386,21 @@ function App() {
                     <div className="flex gap-4">
                         <div className="flex-shrink-0">
                             <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", designSystem.accents.info.icon)}>
-                                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                 </svg>
                             </div>
                         </div>
                         <div className="flex-1">
-                            <h3 className="font-semibold text-slate-800 mb-2">How This Works</h3>
-                            <p className="text-sm text-slate-600 mb-3">
-                                This wizard generates Python task files compatible with the <a href="https://github.com/cincibrainlab/autoclean_pipeline" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline font-medium">Autoclean EEG Pipeline</a>. 
+                            <h3 className="font-semibold text-slate-800 dark:text-slate-100 mb-2">How This Works</h3>
+                            <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                                This wizard generates Python task files compatible with the <a href="https://github.com/cincibrainlab/autoclean_pipeline" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline font-medium">AutocleanEEG Pipeline</a>. 
                                 After configuration:
                             </p>
-                            <ol className="text-sm text-slate-600 space-y-1 list-decimal list-inside">
-                                <li>Download your generated task file (e.g., <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">resting_state.py</code>)</li>
-                                <li>Install the pipeline: <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">pip install autoclean-eeg</code></li>
-                                <li>Run your preprocessing: <code className="bg-slate-100 px-1 py-0.5 rounded text-xs">pipeline.process_file(data.raw, task="resting_state")</code></li>
+                            <ol className="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-decimal list-inside">
+                                <li>Download your generated task file (e.g., <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">resting_state-1234.py</code>)</li>
+                                <li>Install the pipeline: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">pip install autoclean-eeg</code></li>
+                                <li>Run your preprocessing: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">pipeline.process_file(data.raw, task="resting_state")</code></li>
                             </ol>
                         </div>
                     </div>
@@ -402,8 +408,8 @@ function App() {
         
         {/* Enhanced Two-Line Navigation with Improved Visibility */}
         <nav className={cn(
-          "mb-8 bg-gradient-to-br from-slate-100 to-indigo-50",
-          "border-2 border-slate-200",
+          "mb-8 bg-gradient-to-br from-slate-100 to-indigo-50 dark:from-slate-900 dark:to-slate-800",
+          "border-2 border-slate-200 dark:border-slate-700",
           designSystem.rounded.xl,
           designSystem.padding.md,
           designSystem.shadows.xl
@@ -411,8 +417,8 @@ function App() {
           <div className="space-y-4">
             {/* Progress Indicator */}
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Configuration Progress</h2>
-              <span className="text-xs text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full">
+              <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider">Configuration Progress</h2>
+              <span className="text-xs text-slate-500 dark:text-slate-300 font-medium bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
                 Step {currentStep} of 9
               </span>
             </div>
@@ -426,11 +432,11 @@ function App() {
                 className={`rounded-lg font-semibold transition-all duration-200 ${
                   currentStep === 1 
                     ? 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg border-0 scale-105' 
-                    : 'hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400'
+                    : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500'
                 }`}
                 onClick={() => setCurrentStep(1)}
               >
-                <span className="text-xs opacity-70">1</span>
+                <span className="text-xs opacity-90">1</span>
                 <span className="ml-1.5">Template</span>
               </Button>
               
@@ -440,7 +446,7 @@ function App() {
                 const isStepReachable = configFinalized && stepNumber <= highestStepReached;
                 return (
                   <div key={stepNumber} className="flex items-center">
-                    <span className="mx-1.5 text-slate-300 text-lg">→</span>
+                    <span className="mx-1.5 text-slate-300 dark:text-slate-500 text-lg">→</span>
                     <Button 
                       variant={currentStep === stepNumber ? "default" : "outline"}
                       size="sm"
@@ -448,13 +454,13 @@ function App() {
                         currentStep === stepNumber 
                           ? 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg border-0 scale-105' 
                           : isStepReachable 
-                            ? 'hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400' 
-                            : 'text-slate-400 border-slate-200 cursor-not-allowed opacity-60'
+                            ? 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500' 
+                            : 'text-slate-400 dark:text-slate-600 border-slate-200 dark:border-slate-700 cursor-not-allowed opacity-60'
                       }`}
                       disabled={!isStepReachable}
                       onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
                     >
-                      <span className="text-xs opacity-70">{stepNumber}</span>
+                      <span className="text-xs opacity-90">{stepNumber}</span>
                       <span className="ml-1.5">{stepLabels[stepNumber]}</span>
                     </Button>
                   </div>
@@ -475,7 +481,7 @@ function App() {
                 const isLastStep = stepNumber === 9;
                 return (
                   <div key={stepNumber} className="flex items-center">
-                    {index > 0 && <span className="mx-1.5 text-slate-300 text-lg">→</span>}
+                    {index > 0 && <span className="mx-1.5 text-slate-300 dark:text-slate-500 text-lg">→</span>}
                     <Button 
                       variant={currentStep === stepNumber ? "default" : "outline"}
                       size="sm"
@@ -485,13 +491,13 @@ function App() {
                           : isStepReachable 
                             ? isLastStep
                               ? 'hover:bg-green-50 text-green-700 border-green-300 hover:border-green-400'
-                              : 'hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400'
-                            : 'text-slate-400 border-slate-200 cursor-not-allowed opacity-60'
+                              : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500'
+                            : 'text-slate-400 dark:text-slate-600 border-slate-200 dark:border-slate-700 cursor-not-allowed opacity-60'
                       }`}
                       disabled={!isStepReachable}
                       onClick={() => isStepReachable && setCurrentStep(stepNumber)} 
                     >
-                      <span className="text-xs opacity-70">{stepNumber}</span>
+                      <span className="text-xs opacity-90">{stepNumber}</span>
                       <span className="ml-1.5">{stepLabels[stepNumber]}</span>
                       {isLastStep && isStepReachable && (
                         <span className="ml-1.5 text-xs">✓</span>
@@ -517,58 +523,58 @@ function App() {
                          <Button 
                              variant="outline" 
                              className={cn(
-                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white transition-all duration-300",
+                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white dark:bg-slate-900 transition-all duration-300",
                                designSystem.padding.lg,
                                designSystem.rounded.xl,
-                               "border-2 border-slate-200 hover:border-indigo-400",
+                               "border-2 border-slate-200 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-slate-500",
                                designSystem.shadows.md,
-                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-blue-50"
+                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-indigo-50 hover:to-blue-50 dark:hover:bg-gradient-to-br dark:hover:from-slate-800 dark:hover:to-slate-700"
                              )} 
                              onClick={() => handleStartOptionSelect('RestingState')}
                          >
                              <div className="w-12 h-12 rounded-full bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center transition-colors">
                                <div className="w-6 h-6 bg-indigo-600 rounded-full"></div>
                              </div>
-                             <span className="text-xl font-bold text-slate-800 text-center">Resting State</span>
-                             <span className="text-sm text-slate-600 text-center break-words leading-relaxed max-w-full whitespace-normal">Continuous EEG recording without specific events</span>
+                             <span className="text-xl font-bold text-slate-800 dark:text-slate-100 text-center">Resting State</span>
+                             <span className="text-sm text-slate-600 dark:text-slate-400 text-center break-words leading-relaxed max-w-full whitespace-normal">Continuous EEG recording without specific events</span>
                          </Button>
                           {/* Button for EventBased */}
                           <Button 
                              variant="outline" 
                              className={cn(
-                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white transition-all duration-300",
+                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white dark:bg-slate-900 transition-all duration-300",
                                designSystem.padding.lg,
                                designSystem.rounded.xl,
-                               "border-2 border-slate-200 hover:border-purple-400",
+                               "border-2 border-slate-200 dark:border-slate-700 hover:border-purple-400 dark:hover:border-slate-500",
                                designSystem.shadows.md,
-                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50"
+                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 dark:hover:bg-gradient-to-br dark:hover:from-slate-800 dark:hover:to-slate-700"
                              )} 
                              onClick={() => handleStartOptionSelect('EventBased')}
                          >
                              <div className="w-12 h-12 rounded-full bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center transition-colors">
                                <div className="w-6 h-6 bg-purple-600 rounded-full"></div>
                              </div>
-                             <span className="text-xl font-bold text-slate-800 text-center">Event-Based</span>
-                             <span className="text-sm text-slate-600 text-center break-words leading-relaxed max-w-full whitespace-normal">Paradigm with stimulus triggers and event markers</span>
+                             <span className="text-xl font-bold text-slate-800 dark:text-slate-100 text-center">Event-Based</span>
+                             <span className="text-sm text-slate-600 dark:text-slate-400 text-center break-words leading-relaxed max-w-full whitespace-normal">Paradigm with stimulus triggers and event markers</span>
                          </Button>
                          {/* Button for Custom */}
                          <Button 
                              variant="outline" 
                              className={cn(
-                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white transition-all duration-300",
+                               "group min-h-[160px] flex flex-col items-center justify-center space-y-4 w-full bg-white dark:bg-slate-900 transition-all duration-300",
                                designSystem.padding.lg,
                                designSystem.rounded.xl,
-                               "border-2 border-slate-200 hover:border-emerald-400",
+                               "border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-slate-500",
                                designSystem.shadows.md,
-                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50"
+                               "hover:shadow-lg hover:bg-gradient-to-br hover:from-emerald-50 hover:to-teal-50 dark:hover:bg-gradient-to-br dark:hover:from-slate-800 dark:hover:to-slate-700"
                              )} 
                              onClick={() => handleStartOptionSelect('Custom')}
                          >
                              <div className="w-12 h-12 rounded-full bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors">
                                <div className="w-6 h-6 bg-emerald-600 rounded-full"></div>
                              </div>
-                            <span className="text-xl font-bold text-slate-800 text-center">Custom</span>
-                            <span className="text-sm text-slate-600 text-center break-words leading-relaxed max-w-full whitespace-normal">Start with blank configuration</span>
+                            <span className="text-xl font-bold text-slate-800 dark:text-slate-100 text-center">Custom</span>
+                            <span className="text-sm text-slate-600 dark:text-slate-400 text-center break-words leading-relaxed max-w-full whitespace-normal">Start with blank configuration</span>
                          </Button>
                      </CardContent>
                 </Card>
@@ -576,7 +582,7 @@ function App() {
                 
                 {/* Upload existing task file section */}
                 <Card className={designSystem.card.container}>
-                    <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-green-50 to-emerald-50")}>
+                    <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20")}>
                         <CardTitle className={designSystem.card.title}>Upload Existing Configuration</CardTitle>
                         <CardDescription className={designSystem.card.description}>Upload a previously generated Python task file to edit its configuration.</CardDescription>
                     </CardHeader>
@@ -589,10 +595,10 @@ function App() {
 
         {/* --- Step 2: Task Information --- */}
         {currentStep === 2 && currentTaskName && currentTaskData && (
-            <Card className="border border-slate-200/50 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-slate-200/50 px-8 py-6">
-                    <CardTitle className="text-2xl font-bold text-slate-800">Task Information</CardTitle>
-                    <CardDescription className="text-slate-600 text-lg">Define the basic identifiers for your EEG processing task.</CardDescription>
+            <Card className="border border-slate-200/50 dark:border-slate-700/50 shadow-xl bg-white/80 dark:bg-slate-900/60 backdrop-blur-sm rounded-2xl overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 border-b border-slate-200/50 dark:border-slate-700/50 px-8 py-6">
+                    <CardTitle className="text-2xl font-bold text-slate-800 dark:text-slate-100">Task Information</CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400 text-lg">Define the basic identifiers for your EEG processing task.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6 p-8">
                      {/* Task Metadata Section */}
@@ -748,10 +754,10 @@ function App() {
         )}
 
         {/* Footer */}
-        <footer className="mt-16 pt-8 border-t border-slate-200/50 flex flex-col items-center justify-center text-sm text-slate-500">
+        <footer className="mt-16 pt-8 border-t border-slate-200/50 dark:border-slate-700/50 flex flex-col items-center justify-center text-sm text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-2 mb-3">
-            <span className="font-semibold text-slate-700">Autoclean EEG</span>
-            <span className="text-slate-400">•</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-200">AutocleanEEG Pipeline</span>
+            <span className="text-slate-400 dark:text-slate-500">•</span>
             <span>Developed with ❤️ for EEG Research</span>
           </div>
           <a 

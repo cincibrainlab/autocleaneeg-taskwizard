@@ -1,10 +1,10 @@
-# Autoclean Config Wizard
+# AutocleanEEG Pipeline – Task Wizard
 
-A web-based configuration wizard for the Autoclean EEG preprocessing pipeline. This tool guides users through a step-by-step process to generate Python scripts for automated EEG data processing workflows.
+A web-based Task Wizard for the AutocleanEEG Pipeline. This tool guides users through a step-by-step process to generate Python scripts for automated EEG data processing workflows.
 
 ## What is this?
 
-The Autoclean Config Wizard is designed for neuroscience researchers who need to set up EEG data preprocessing pipelines. Instead of manually writing configuration files and Python scripts, this wizard provides an intuitive interface to:
+The AutocleanEEG Task Wizard is designed for neuroscience researchers who need to set up EEG data preprocessing pipelines. Instead of manually writing configuration files and Python scripts, this wizard provides an intuitive interface to:
 
 - Select from predefined EEG task templates (Resting State, Chirp, ASSR)
 - Configure processing steps like filtering, resampling, and artifact removal
@@ -13,14 +13,14 @@ The Autoclean Config Wizard is designed for neuroscience researchers who need to
 
 ## Output
 
-The wizard generates a downloadable Python script (`task_script.py`) that implements your configured EEG processing pipeline using the Autoclean framework.
+The Task Wizard generates a downloadable Python script (`task_script.py`) that implements your configured EEG processing pipeline using the AutocleanEEG Pipeline.
 
 ## Usage
 
 1. Visit the web application
 2. Follow the 9-step wizard to configure your EEG processing pipeline
 3. Download the generated Python task file
-4. Run the task file with you autoclean-eeg installation
+4. Run the task file with your AutocleanEEG Pipeline installation
 
 ## EEG Processing Steps Supported
 
@@ -32,4 +32,4 @@ The wizard generates a downloadable Python script (`task_script.py`) that implem
 - Epoching configuration
 - Custom parameter settings
 
-The generated scripts work with the Autoclean Python library for EEG preprocessing automation.
+The generated scripts work with the AutocleanEEG Pipeline for EEG preprocessing automation.

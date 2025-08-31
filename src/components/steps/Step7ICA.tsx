@@ -73,7 +73,7 @@ const Step7ICA: React.FC<Step7Props> = ({
 
   return (
     <Card className={designSystem.card.container}>
-        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-blue-50 to-indigo-50")}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800")}> 
             <CardTitle className={designSystem.card.title}>ICA & Component Labeling</CardTitle> 
             <CardDescription className={designSystem.card.description}>Decompose signals into independent components for automated artifact detection and removal.</CardDescription>
         </CardHeader>

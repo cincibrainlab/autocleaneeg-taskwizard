@@ -45,7 +45,7 @@ const Step9Configure: React.FC<Step9Props> = ({
             
             {/* Preview & Download Section */}
             <Card className={cn(designSystem.card.container, "mt-6")}>
-                <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-emerald-50 to-teal-50")}>
+                <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-slate-800")}> 
                     <CardTitle className={designSystem.card.title}>Preview & Download</CardTitle>
                     <CardDescription className={designSystem.card.description}>Review your complete EEG preprocessing pipeline and generate the Python configuration file.</CardDescription>
                 </CardHeader>

@@ -1,7 +1,7 @@
 {
-  "name": "Autoclean EEG Configuration Wizard",
-  "short_name": "Autoclean EEG",
-  "description": "Generate Python task files for the Autoclean EEG Pipeline",
+  "name": "AutocleanEEG Pipeline – Task Wizard",
+  "short_name": "AutocleanEEG",
+  "description": "Generate Python task files for the AutocleanEEG Pipeline",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",

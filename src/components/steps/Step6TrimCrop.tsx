@@ -31,7 +31,7 @@ const Step6TrimCrop: React.FC<Step6Props> = ({
 
   return (
     <Card className={designSystem.card.container}>
-        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-orange-50 to-amber-50")}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-orange-50 to-amber-50 dark:from-slate-900 dark:to-slate-800")}> 
             <CardTitle className={designSystem.card.title}>Data Trimming & Cropping</CardTitle>
             <CardDescription className={designSystem.card.description}>Configure temporal data boundaries to remove edge artifacts and focus on relevant time windows.</CardDescription>
         </CardHeader>

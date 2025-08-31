@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Deploying Autoclean EEG to Cloudflare Pages..."
+echo "🚀 Deploying AutocleanEEG Task Wizard to Cloudflare Pages..."
 
 # Build the project
 echo "📦 Building project..."

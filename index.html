@@ -9,20 +9,20 @@
     <meta name="theme-color" content="#1E88E5" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;">
-    <meta name="description" content="Generate Python task files for the Autoclean EEG Pipeline. Configure preprocessing parameters for your EEG data with an intuitive wizard interface." />
-    <meta property="og:title" content="Autoclean EEG - Configuration Wizard" />
-    <meta property="og:description" content="Generate Python task files for automated EEG preprocessing pipelines" />
+    <meta name="description" content="Generate Python task files for the AutocleanEEG Pipeline. Configure preprocessing parameters for your EEG data with an intuitive task wizard interface." />
+    <meta property="og:title" content="AutocleanEEG Pipeline – Task Wizard" />
+    <meta property="og:description" content="Generate Python task files for the AutocleanEEG Pipeline." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://config.autocleaneeg.org" />
     <link rel="canonical" href="https://config.autocleaneeg.org" />
-    <title>Autoclean EEG - Configuration Wizard</title>
+    <title>AutocleanEEG Pipeline – Task Wizard</title>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Autoclean EEG Configuration Wizard",
-      "description": "Generate Python task files for the Autoclean EEG Pipeline. Configure preprocessing parameters for your EEG data with an intuitive wizard interface.",
+      "name": "AutocleanEEG Pipeline – Task Wizard",
+      "description": "Generate Python task files for the AutocleanEEG Pipeline. Configure preprocessing parameters for your EEG data with an intuitive task wizard interface.",
       "url": "https://config.autocleaneeg.org",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any",
@@ -44,3 +44,14 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+    <script>
+      // Apply saved or system theme before UI paints (prevents FART)
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = t === 'dark' || (!t || t === 'system') && systemDark;
+          if (isDark) document.documentElement.classList.add('dark');
+        } catch (e) { /* no-op */ }
+      })();
+    </script>

@@ -114,7 +114,7 @@ const RejectionPolicySection: React.FC<RejectionPolicySectionProps> = ({ taskNam
 
   return (
     <Card className="border-t-4 border-t-sky-500 shadow-md overflow-hidden">
-      <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-sky-50 to-blue-50 pt-4 pb-4">
+      <CardHeader className="mx-1 mt-1 mb-0 rounded-lg bg-gradient-to-r from-sky-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 pt-4 pb-4">
         <CardTitle>Artifact Rejection Policy</CardTitle>
         <CardDescription>Configure how bad channels and artifactual ICs are handled.</CardDescription>
       </CardHeader>

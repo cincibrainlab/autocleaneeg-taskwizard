@@ -31,7 +31,7 @@ const Step4Montage: React.FC<Step4Props> = ({
 
   return (
     <Card className={designSystem.card.container}>
-        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-pink-50 to-purple-50")}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-pink-50 to-purple-50 dark:from-slate-900 dark:to-slate-800")}> 
             <CardTitle className={designSystem.card.title}>Filtering & Montage</CardTitle>
             <CardDescription className={designSystem.card.description}>Configure signal filtering parameters and EEG electrode montage layout.</CardDescription>
         </CardHeader>
@@ -113,7 +113,7 @@ const Step4Montage: React.FC<Step4Props> = ({
                 </AnimatedSection>
                 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between mt-8 pt-6 border-t border-slate-200/50">
+                <div className="flex justify-between mt-8 pt-6 border-t border-slate-200/50 dark:border-slate-700/50"> 
                     <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">
                         ← Back to Task Info
                     </Button> 

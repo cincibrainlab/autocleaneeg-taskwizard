@@ -31,7 +31,7 @@ const Step7EogChannels: React.FC<Step7Props> = ({
 
   return (
     <Card className={designSystem.card.container}>
-        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-yellow-50 to-amber-50")}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-slate-900 dark:to-slate-800")}> 
             <CardTitle className={designSystem.card.title}>EOG & Channel Management</CardTitle>
             <CardDescription className={designSystem.card.description}>Identify ocular artifact channels and exclude problematic electrodes from analysis.</CardDescription>
         </CardHeader>

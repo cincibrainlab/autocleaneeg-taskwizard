@@ -1,8 +1,9 @@
 {
-  "name": "autoclean_config_wizard",
+  "name": "autocleaneeg-task-wizard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Task Wizard for the AutocleanEEG Pipeline",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

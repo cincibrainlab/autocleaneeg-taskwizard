@@ -30,7 +30,7 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
       const config = parsePythonTaskFile(content);
       
       if (!config) {
-        throw new Error('Unable to parse configuration file. Please ensure it\'s a valid Autoclean EEG task file.');
+        throw new Error('Unable to parse configuration file. Please ensure it\'s a valid AutocleanEEG task file.');
       }
 
       const validation = validateParsedConfig(config);
@@ -116,7 +116,7 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
             ? 'border-red-300 bg-red-50/50'
             : status === 'success'
             ? 'border-emerald-300 bg-emerald-50/50'
-            : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50/30'
+            : 'border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-50/30 dark:hover:bg-slate-800/30'
         }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -136,11 +136,11 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
             {getStatusIcon()}
           </div>
           <div>
-            <p className="text-lg font-semibold text-slate-800 mb-2">
+            <p className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
               {getStatusText()}
             </p>
             {status === 'idle' && (
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Drag and drop your Python task file here, or click below to browse
               </p>
             )}
@@ -153,7 +153,7 @@ export function FileUpload({ onConfigLoaded, className = '' }: FileUploadProps) 
           type="button"
           variant="outline"
           onClick={onButtonClick}
-          className="w-full mt-6 border-2 border-slate-300 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200 py-3 rounded-xl font-medium"
+          className="w-full mt-6 border-2 border-slate-300 dark:border-slate-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-all duration-200 py-3 rounded-xl font-medium"
         >
           <Upload className="h-5 w-5 mr-3" />
           Browse Configuration Files

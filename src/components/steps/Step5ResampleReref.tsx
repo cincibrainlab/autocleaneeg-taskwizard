@@ -31,7 +31,7 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
 
   return (
     <Card className={designSystem.card.container}>
-        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-rose-50 to-orange-50")}>
+        <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-rose-50 to-orange-50 dark:from-slate-900 dark:to-slate-800")}> 
             <CardTitle className={designSystem.card.title}>Resample & Rereference</CardTitle> 
             <CardDescription className={designSystem.card.description}>Configure data resampling rate and rereferencing options for optimal signal processing.</CardDescription>
         </CardHeader>
@@ -84,7 +84,7 @@ const Step5ResampleReref: React.FC<Step5Props> = ({
                 )}
                 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between mt-8 pt-6 border-t border-slate-200/50">
+                <div className="flex justify-between mt-8 pt-6 border-t border-slate-200/50 dark:border-slate-700/50"> 
                     <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">
                         ← Back to Filtering & Montage
                     </Button>

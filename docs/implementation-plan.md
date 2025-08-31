@@ -1,11 +1,11 @@
-# Autoclean ConfigWizard – Production Readiness Implementation Plan
+# AutocleanEEG Task Wizard – Production Readiness Implementation Plan
 
 > **Document version:** v0.1 · _Draft created <2025-06-25>_
 
 ---
 
 ## 1. Executive Summary
-This document outlines the phased roadmap required to harden, containerise, and deploy the **Autoclean-ConfigWizard** web application to a production-grade environment while optimising for long-term operational cost efficiency.
+This document outlines the phased roadmap required to harden, containerise, and deploy the **AutocleanEEG Task Wizard** web application to a production-grade environment while optimising for long-term operational cost efficiency.
 
 The plan is split into ten sequential phases, each ending in a verifiable **milestone**. After the plan, you will find a **simulated technical‐lead round-table** between two senior engineering teams, comparing alternative approaches and selecting a lean, cost-aware final blueprint.
 

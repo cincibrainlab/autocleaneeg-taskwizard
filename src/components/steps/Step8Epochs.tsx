@@ -48,7 +48,7 @@ const Step8Epochs: React.FC<Step8Props> = ({
 
     return (
         <Card className={designSystem.card.container}>
-            <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-lime-50 to-green-50")}>
+            <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-lime-50 to-green-50 dark:from-slate-900 dark:to-slate-800")}> 
                 <CardTitle className={designSystem.card.title}>Epoch Settings</CardTitle>
                 <CardDescription className={designSystem.card.description}>Segment continuous data into time-locked epochs for event-related analysis.</CardDescription>
             </CardHeader>

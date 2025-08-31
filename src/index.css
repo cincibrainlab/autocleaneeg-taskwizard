@@ -79,6 +79,10 @@
   }
 }
 
+/* Hint form controls and scrollbars to adapt to theme */
+html { color-scheme: light; }
+.dark { color-scheme: dark; }
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
