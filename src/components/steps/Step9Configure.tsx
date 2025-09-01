@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 // Import local components and types
 import RejectionPolicySection from '@/components/RejectionPolicySection'; // Adjust path if needed
+import ArtifactFunctionDoc from '@/components/ArtifactFunctionDoc';
 import { TaskData, ValidationErrors } from '@/lib/types'; // Adjust path as needed
 import { designSystem, cn } from '@/lib/design-system';
 
@@ -75,6 +76,11 @@ const Step9Configure: React.FC<Step9Props> = ({
                 </CardContent>
             </Card>
             
+            {/* Artifact Cleaning Functions (scientist-facing) */}
+            <div className="mt-6">
+              <ArtifactFunctionDoc />
+            </div>
+
             {/* Final Navigation Button */}
             <div className="flex justify-between mt-6">
                 <Button variant="outline" onClick={goToPreviousStep} className="px-6 py-3 rounded-xl">← Back to Epochs</Button>
