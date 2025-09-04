@@ -237,10 +237,13 @@ export function generateTaskScript(config: ConfigType): string {
     }
     
     // Handle ICA component classification method
-    let icaClassificationCode = 'self.classify_ica_components()';
-    
-    if (taskData.settings?.component_rejection?.enabled && taskData.settings.component_rejection.method === 'icvision') {
-      icaClassificationCode = "self.classify_ica_components(method='icvision')";
+    let icaClassificationCode = '# ICA component classification skipped';
+
+    if (taskData.settings?.component_rejection?.enabled) {
+      const method = taskData.settings.component_rejection.method;
+      if (method === 'iclabel' || method === 'icvision') {
+        icaClassificationCode = `self.classify_ica_components(method='${method}')`;
+      }
     }
     
     // Replace template placeholders
