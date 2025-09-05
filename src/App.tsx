@@ -365,8 +365,8 @@ function App() {
             <div className="flex-1"> 
               <div className="flex items-center gap-3 mb-3">
                 <div>
-                  <h1 className="text-4xl font-bold text-white tracking-tight">AutocleanEEG Pipeline</h1>
-                  <div className="text-sm font-medium text-white/70 uppercase tracking-wider">Task Wizard</div>
+                  <h1 className="text-4xl font-bold text-white tracking-tight">Task Wizard</h1>
+                  <div className="text-sm font-medium text-white/70 uppercase tracking-wider">AutocleanEEG Pipeline</div>
                 </div>
               </div>
               <p className="text-white/90 text-lg font-medium">Create custom EEG preprocessing pipelines with ease</p>
