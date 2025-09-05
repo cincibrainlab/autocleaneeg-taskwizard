@@ -108,7 +108,8 @@ export const prepareConfigForPython = (configToPrepare: ConfigType): Record<stri
             'settings.epoch_settings.value.tmin',
             'settings.epoch_settings.value.tmax',
             'settings.epoch_settings.threshold_rejection.volt_threshold.eeg',
-            'settings.component_rejection.value.ic_rejection_threshold'
+            'settings.component_rejection.value.ic_rejection_threshold',
+            'settings.component_rejection.value.psd_fmax'
         ];
 
         numericPaths.forEach(fieldPath => {
@@ -128,6 +129,19 @@ export const prepareConfigForPython = (configToPrepare: ConfigType): Record<stri
                 }
             } catch (e) { /* Ignore */ }
         });
+
+        // Ensure ic_rejection_overrides values are numbers
+        try {
+            const overrides = taskData.settings?.component_rejection?.value?.ic_rejection_overrides;
+            if (overrides && typeof overrides === 'object') {
+                Object.keys(overrides).forEach((key) => {
+                    const num = parseFloat((overrides as any)[key]);
+                    if (!isNaN(num)) {
+                        (overrides as any)[key] = num;
+                    }
+                });
+            }
+        } catch (e) { /* Ignore */ }
 
         // Handle event_id - convert array of event IDs to dict or keep as null
         try {

@@ -29,6 +29,8 @@ export interface ICAValue {
 export interface ComponentRejectionValue {
   ic_flags_to_reject: string[];
   ic_rejection_threshold: number;
+  ic_rejection_overrides?: Record<string, number>;
+  psd_fmax?: number;
 }
 
 // Nested structures within EpochSettings
@@ -71,6 +73,7 @@ export interface TaskSettings {
     ICA?: StepConfig & { value: ICAValue };
     component_rejection?: StepConfig & { value: ComponentRejectionValue; method: 'iclabel' | 'icvision' };
     epoch_settings?: EpochSettings;
+    move_flagged_files?: StepConfig & { value: boolean };
     [key: string]: any; // Allow other potential settings
 }
 

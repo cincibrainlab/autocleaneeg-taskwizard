@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import FormField from '../FormField'; 
+import FormField from '../FormField';
+import KeyValueEditor from '@/components/KeyValueEditor';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import type { TaskData, ValidationErrors } from '@/lib/types';
@@ -50,13 +51,13 @@ const Step7ICA: React.FC<Step7Props> = ({
     
     // Set appropriate fit_params based on method
     if (path.includes('method')) {
-      if (value === 'picard') {
+      if (value === 'infomax') {
         handleInputChange(`tasks.${currentTaskName}.settings.ICA.value.fit_params`, {
-          ortho: false,
           extended: true
         });
-      } else if (value === 'infomax') {
+      } else if (value === 'picard') {
         handleInputChange(`tasks.${currentTaskName}.settings.ICA.value.fit_params`, {
+          ortho: false,
           extended: true
         });
       } else {
@@ -99,9 +100,9 @@ const Step7ICA: React.FC<Step7Props> = ({
                                 error={errors[`tasks.${currentTaskName}.settings.ICA.value.method`]}
                                 type="select"
                                 options={[
+                                    { value: "infomax", label: "Infomax" },
                                     { value: "picard", label: "Picard" },
-                                    { value: "fastica", label: "FastICA" },
-                                    { value: "infomax", label: "Infomax" }
+                                    { value: "fastica", label: "FastICA" }
                                 ]}
                                 placeholder="Select ICA method..."
                             />
@@ -186,31 +187,63 @@ const Step7ICA: React.FC<Step7Props> = ({
                                 </p>
                             )}
                         </div>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            <FormField
-                                path={`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_threshold`}
-                                label="Rejection Threshold"
-                                tooltip="Threshold for automatic component rejection (0-1)"
-                                value={componentRejectionSettings.value?.ic_rejection_threshold}
-                                onChange={handleInputChange}
-                                error={errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_threshold`]}
-                                type="number"
-                                placeholder="e.g., 0.3"
-                            />
-                            <FormField
-                                path={`tasks.${currentTaskName}.settings.component_rejection.method`}
-                                label="Classification Method"
-                                tooltip="Method for component classification: ICLabel (default) or ICVision"
-                                value={componentRejectionSettings.method || 'iclabel'}
-                                onChange={handleInputChange}
-                                error={errors[`tasks.${currentTaskName}.settings.component_rejection.method`]}
-                                type="select"
-                                options={[
-                                    { value: "iclabel", label: "ICLabel" },
-                                    { value: "icvision", label: "ICVision" }
-                                ]}
-                                placeholder="Select method..."
-                            />
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label className="text-sm font-medium">IC Rejection Overrides</Label>
+                                <p className="text-xs text-muted-foreground">
+                                    Override thresholds for specific component types
+                                </p>
+                                <KeyValueEditor
+                                    value={componentRejectionSettings.value?.ic_rejection_overrides || {}}
+                                    onChange={(val) =>
+                                        handleInputChange(
+                                            `tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_overrides`,
+                                            val
+                                        )
+                                    }
+                                />
+                                {errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_overrides`] && (
+                                    <p className="text-sm text-red-500">
+                                        {errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_overrides`]}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <FormField
+                                    path={`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_threshold`}
+                                    label="Rejection Threshold"
+                                    tooltip="Threshold for automatic component rejection (0-1)"
+                                    value={componentRejectionSettings.value?.ic_rejection_threshold}
+                                    onChange={handleInputChange}
+                                    error={errors[`tasks.${currentTaskName}.settings.component_rejection.value.ic_rejection_threshold`]}
+                                    type="number"
+                                    placeholder="e.g., 0.3"
+                                />
+                                <FormField
+                                    path={`tasks.${currentTaskName}.settings.component_rejection.value.psd_fmax`}
+                                    label="PSD Max Frequency"
+                                    tooltip="Maximum frequency for PSD estimation"
+                                    value={componentRejectionSettings.value?.psd_fmax}
+                                    onChange={handleInputChange}
+                                    error={errors[`tasks.${currentTaskName}.settings.component_rejection.value.psd_fmax`]}
+                                    type="number"
+                                    placeholder="e.g., 50"
+                                />
+                                <FormField
+                                    path={`tasks.${currentTaskName}.settings.component_rejection.method`}
+                                    label="Classification Method"
+                                    tooltip="Method for component classification: ICLabel (default) or ICVision"
+                                    value={componentRejectionSettings.method || 'iclabel'}
+                                    onChange={handleInputChange}
+                                    error={errors[`tasks.${currentTaskName}.settings.component_rejection.method`]}
+                                    type="select"
+                                    options={[
+                                        { value: "iclabel", label: "ICLabel" },
+                                        { value: "icvision", label: "ICVision" }
+                                    ]}
+                                    placeholder="Select method..."
+                                />
+                            </div>
                         </div>
                     </AnimatedSection>
                 )}

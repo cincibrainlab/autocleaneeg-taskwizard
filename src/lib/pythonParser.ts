@@ -163,10 +163,14 @@ function convertPythonConfigToTaskSettings(configObj: any): TaskSettings {
           enabled: value.enabled || false,
           method: value.method || 'iclabel',
           value: {
-            ic_flags_to_reject: Array.isArray(value.value?.ic_flags_to_reject) 
-              ? value.value.ic_flags_to_reject 
+            ic_flags_to_reject: Array.isArray(value.value?.ic_flags_to_reject)
+              ? value.value.ic_flags_to_reject
               : [],
-            ic_rejection_threshold: value.value?.ic_rejection_threshold || 0.8
+            ic_rejection_threshold: value.value?.ic_rejection_threshold || 0.8,
+            ic_rejection_overrides: typeof value.value?.ic_rejection_overrides === 'object'
+              ? value.value.ic_rejection_overrides
+              : {},
+            psd_fmax: value.value?.psd_fmax
           }
         };
         break;

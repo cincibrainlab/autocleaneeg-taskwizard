@@ -31,10 +31,9 @@ export const defaultTaskSettings: TaskData = {
     ICA: {
       enabled: true,
       value: {
-        method: "picard",
+        method: "infomax",
         n_components: null,
         fit_params: {
-          ortho: false,
           extended: true,
         },
       },
@@ -45,6 +44,8 @@ export const defaultTaskSettings: TaskData = {
       value: {
         ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
         ic_rejection_threshold: 0.3,
+        ic_rejection_overrides: {},
+        psd_fmax: 50,
       },
     },
     epoch_settings: {
@@ -54,6 +55,7 @@ export const defaultTaskSettings: TaskData = {
       remove_baseline: { enabled: false, window: [null, 0] },
       threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
     },
+    move_flagged_files: { enabled: false, value: false },
   },
 };
 
@@ -87,10 +89,9 @@ export const taskTemplates: Record<string, TaskData> = {
       ICA: {
         enabled: true,
         value: {
-          method: "picard",
+          method: "infomax",
           n_components: null,
           fit_params: {
-            ortho: false,
             extended: true,
           },
         },
@@ -101,6 +102,8 @@ export const taskTemplates: Record<string, TaskData> = {
         value: {
           ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
           ic_rejection_threshold: 0.3,
+          ic_rejection_overrides: {},
+          psd_fmax: 50,
         },
       },
       epoch_settings: {
@@ -110,6 +113,7 @@ export const taskTemplates: Record<string, TaskData> = {
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
       },
+      move_flagged_files: { enabled: false, value: false },
     },
   },
   EventBased: {
@@ -140,10 +144,9 @@ export const taskTemplates: Record<string, TaskData> = {
       ICA: {
         enabled: true,
         value: {
-          method: "picard",
+          method: "infomax",
           n_components: null,
           fit_params: {
-            ortho: false,
             extended: true,
           },
         },
@@ -154,6 +157,8 @@ export const taskTemplates: Record<string, TaskData> = {
         value: {
           ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
           ic_rejection_threshold: 0.3,
+          ic_rejection_overrides: {},
+          psd_fmax: 50,
         },
       },
       epoch_settings: {
@@ -163,6 +168,7 @@ export const taskTemplates: Record<string, TaskData> = {
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
       },
+      move_flagged_files: { enabled: false, value: false },
     },
   },
 };
