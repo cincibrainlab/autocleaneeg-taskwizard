@@ -369,7 +369,7 @@ function App() {
                   <div className="text-sm font-medium text-white/70 uppercase tracking-wider">AutocleanEEG Pipeline</div>
                 </div>
               </div>
-              <p className="text-white/90 text-lg font-medium">Create custom EEG preprocessing pipelines with ease</p>
+              <p className="text-white/90 text-lg font-medium">Create Custom EEG Pipelines</p>
             </div>
             
             {/* Visual accent */}
@@ -399,9 +399,12 @@ function App() {
                             </p>
                             <ol className="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-decimal list-inside">
                                 <li>Download your generated task file (e.g., <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">resting_state-1234.py</code>)</li>
-                                <li>Install the pipeline: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">pip install autoclean-eeg</code></li>
-                                <li>Run your preprocessing: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">pipeline.process_file(data.raw, task="resting_state")</code></li>
+                                <li>Install the pipeline using <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">uv</a>: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">uv tool install autocleaneeg-pipeline</code></li>
+                                <li>Run your preprocessing: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">autocleaneeg-pipeline process data.raw --task resting_state</code></li>
                             </ol>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">
+                                💡 We recommend <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">uv</a> for fast, reliable Python package management
+                            </p>
                         </div>
                     </div>
                 </div>
