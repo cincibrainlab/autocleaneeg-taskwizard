@@ -21,8 +21,8 @@ export interface ICAValue {
   method: string;
   n_components: number | null;
   fit_params: {
-    ortho: boolean;
-    extended: boolean;
+    ortho?: boolean;
+    extended?: boolean;
   };
 }
 
