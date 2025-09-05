@@ -55,6 +55,7 @@ export const defaultTaskSettings: TaskData = {
       remove_baseline: { enabled: false, window: [null, 0] },
       threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
     },
+    move_flagged_files: { enabled: false, value: false },
   },
 };
 
@@ -112,6 +113,7 @@ export const taskTemplates: Record<string, TaskData> = {
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
       },
+      move_flagged_files: { enabled: false, value: false },
     },
   },
   EventBased: {
@@ -166,6 +168,7 @@ export const taskTemplates: Record<string, TaskData> = {
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
       },
+      move_flagged_files: { enabled: false, value: false },
     },
   },
 };

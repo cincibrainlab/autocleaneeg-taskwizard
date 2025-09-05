@@ -73,6 +73,7 @@ export interface TaskSettings {
     ICA?: StepConfig & { value: ICAValue };
     component_rejection?: StepConfig & { value: ComponentRejectionValue; method: 'iclabel' | 'icvision' };
     epoch_settings?: EpochSettings;
+    move_flagged_files?: StepConfig & { value: boolean };
     [key: string]: any; // Allow other potential settings
 }
 
