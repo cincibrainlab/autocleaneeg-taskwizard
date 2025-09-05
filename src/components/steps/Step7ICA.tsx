@@ -116,6 +116,16 @@ const Step7ICA: React.FC<Step7Props> = ({
                                 type="number"
                                 placeholder="null (automatic)"
                             />
+                            <FormField
+                                path={`tasks.${currentTaskName}.settings.ICA.value.temp_highpass_for_ica`}
+                                label="Temporary Highpass for ICA"
+                                tooltip="Apply temporary highpass filter before ICA (Hz). Data is restored after ICA."
+                                value={icaSettings.value?.temp_highpass_for_ica}
+                                onChange={handleInputChange}
+                                error={errors[`tasks.${currentTaskName}.settings.ICA.value.temp_highpass_for_ica`]}
+                                type="number"
+                                placeholder="e.g., 1.0"
+                            />
                         </div>
                         {/* Method-specific parameters */}
                         {(icaSettings.value?.method === "picard" || icaSettings.value?.method === "infomax") && (
@@ -243,6 +253,18 @@ const Step7ICA: React.FC<Step7Props> = ({
                                     ]}
                                     placeholder="Select method..."
                                 />
+                                {componentRejectionSettings?.method === 'icvision' && (
+                                    <FormField
+                                        path={`tasks.${currentTaskName}.settings.component_rejection.value.icvision_n_components`}
+                                        label="ICVision Components"
+                                        tooltip="Number of components for ICVision classification"
+                                        value={componentRejectionSettings.value?.icvision_n_components}
+                                        onChange={handleInputChange}
+                                        error={errors[`tasks.${currentTaskName}.settings.component_rejection.value.icvision_n_components`]}
+                                        type="number"
+                                        placeholder="e.g., 15"
+                                    />
+                                )}
                             </div>
                         </div>
                     </AnimatedSection>

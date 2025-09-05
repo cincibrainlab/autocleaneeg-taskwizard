@@ -20,17 +20,19 @@ export interface FilteringValue {
 export interface ICAValue {
   method: string;
   n_components: number | null;
-  fit_params: {
+  fit_params?: {
     ortho?: boolean;
     extended?: boolean;
-  };
+  } | null;
+  temp_highpass_for_ica?: number | null;
 }
 
 export interface ComponentRejectionValue {
-  ic_flags_to_reject: string[];
-  ic_rejection_threshold: number;
+  ic_flags_to_reject?: string[] | null;
+  ic_rejection_threshold?: number | null;
   ic_rejection_overrides?: Record<string, number>;
-  psd_fmax?: number;
+  psd_fmax?: number | null;
+  icvision_n_components?: number | null;
 }
 
 // Nested structures within EpochSettings
@@ -62,18 +64,24 @@ export interface RejectionPolicy {
 
 // Structure for the main processing settings within a task
 export interface TaskSettings {
-    resample_step?: StepConfig & { value: number };
+    version?: string; // Configuration version
+    move_flagged_files?: boolean; // Simple boolean, not StepConfig
+    resample_step?: StepConfig & { value: number | null };
     filtering?: StepConfig & { value: FilteringValue };
-    drop_outerlayer?: StepConfig & { value: string[] };
-    eog_step?: StepConfig & { value: number[] };
-    trim_step?: StepConfig & { value: number };
+    drop_outerlayer?: StepConfig & { value: string[] | null };
+    eog_step?: StepConfig & { value: number[] | null };
+    trim_step?: StepConfig & { value: number | null };
     crop_step?: StepConfig & { value: CropValue };
-    reference_step?: StepConfig & { value: string };
-    montage?: StepConfig & { value: string };
+    reference_step?: StepConfig & { value: string | null };
+    montage?: StepConfig & { value: string | null };
     ICA?: StepConfig & { value: ICAValue };
-    component_rejection?: StepConfig & { value: ComponentRejectionValue; method: 'iclabel' | 'icvision' };
+    component_rejection?: StepConfig & { 
+        value: ComponentRejectionValue; 
+        method?: 'iclabel' | 'icvision' | null;
+        psd_fmax?: number | null; // Can be at this level too
+        icvision_n_components?: number | null; // Can be at this level too
+    };
     epoch_settings?: EpochSettings;
-    move_flagged_files?: StepConfig & { value: boolean };
     [key: string]: any; // Allow other potential settings
 }
 

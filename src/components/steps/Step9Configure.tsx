@@ -43,43 +43,34 @@ const Step9Configure: React.FC<Step9Props> = ({
         return null; // Or render an error/loading state
     }
 
-    const moveFlaggedFilesSettings = taskData.settings?.move_flagged_files;
+    const moveFlaggedFiles = taskData.settings?.move_flagged_files || false;
 
     return (
         <> 
             {/* File Management Options */}
             <Card className={designSystem.card.container}>
-                <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-indigo-50 to-purple-50")}>
+                <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-slate-900 dark:to-slate-800")}>
                     <CardTitle className={designSystem.card.title}>File Management</CardTitle>
                     <CardDescription className={designSystem.card.description}>Configure how flagged files should be handled during processing.</CardDescription>
                 </CardHeader>
                 <CardContent className={cn("space-y-4", designSystem.card.content)}>
-                    <AnimatedSection
-                        title="Move Flagged Files"
-                        description="Automatically move files that are flagged as bad to a separate directory"
-                        enabled={moveFlaggedFilesSettings?.enabled || false}
-                        onToggle={() => handleInputChange(`tasks.${currentTaskName}.settings.move_flagged_files.enabled`, !moveFlaggedFilesSettings?.enabled)}
-                        contentClassName="pl-8 pt-3 pb-1 space-y-4 border-l-2 border-indigo-200 ml-2.5"
-                        color="indigo"
-                    >
-                        <div className="flex items-center space-x-3">
-                            <Switch
-                                id="move-flagged-value"
-                                checked={moveFlaggedFilesSettings?.value || false}
-                                onCheckedChange={(checked) => 
-                                    handleInputChange(`tasks.${currentTaskName}.settings.move_flagged_files.value`, checked)
-                                }
-                            />
-                            <Label htmlFor="move-flagged-value" className="text-sm">
-                                Move flagged files to 'bad' subdirectory
+                    <div className="flex items-center justify-between space-x-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                        <div className="flex-1">
+                            <Label htmlFor="move-flagged-files" className="text-sm font-medium">
+                                Move Flagged Files
                             </Label>
+                            <p className="text-xs text-muted-foreground mt-1">
+                                Automatically move files that fail quality checks to a 'bad' subdirectory
+                            </p>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-2">
-                            When enabled, files that fail quality checks will be automatically moved to a 'bad' subdirectory 
-                            instead of being processed further. This helps keep your data organized and prevents bad files 
-                            from affecting downstream analyses.
-                        </p>
-                    </AnimatedSection>
+                        <Switch
+                            id="move-flagged-files"
+                            checked={moveFlaggedFiles}
+                            onCheckedChange={(checked) => 
+                                handleInputChange(`tasks.${currentTaskName}.settings.move_flagged_files`, checked)
+                            }
+                        />
+                    </div>
                 </CardContent>
             </Card>
             

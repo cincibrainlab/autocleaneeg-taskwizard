@@ -12,6 +12,7 @@ export const defaultTaskSettings: TaskData = {
   dataset_name: "",
   input_path: "",
   settings: {
+    version: "1.0",
     resample_step: { enabled: true, value: 250 },
     filtering: {
       enabled: true,
@@ -55,7 +56,7 @@ export const defaultTaskSettings: TaskData = {
       remove_baseline: { enabled: false, window: [null, 0] },
       threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
     },
-    move_flagged_files: { enabled: false, value: false },
+    move_flagged_files: false,
   },
 };
 
@@ -70,6 +71,7 @@ export const taskTemplates: Record<string, TaskData> = {
     task_name: "RestingState",
     description: "Resting state EEG recording",
     settings: {
+      version: "1.0",
       resample_step: { enabled: true, value: 250 },
       filtering: {
         enabled: true,
@@ -113,13 +115,14 @@ export const taskTemplates: Record<string, TaskData> = {
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
       },
-      move_flagged_files: { enabled: false, value: false },
+      move_flagged_files: false,
     },
   },
   EventBased: {
     task_name: "EventBased",
     description: "Event-based EEG paradigm with stimulus triggers",
     settings: {
+      version: "1.0",
       resample_step: { enabled: true, value: 250 },
       filtering: {
         enabled: true,
@@ -168,7 +171,7 @@ export const taskTemplates: Record<string, TaskData> = {
         remove_baseline: { enabled: false, window: [null, 0] },
         threshold_rejection: { enabled: false, volt_threshold: { eeg: 125e-6 } },
       },
-      move_flagged_files: { enabled: false, value: false },
+      move_flagged_files: false,
     },
   },
 };
