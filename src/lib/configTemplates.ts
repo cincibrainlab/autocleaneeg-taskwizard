@@ -45,6 +45,8 @@ export const defaultTaskSettings: TaskData = {
       value: {
         ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
         ic_rejection_threshold: 0.3,
+        ic_rejection_overrides: {},
+        psd_fmax: 50,
       },
     },
     epoch_settings: {
@@ -101,6 +103,8 @@ export const taskTemplates: Record<string, TaskData> = {
         value: {
           ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
           ic_rejection_threshold: 0.3,
+          ic_rejection_overrides: {},
+          psd_fmax: 50,
         },
       },
       epoch_settings: {
@@ -154,6 +158,8 @@ export const taskTemplates: Record<string, TaskData> = {
         value: {
           ic_flags_to_reject: ["muscle", "heart", "eog", "ch_noise", "line_noise"],
           ic_rejection_threshold: 0.3,
+          ic_rejection_overrides: {},
+          psd_fmax: 50,
         },
       },
       epoch_settings: {

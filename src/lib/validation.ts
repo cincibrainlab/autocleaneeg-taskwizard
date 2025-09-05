@@ -85,9 +85,20 @@ export const validateConfig = (configToValidate: ConfigType): ValidationErrors =
       if (taskData.settings.component_rejection?.enabled && taskData.settings.component_rejection.value) {
           const componentRejection = taskData.settings.component_rejection.value;
           const componentRejectionPath = `${settingsPath}.component_rejection.value`;
-          
+
           if (componentRejection.ic_rejection_threshold < 0 || componentRejection.ic_rejection_threshold > 1) {
               errors[`${componentRejectionPath}.ic_rejection_threshold`] = 'IC rejection threshold must be between 0 and 1.';
+          }
+          if (componentRejection.ic_rejection_overrides) {
+              const invalid = Object.values(componentRejection.ic_rejection_overrides).some(
+                  (v) => typeof v !== 'number' || v < 0 || v > 1
+              );
+              if (invalid) {
+                  errors[`${componentRejectionPath}.ic_rejection_overrides`] = 'Override values must be between 0 and 1.';
+              }
+          }
+          if (componentRejection.psd_fmax !== undefined && (isNaN(Number(componentRejection.psd_fmax)) || Number(componentRejection.psd_fmax) <= 0)) {
+              errors[`${componentRejectionPath}.psd_fmax`] = 'PSD fmax must be a positive number.';
           }
       }
 

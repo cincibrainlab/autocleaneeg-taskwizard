@@ -29,6 +29,8 @@ export interface ICAValue {
 export interface ComponentRejectionValue {
   ic_flags_to_reject: string[];
   ic_rejection_threshold: number;
+  ic_rejection_overrides?: Record<string, number>;
+  psd_fmax?: number;
 }
 
 // Nested structures within EpochSettings
