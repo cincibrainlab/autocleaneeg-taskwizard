@@ -253,8 +253,12 @@ export function generateTaskScript(config: ConfigType): string {
     // Handle ICA component classification method
     let icaClassificationCode = 'self.classify_ica_components()';
     
-    if (taskData.settings?.component_rejection?.enabled && taskData.settings.component_rejection.method === 'icvision') {
-      icaClassificationCode = "self.classify_ica_components(method='icvision')";
+    if (taskData.settings?.component_rejection?.enabled) {
+      if (taskData.settings.component_rejection.method === 'icvision') {
+        icaClassificationCode = "self.classify_ica_components(method='icvision')";
+      } else if (taskData.settings.component_rejection.method === 'hybrid') {
+        icaClassificationCode = "self.classify_ica_components(method='hybrid')";
+      }
     }
     
     // Replace template placeholders

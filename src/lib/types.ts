@@ -77,7 +77,7 @@ export interface TaskSettings {
     ICA?: StepConfig & { value: ICAValue };
     component_rejection?: StepConfig & { 
         value: ComponentRejectionValue; 
-        method?: 'iclabel' | 'icvision' | null;
+        method?: 'iclabel' | 'icvision' | 'hybrid' | null;
         psd_fmax?: number | null; // Can be at this level too
         icvision_n_components?: number | null; // Can be at this level too
     };

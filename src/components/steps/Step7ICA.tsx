@@ -76,7 +76,17 @@ const Step7ICA: React.FC<Step7Props> = ({
     <Card className={designSystem.card.container}>
         <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800")}> 
             <CardTitle className={designSystem.card.title}>ICA & Component Labeling</CardTitle> 
-            <CardDescription className={designSystem.card.description}>Decompose signals into independent components for automated artifact detection and removal.</CardDescription>
+            <CardDescription className={designSystem.card.description}>
+                Decompose signals into independent components for automated artifact detection and removal.{' '}
+                <a 
+                    href="https://docs.autocleaneeg.org/pipeline-steps/ica" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline text-xs font-medium"
+                >
+                    Learn more →
+                </a>
+            </CardDescription>
         </CardHeader>
         <CardContent className={cn("space-y-6", designSystem.card.content)}>
             <div className="space-y-6">
@@ -232,28 +242,29 @@ const Step7ICA: React.FC<Step7Props> = ({
                                 <FormField
                                     path={`tasks.${currentTaskName}.settings.component_rejection.value.psd_fmax`}
                                     label="PSD Max Frequency"
-                                    tooltip="Maximum frequency for PSD estimation"
+                                    tooltip="Maximum frequency for PSD estimation (default: 40 Hz)"
                                     value={componentRejectionSettings.value?.psd_fmax}
                                     onChange={handleInputChange}
                                     error={errors[`tasks.${currentTaskName}.settings.component_rejection.value.psd_fmax`]}
                                     type="number"
-                                    placeholder="e.g., 50"
+                                    placeholder="e.g., 40"
                                 />
                                 <FormField
                                     path={`tasks.${currentTaskName}.settings.component_rejection.method`}
                                     label="Classification Method"
-                                    tooltip="Method for component classification: ICLabel (default) or ICVision"
+                                    tooltip="Method for component classification: ICLabel (default), ICVision, or Hybrid (combines both)"
                                     value={componentRejectionSettings.method || 'iclabel'}
                                     onChange={handleInputChange}
                                     error={errors[`tasks.${currentTaskName}.settings.component_rejection.method`]}
                                     type="select"
                                     options={[
                                         { value: "iclabel", label: "ICLabel" },
-                                        { value: "icvision", label: "ICVision" }
+                                        { value: "icvision", label: "ICVision" },
+                                        { value: "hybrid", label: "Hybrid" }
                                     ]}
                                     placeholder="Select method..."
                                 />
-                                {componentRejectionSettings?.method === 'icvision' && (
+                                {(componentRejectionSettings?.method === 'icvision' || componentRejectionSettings?.method === 'hybrid') && (
                                     <FormField
                                         path={`tasks.${currentTaskName}.settings.component_rejection.value.icvision_n_components`}
                                         label="ICVision Components"
