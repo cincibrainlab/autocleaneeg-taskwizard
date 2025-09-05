@@ -394,16 +394,14 @@ function App() {
                         <div className="flex-1">
                             <h3 className="font-semibold text-slate-800 dark:text-slate-100 mb-2">How This Works</h3>
                             <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                                This wizard generates Python task files compatible with the <a href="https://github.com/cincibrainlab/autoclean_pipeline" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline font-medium">AutocleanEEG Pipeline</a>. 
-                                After configuration:
+                                This wizard generates task files for the <a href="https://docs.autocleaneeg.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline font-medium">AutocleanEEG Pipeline</a>.
                             </p>
                             <ol className="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-decimal list-inside">
                                 <li>Download your generated task file (e.g., <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">resting_state-1234.py</code>)</li>
-                                <li>Install the pipeline using <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">uv</a>: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">uv tool install autocleaneeg-pipeline</code></li>
-                                <li>Run your preprocessing: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">autocleaneeg-pipeline process data.raw --task resting_state</code></li>
+                                <li>Import and run: <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-xs">autocleaneeg-pipeline import resting_state-1234.py</code></li>
                             </ol>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">
-                                💡 We recommend <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">uv</a> for fast, reliable Python package management
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
+                                📚 Full documentation at <a href="https://docs.autocleaneeg.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline font-medium">docs.autocleaneeg.org</a>
                             </p>
                         </div>
                     </div>
