@@ -51,13 +51,13 @@ const Step7ICA: React.FC<Step7Props> = ({
     
     // Set appropriate fit_params based on method
     if (path.includes('method')) {
-      if (value === 'picard') {
+      if (value === 'infomax') {
         handleInputChange(`tasks.${currentTaskName}.settings.ICA.value.fit_params`, {
-          ortho: false,
           extended: true
         });
-      } else if (value === 'infomax') {
+      } else if (value === 'picard') {
         handleInputChange(`tasks.${currentTaskName}.settings.ICA.value.fit_params`, {
+          ortho: false,
           extended: true
         });
       } else {
@@ -100,9 +100,9 @@ const Step7ICA: React.FC<Step7Props> = ({
                                 error={errors[`tasks.${currentTaskName}.settings.ICA.value.method`]}
                                 type="select"
                                 options={[
+                                    { value: "infomax", label: "Infomax" },
                                     { value: "picard", label: "Picard" },
-                                    { value: "fastica", label: "FastICA" },
-                                    { value: "infomax", label: "Infomax" }
+                                    { value: "fastica", label: "FastICA" }
                                 ]}
                                 placeholder="Select ICA method..."
                             />

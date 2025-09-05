@@ -31,10 +31,9 @@ export const defaultTaskSettings: TaskData = {
     ICA: {
       enabled: true,
       value: {
-        method: "picard",
+        method: "infomax",
         n_components: null,
         fit_params: {
-          ortho: false,
           extended: true,
         },
       },
@@ -89,10 +88,9 @@ export const taskTemplates: Record<string, TaskData> = {
       ICA: {
         enabled: true,
         value: {
-          method: "picard",
+          method: "infomax",
           n_components: null,
           fit_params: {
-            ortho: false,
             extended: true,
           },
         },
@@ -144,10 +142,9 @@ export const taskTemplates: Record<string, TaskData> = {
       ICA: {
         enabled: true,
         value: {
-          method: "picard",
+          method: "infomax",
           n_components: null,
           fit_params: {
-            ortho: false,
             extended: true,
           },
         },
