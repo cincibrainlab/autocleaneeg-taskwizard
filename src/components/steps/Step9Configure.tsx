@@ -7,13 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import FormField from '@/components/FormField';
 
 // Import local components and types
-import RejectionPolicySection from '@/components/RejectionPolicySection'; // Adjust path if needed
 import ArtifactFunctionDoc from '@/components/ArtifactFunctionDoc';
-import { TaskData, ValidationErrors } from '@/lib/types'; // Adjust path as needed
+import { TaskData, ValidationErrors } from '@/lib/types';
 import { designSystem, cn } from '@/lib/design-system';
-import { AnimatedSection } from '@/components/AnimatedSection';
 
 // Define the props interface
 interface Step9Props {
@@ -37,7 +36,7 @@ const Step9Configure: React.FC<Step9Props> = ({
     handleDownload,
     goToPreviousStep,
 }) => {
-    // Ensure taskData and rejection_policy exist if needed by RejectionPolicySection
+    // Ensure task data is available
     if (!taskData) {
         console.warn("Task data missing in Step9Configure");
         return null; // Or render an error/loading state
@@ -46,7 +45,7 @@ const Step9Configure: React.FC<Step9Props> = ({
     const moveFlaggedFiles = taskData.settings?.move_flagged_files || false;
 
     return (
-        <> 
+        <>
             {/* File Management Options */}
             <Card className={designSystem.card.container}>
                 <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-slate-900 dark:to-slate-800")}>
@@ -73,9 +72,32 @@ const Step9Configure: React.FC<Step9Props> = ({
                     </div>
                 </CardContent>
             </Card>
-            
+
+            {/* Provenance Metadata */}
+            <Card className={cn(designSystem.card.container, "mt-6")}> 
+                <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-blue-50 to-sky-50 dark:from-slate-900 dark:to-slate-800")}> 
+                    <CardTitle className={designSystem.card.title}>Provenance</CardTitle>
+                    <CardDescription className={designSystem.card.description}>Optional user metadata for audit trails.</CardDescription>
+                </CardHeader>
+                <CardContent className={cn("space-y-4", designSystem.card.content)}>
+                    <FormField
+                        path={`tasks.${currentTaskName}.provenance.user_name`}
+                        label="Name (optional)"
+                        value={taskData.provenance?.user_name || ''}
+                        onChange={handleInputChange}
+                    />
+                    <FormField
+                        path={`tasks.${currentTaskName}.provenance.user_email`}
+                        label="Email (optional)"
+                        value={taskData.provenance?.user_email || ''}
+                        onChange={handleInputChange}
+                        inputProps={{ type: 'email' }}
+                    />
+                </CardContent>
+            </Card>
+
             {/* Preview & Download Section */}
-            <Card className={cn(designSystem.card.container, "mt-6")}>
+            <Card className={cn(designSystem.card.container, "mt-6")}> 
                 <CardHeader className={cn(designSystem.card.header, "bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-slate-800")}> 
                     <CardTitle className={designSystem.card.title}>Preview & Download</CardTitle>
                     <CardDescription className={designSystem.card.description}>Review your complete EEG preprocessing pipeline and generate the Python configuration file.</CardDescription>

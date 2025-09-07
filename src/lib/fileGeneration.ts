@@ -213,10 +213,19 @@ export function generateTaskScript(config: ConfigType): string {
     }
     
     const taskData = config.tasks[taskKey];
-    
+
     // Prepare the Python config dictionary
     const pythonConfig = prepareConfigForPython(config);
     const configDict = formatPythonDict(pythonConfig);
+
+    // Build provenance comment block
+    const prov = taskData.provenance || {};
+    const lines = [
+        prov.user_name ? `#   user: ${prov.user_name}` : null,
+        prov.user_email ? `#   email: ${prov.user_email}` : null,
+        prov.timestamp ? `#   timestamp: ${prov.timestamp}` : null,
+    ].filter(Boolean);
+    const provenanceBlock = lines.length ? `# provenance:\n${lines.join('\n')}\n` : '';
     
     // Generate class name
     let desiredClassName = taskData.task_name || taskKey;
@@ -263,6 +272,7 @@ export function generateTaskScript(config: ConfigType): string {
     
     // Replace template placeholders
     let scriptContent = taskScriptTemplate
+      .replace(/{{PROVENANCE_BLOCK}}/g, provenanceBlock)
       .replace(/{{TASK_DESCRIPTION}}/g, taskData.description || 'CUSTOM TASK')
       .replace(/{{CLASS_NAME}}/g, desiredClassName)
       .replace(/{{CONFIG_DICT}}/g, configDict)

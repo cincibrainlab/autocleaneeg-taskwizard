@@ -85,6 +85,12 @@ export interface TaskSettings {
     [key: string]: any; // Allow other potential settings
 }
 
+// Optional provenance metadata for audit trails
+export interface Provenance {
+    user_name?: string;
+    user_email?: string;
+    timestamp?: string;
+}
 
 // Structure for a single task configuration
 export interface TaskData {
@@ -93,6 +99,7 @@ export interface TaskData {
     dataset_name?: string;
     input_path?: string;
     settings?: TaskSettings;
+    provenance?: Provenance;
 }
 
 // Top-level configuration structure - now simplified for single Python file

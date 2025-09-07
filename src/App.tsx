@@ -164,8 +164,9 @@ function App() {
                  current[parts[i]] = [null, null]; // Create the 'window' array
             } else if (parts[i] === 'volt_threshold' && parts[i-1] === 'threshold_rejection') {
                  current[parts[i]] = {}; // Create volt_threshold object
-            }
-             else {
+            } else if (parts[i] === 'provenance') {
+                 current[parts[i]] = {}; // Create provenance object
+            } else {
                 console.error(`Invalid path segment: ${parts[i]} in path ${path}`);
                 return prevConfig; // Avoid creating arbitrary objects for now
             }
@@ -274,21 +275,33 @@ function App() {
     }
 
     try {
+      // Stamp provenance timestamp
+      const timestamp = new Date().toISOString();
+      const updatedConfig = deepClone(config);
+      const taskName = getFirstTaskName(updatedConfig.tasks);
+      if (taskName) {
+        const task = updatedConfig.tasks[taskName];
+        if (!task.provenance) {
+          task.provenance = {};
+        }
+        task.provenance.timestamp = timestamp;
+      }
+
       // Generate Python task script content
-      const taskScriptContent = generateTaskScript(config);
-      
+      const taskScriptContent = generateTaskScript(updatedConfig);
+
       // Determine filename based on task name with a random 4-digit suffix for uniqueness
-      const taskName = getFirstTaskName(config.tasks);
       const suffix = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
       const base = taskName ? taskName.toLowerCase() : 'task';
       const filename = `${base}-${suffix}.py`;
-      
+
       // Create blob and trigger download
       const blob = new Blob([taskScriptContent], { type: 'text/x-python' });
       saveAs(blob, filename);
-      
+
       // Update preview on successful download
       setPythonPreview(taskScriptContent);
+      setConfig(updatedConfig);
 
     } catch (error: any) {
       console.error("Python Generation/Download Error:", error);

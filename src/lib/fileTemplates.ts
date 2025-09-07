@@ -1,4 +1,4 @@
-export const taskScriptTemplate = `from autoclean.core.task import Task
+export const taskScriptTemplate = `{{PROVENANCE_BLOCK}}from autoclean.core.task import Task
 
 # =============================================================================
 #                     {{TASK_DESCRIPTION}} EEG PREPROCESSING CONFIGURATION
