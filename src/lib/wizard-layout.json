@@ -1,0 +1,363 @@
+{
+  "sections": [
+    {
+      "id": "blueprint",
+      "title": "Blueprint & Data Sources",
+      "description": "Select a curated starting point or ingest an existing AutocleanEEG task file.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "start-options",
+          "type": "start-options",
+          "title": "Start from a Blueprint",
+          "description": "Blueprints preconfigure the workflow so you can focus on fine-tuning details.",
+          "span": 2,
+          "options": [
+            {
+              "key": "RestingState",
+              "title": "Resting State",
+              "headline": "Classic eyes-open resting benchmark",
+              "chips": ["129-ch HydroCel", "60/120 Hz notch", "ICA ready"],
+              "body": "Optimised for broadband resting EEG with gentle trimming and baseline filtering.",
+              "accent": "indigo"
+            },
+            {
+              "key": "EventBased",
+              "title": "Event Based",
+              "headline": "Stimulus-locked experiments",
+              "chips": ["DIN8 events", "Epoch t=-0.5→2.5", "Artifact policies"],
+              "body": "Designed for ERP-style recordings with event dictionaries and flexible epoch controls.",
+              "accent": "violet"
+            },
+            {
+              "key": "Custom",
+              "title": "Custom",
+              "headline": "Build from first principles",
+              "chips": ["Blank canvas", "Full control"],
+              "body": "Start with the minimal schema and author each processing decision yourself.",
+              "accent": "slate"
+            }
+          ]
+        },
+        {
+          "id": "import",
+          "type": "file-upload",
+          "title": "Import Existing Task",
+          "description": "Drag & drop a previously exported Python task file to review or iterate.",
+          "span": 1
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "title": "Task Identity",
+      "description": "Core metadata that labels the generated Python file and downstream outputs.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "task-metadata",
+          "type": "fields",
+          "title": "Task Metadata",
+          "description": "Update names, descriptions, and storage paths.",
+          "span": 2,
+          "columns": 2,
+          "fields": [
+            {
+              "label": "Task Name",
+              "path": "tasks.{task}.task_name",
+              "type": "text",
+              "placeholder": "RestingEyesOpen",
+              "tooltip": "Used as the identifier inside the generated Python file."
+            },
+            {
+              "label": "Dataset Name",
+              "path": "tasks.{task}.dataset_name",
+              "type": "text",
+              "placeholder": "Study01",
+              "tooltip": "Optional label describing the dataset or cohort."
+            },
+            {
+              "label": "Description",
+              "path": "tasks.{task}.description",
+              "type": "textarea",
+              "placeholder": "Short explanation for collaborators",
+              "tooltip": "Explains what this task configuration is optimised for.",
+              "rows": 3
+            },
+            {
+              "label": "Input Path",
+              "path": "tasks.{task}.input_path",
+              "type": "text",
+              "placeholder": "./data/sub-01",
+              "tooltip": "Filesystem path passed to the pipeline entrypoint."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "signal-preparation",
+      "title": "Signal Preparation",
+      "description": "Everything that happens before component decomposition.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "filtering",
+          "type": "fields",
+          "title": "Filtering",
+          "description": "Define pass bands and notch filters for broadband cleaning.",
+          "togglePath": "tasks.{task}.settings.filtering.enabled",
+          "color": "pink",
+          "span": 2,
+          "columns": 2,
+          "fields": [
+            {
+              "label": "Low Cutoff (Hz)",
+              "path": "tasks.{task}.settings.filtering.value.l_freq",
+              "type": "number",
+              "placeholder": "1",
+              "tooltip": "High-pass corner for slow drift removal."
+            },
+            {
+              "label": "High Cutoff (Hz)",
+              "path": "tasks.{task}.settings.filtering.value.h_freq",
+              "type": "number",
+              "placeholder": "100",
+              "tooltip": "Low-pass corner to suppress high-frequency noise."
+            },
+            {
+              "label": "Notch Frequencies",
+              "path": "tasks.{task}.settings.filtering.value.notch_freqs",
+              "type": "list",
+              "placeholder": "60, 120",
+              "tooltip": "Comma separated list of mains/artefact frequencies."
+            },
+            {
+              "label": "Notch Width (Hz)",
+              "path": "tasks.{task}.settings.filtering.value.notch_widths",
+              "type": "number",
+              "placeholder": "5",
+              "tooltip": "Bandwidth applied around each notch target."
+            }
+          ]
+        },
+        {
+          "id": "montage",
+          "type": "fields",
+          "title": "Montage",
+          "description": "Map channels to their physical cap layout.",
+          "togglePath": "tasks.{task}.settings.montage.enabled",
+          "color": "pink",
+          "span": 1,
+          "fields": [
+            {
+              "label": "Montage Template",
+              "path": "tasks.{task}.settings.montage.value",
+              "type": "select",
+              "optionsSource": "montageOptions",
+              "placeholder": "Choose montage",
+              "tooltip": "Select the electrode montage that matches your acquisition system."
+            }
+          ]
+        },
+        {
+          "id": "resample",
+          "type": "fields",
+          "title": "Resample",
+          "description": "Down/upsample the recording for consistent analysis rates.",
+          "togglePath": "tasks.{task}.settings.resample_step.enabled",
+          "color": "rose",
+          "span": 1,
+          "fields": [
+            {
+              "label": "Target Rate (Hz)",
+              "path": "tasks.{task}.settings.resample_step.value",
+              "type": "number",
+              "placeholder": "250",
+              "tooltip": "Sampling frequency applied to every recording."
+            }
+          ]
+        },
+        {
+          "id": "reference",
+          "type": "fields",
+          "title": "Reference",
+          "description": "Set the rereferencing strategy used before ICA.",
+          "togglePath": "tasks.{task}.settings.reference_step.enabled",
+          "color": "rose",
+          "span": 1,
+          "fields": [
+            {
+              "label": "Reference Scheme",
+              "path": "tasks.{task}.settings.reference_step.value",
+              "type": "text",
+              "placeholder": "average",
+              "tooltip": "Accepted values include 'average', 'REST', or a specific channel name."
+            }
+          ]
+        },
+        {
+          "id": "trim",
+          "type": "fields",
+          "title": "Trim",
+          "description": "Remove transient artefacts at the beginning/end of recordings.",
+          "togglePath": "tasks.{task}.settings.trim_step.enabled",
+          "color": "orange",
+          "span": 1,
+          "fields": [
+            {
+              "label": "Seconds to Trim",
+              "path": "tasks.{task}.settings.trim_step.value",
+              "type": "number",
+              "placeholder": "4",
+              "tooltip": "Symmetric trimming applied to both sides of the recording."
+            }
+          ]
+        },
+        {
+          "id": "crop",
+          "type": "fields",
+          "title": "Crop",
+          "description": "Focus on a specific window relative to acquisition start.",
+          "togglePath": "tasks.{task}.settings.crop_step.enabled",
+          "color": "orange",
+          "span": 1,
+          "columns": 2,
+          "fields": [
+            {
+              "label": "Start (s)",
+              "path": "tasks.{task}.settings.crop_step.value.start",
+              "type": "number",
+              "placeholder": "0",
+              "tooltip": "Leave blank to keep from the beginning.",
+              "emptyAsNull": true
+            },
+            {
+              "label": "End (s)",
+              "path": "tasks.{task}.settings.crop_step.value.end",
+              "type": "number",
+              "placeholder": "60",
+              "tooltip": "Leave blank to keep until the end.",
+              "emptyAsNull": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "channels-artifacts",
+      "title": "Channels & Artefacts",
+      "description": "Annotate ocular channels and drop unstable sensors before ICA.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "eog",
+          "type": "fields",
+          "title": "EOG Channels",
+          "description": "Mark channel indices that capture eye movement.",
+          "togglePath": "tasks.{task}.settings.eog_step.enabled",
+          "color": "yellow",
+          "span": 1,
+          "fields": [
+            {
+              "label": "Channel Numbers",
+              "path": "tasks.{task}.settings.eog_step.value",
+              "type": "list",
+              "placeholder": "1, 32, 125, 126",
+              "tooltip": "Comma separated list of integer indices (1-based)."
+            }
+          ]
+        },
+        {
+          "id": "drop-outer",
+          "type": "component",
+          "componentKey": "dropOuterLayer",
+          "title": "Drop Outer Layer",
+          "description": "Exclude edge electrodes that are consistently noisy.",
+          "span": 1
+        }
+      ]
+    },
+    {
+      "id": "decomposition",
+      "title": "Decomposition & Labelling",
+      "description": "Configure ICA and automated component quality heuristics.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "ica",
+          "type": "component",
+          "componentKey": "ica",
+          "title": "Independent Component Analysis",
+          "description": "Choose the solver and optional pre-ICA filtering.",
+          "span": 2
+        },
+        {
+          "id": "component-rejection",
+          "type": "component",
+          "componentKey": "componentRejection",
+          "title": "Component Rejection",
+          "description": "Decide which labels are auto-pruned and how strict thresholds should be.",
+          "span": 2
+        }
+      ]
+    },
+    {
+      "id": "epoching",
+      "title": "Epoching & Quality Gates",
+      "description": "Segment continuous data and enforce baseline or voltage rules.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "epoch-settings",
+          "type": "component",
+          "componentKey": "epochs",
+          "title": "Epoch Settings",
+          "description": "Configure event dictionaries, baseline correction, and rejection thresholds.",
+          "span": 2
+        },
+        {
+          "id": "rejection-policy",
+          "type": "component",
+          "componentKey": "rejectionPolicy",
+          "title": "Artifact Rejection Policy",
+          "description": "Optional fallback rules executed after ICA.",
+          "span": 2,
+          "conditionPath": "tasks.{task}.rejection_policy"
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "title": "Delivery & Preview",
+      "description": "Final review before exporting the Python configuration.",
+      "columns": 2,
+      "groups": [
+        {
+          "id": "file-behaviour",
+          "type": "component",
+          "componentKey": "fileManagement",
+          "title": "File Management",
+          "description": "Control what happens to flagged recordings after QC.",
+          "span": 1
+        },
+        {
+          "id": "preview",
+          "type": "component",
+          "componentKey": "preview",
+          "title": "Preview & Export",
+          "description": "Generate, inspect, and download the task script.",
+          "span": 2
+        },
+        {
+          "id": "artifact-docs",
+          "type": "component",
+          "componentKey": "artifactDocs",
+          "title": "Artifact Functions",
+          "description": "Reference for built-in helper utilities shipped with the pipeline.",
+          "span": 2
+        }
+      ]
+    }
+  ]
+}

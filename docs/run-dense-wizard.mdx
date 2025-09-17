@@ -1,0 +1,164 @@
+---
+title: Dense Wizard Redesign
+---
+
+export const Callout = ({ type = 'info', title, children }) => {
+  const palette = {
+    info: {
+      border: '#3b82f6',
+      background: '#eff6ff'
+    },
+    success: {
+      border: '#10b981',
+      background: '#ecfdf5'
+    },
+    warning: {
+      border: '#f97316',
+      background: '#fff7ed'
+    }
+  };
+  const colors = palette[type] ?? palette.info;
+  return (
+    <div
+      style={{
+        borderLeft: `4px solid ${colors.border}`,
+        background: colors.background,
+        padding: '16px 20px',
+        borderRadius: '12px',
+        boxShadow: '0 1px 2px rgba(15, 23, 42, 0.08)',
+        margin: '16px 0'
+      }}
+    >
+      {title ? <h3 style={{ margin: '0 0 8px 0' }}>{title}</h3> : null}
+      <div style={{ lineHeight: 1.6 }}>{children}</div>
+    </div>
+  );
+};
+
+export const Steps = ({ children }) => (
+  <div style={{ display: 'grid', gap: '16px' }}>{children}</div>
+);
+
+export const Step = ({ title, children }) => (
+  <div
+    style={{
+      borderRadius: '16px',
+      border: '1px solid rgba(148, 163, 184, 0.35)',
+      background: 'white',
+      padding: '20px 24px',
+      boxShadow: '0 6px 18px rgba(15, 23, 42, 0.08)'
+    }}
+  >
+    <h3 style={{ marginTop: 0, marginBottom: '10px' }}>{title}</h3>
+    <div style={{ lineHeight: 1.65 }}>{children}</div>
+  </div>
+);
+
+export const Checklist = ({ items }) => (
+  <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0', display: 'grid', gap: '8px' }}>
+    {items.map((item, index) => (
+      <li
+        key={index}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '10px 12px',
+          borderRadius: '12px',
+          background: 'rgba(15, 23, 42, 0.04)'
+        }}
+      >
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '20px',
+          height: '20px',
+          borderRadius: '999px',
+          background: '#22c55e',
+          color: 'white',
+          fontSize: '12px'
+        }}>✓</span>
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+# Dense Wizard Redesign Walkthrough
+
+<Callout title="Why this matters" type="info">
+The previous wizard spread critical EEG decisions across nine tabs. Newcomers had to remember values from earlier steps, and advanced users could not quickly scan the entire pipeline. The new design consolidates everything in a single, information-dense canvas driven by a JSON layout, making it trivial to add or rearrange sections without touching React code.
+</Callout>
+
+## What changed in the UI
+
+<Steps>
+  <Step title="Single canvas experience">
+    The multi-tab flow has been replaced by a scrollable worksheet rendered by `<DenseWizard />`. Each section reads directly from `src/lib/wizard-layout.json`, so the order, copy, and available groups can be edited without rebuilding components.
+  </Step>
+  <Step title="Interactive blueprint chooser">
+    Blueprint cards and the Python file importer now live together at the top of the page. Selecting a template instantly hydrates the configuration and unlocks every downstream section.
+  </Step>
+  <Step title="Dense, toggleable groups">
+    Filtering, ICA, epoching, and other steps are organised into compact cards with animated toggles. Critical controls stay visible while secondary options are just a click away.
+  </Step>
+  <Step title="Live context tiles">
+    The header surfaces a quick checklist showing which stages are enabled in the active configuration so users immediately understand the pipeline profile.
+  </Step>
+</Steps>
+
+## How the JSON-driven layout works
+
+<Callout title="Key file" type="success">
+All layout metadata lives in [`src/lib/wizard-layout.json`](../src/lib/wizard-layout.json). Sections declare their groups, toggle bindings, field paths, and even custom component hooks. Editing this file is enough to add new steps or re-label existing ones.
+</Callout>
+
+- `sections[*].groups[*].type` decides how the renderer treats the group (`fields`, `start-options`, `file-upload`, or a named component module).
+- Field groups map labels to configuration paths (for example `tasks.{task}.settings.filtering.value.l_freq`). The renderer resolves `{task}` at runtime so you can reuse the same definition for any task key.
+- Custom components like ICA, component rejection, and preview panels are registered once inside `DenseWizard.tsx` and referenced by `componentKey`. Adding a new complex widget requires only wiring a new key to a React fragment.
+
+## Step-by-step implementation
+
+<Steps>
+  <Step title="Create the layout schema">
+    Authored `wizard-layout.json` to describe every section, group, and field. Added metadata such as column spans, toggle targets, and curated copy to keep the UI concise but explanatory.
+  </Step>
+  <Step title="Build the dense renderer">
+    Implemented `src/components/DenseWizard.tsx`, a layout engine that parses the JSON, renders cards, handles conditional toggles, and delegates complex groups (ICA, epochs, preview) to specialised fragments.
+  </Step>
+  <Step title="Refactor App shell">
+    Replaced the legacy step controller with a lightweight header + footer around the new wizard. Old step components were removed to reduce maintenance overhead.
+  </Step>
+  <Step title="Ensure configurability">
+    Reused the existing `handleInputChange`, validation, preview, and download routines so behaviour is consistent with the previous implementation while vastly improving discoverability.
+  </Step>
+</Steps>
+
+## Testing & verification
+
+<Checklist
+  items={[
+    'npm run build — validates TypeScript + Vite build and ensures JSON imports resolve',
+    'npm run lint — verifies the new components follow the code quality rules',
+    'Manual sanity check — load each blueprint, tweak parameters, generate preview, and confirm download naming'
+  ]}
+/>
+
+```bash
+npm install
+npm run lint
+npm run build
+```
+
+If you are exercising the UI locally, run `npm run dev` and navigate to `http://localhost:5173`. The dense worksheet should display all sections without navigation tabs. Selecting blueprints should immediately reveal populated settings and the checklist chips should reflect toggled modules.
+
+## Considerations & future ideas
+
+- **JSON extensions:** The layout file is intentionally descriptive, but deeply nested controls (e.g., nested accordions) would benefit from supporting a `children` array or Markdown descriptions.
+- **Autosave:** The dense layout encourages experimentation; wiring in local storage persistence would prevent accidental data loss while exploring.
+- **Accessibility:** While contrast and focus states were tuned, the next pass could introduce skip links and keyboard shortcuts for jumping between major sections.
+
+<Callout title="Need help?" type="warning">
+If a new step demands custom logic, register an additional `componentKey` in `DenseWizard.tsx` and point to the new React fragment from the JSON. This keeps view logic isolated while preserving the declarative layout philosophy.
+</Callout>
